@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap');
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+
+.flashes h5 {
+  line-height: 2;
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
+  border: 2px solid lime;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.register-wrapper {
+  margin: 20px;
+}
+
+.row {
+  margin: 0;
+}
+
+.modal-overlay {
+  display: none;
+}
+
+#home-bg-lowres {
+  background-image: url(../images/home.jpg);
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*animation: fadeIn ease 3s;
+    -webkit-animation: fadeIn ease 3s;
+    -moz-animation: fadeIn ease 3s;
+    -o-animation: fadeIn ease 3s;
+    -ms-animation: fadeIn ease 3s;*/
+}
+
+#home-bg-highres {
+    display: none;
+}
+
+.opacity-layer {
+    background-color: rgba(3, 0, 0, 0.6);
+    height: 100vh;
+    padding-top: 100px;
+}
+
+#home-actions-col, #home-info-col {
+    padding: 40px;
+}
+
+#home-info-col {
+    text-align: right;
+}
+
+#home-tag {
+    font-size: 48px;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px #000;
+    font-weight: 900;
+}
+
+.home-btn {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #e65100;
+}
+
+.home-btn:hover {
+    background-color: #ef6c00;
+}
+
+#show-recipe-card {
+    margin-right: 5px;
+}
+
+#recipe-content {
+    display: none;
+}
+
+/*.home-info-text-col {
+    margin-bottom: 80px;
+}*/
+
+.home-info-text {
+    font-size : 24px;
+    font-weight: 900;
+    text-shadow: 1px 1px #000; 
+    opacity: 0; 
+}
+
+@keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+/* MEDIA QUERIES */
+@media only screen and (max-width: 601px) {
+    #home-bg-lowres {
+        height: auto;
+    }
+    .opacity-layer {
+        padding-top: 0px;
+        height: auto;
+    }
+    #home-info-col {
+        text-align: left;
+    }
+    #home-bg-lowres {
+        background-repeat: repeat;
+    }
+}

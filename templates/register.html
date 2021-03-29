@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content%}
+<div class="register-wrapper">
+    <div class="row">
+        <header class="col s12 m8 offset-m2 center">Register</header>
+    </div>
+    <div class="row">
+        <form class="col s12 m8 offset-m2" id="register-form" method="POST" action="{{ url_for('register') }}">
+            <div class="card-panel">
+                <!-------username------->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="username" name="username" type="text" class="validate" minlength="1" maxlength="14" pattern="^[a-zA-z0-9]{1,14}$" required>
+                        <label for="username">Choose a username</label>
+                    </div>
+                </div>
+                <!-------password------->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="password" name="password" type="password" class="validate" minlength="1" maxlength="14" pattern="^[a-zA-z0-9]{1,14}$" required>
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <!-------password confirm------->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="password_confirm" name="password_confirm" type="password" class="validate" minlength="1" maxlength="14" pattern="^[a-zA-z0-9]{1,14}$" required>
+                        <label id="lbl_password_confirm" for="password_confirm" data-error="Password not match" data-success="Password Match">Confirm Password</label>
+                    </div>
+                </div>
+                <!-------email------->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="email" name="email" type="email" class="validate" required>
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <!-------first name------->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="first_name" name="first_name" type="text" class="validate" required>
+                        <label for="first_name">First Name</label>
+                    </div>
+                </div>
+                <!-------last name------->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="last_name" name="last_name" type="text" class="validate" required>
+                        <label for="last_name">Last Name</label>
+                    </div>
+                </div>
+                <!-------date of birth------->
+                <div class="row">
+                    <div class="col s12">
+                        <label for="dob">Date Of Birth</label>
+                        <input id="dob" name="dob" type="date" class="datepicker" required>
+                    </div>
+                </div>
+                <!-------country------->
+                <div class="row">
+                    <div class="col s12">
+                        <label for="country">Country</label>
+                        <select class="browser-default" name="country" id="country" required>
+                            <option value="" disabled selected>Select</option>
+                        </select>
+                    </div>
+                </div>
+                <!-------submit------->
+                <div class="row">
+                    <div class="input-field col s12 center">
+                        <button class="btn waves-effect waves-light" type="submit" id="submit-register">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

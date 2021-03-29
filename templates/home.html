@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
+    <title>Munchkins Home</title>
+</head>
+
+<body>
+    <div id="home-bg-lowres">
+        <div class="opacity-layer">
+            <div class="row">
+                <div class="col s12 m5 offset-m1" id="home-actions-col">
+                    <!-- HOME TAGLINE -->
+                    <div class="row" id="home-tag">
+                        <div class="col s10 lime-text text-lighten-5">
+                            <span id="tagline">Recipes <br> for little <br> Munchkins.</span>
+                        </div>
+                    </div>
+                    <!-- ACTION BUTTONS -->
+                    <div class="row">
+                        <div class="col s8">
+                            <!-- LOGIN BTN -->
+                            <div class="row">
+                                <div class="col s12">
+                                    <a href="{{ url_for('login') }}"
+                                        class="waves-effect waves-dark btn-large home-btn">Log In</a>
+                                </div>
+                            </div>
+                            <!-- REGISTER BTN -->
+                            <div class="row">
+                                <div class="col s12">
+                                    <a href="{{ url_for('register') }}"
+                                        class="waves-effect waves-dark btn-large home-btn">Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn-floating red" id="show-recipe-card"><i class="material-icons">add</i></a>
+                    <span class="lime-text text-lighten-5" style="line-height: 2.5;" id="sample-tag">View a sample recipe
+                        card</span>
+                    <div class="card" id="recipe-content">
+                        <div class="card-content">
+                            <p>I am a very simple card. I am good at containing small bits of information. I am
+                                convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-tabs">
+                            <ul class="tabs tabs-fixed-width">
+                                <li class="tab"><a href="#test4">Test 1</a></li>
+                                <li class="tab"><a class="active" href="#test5">Test 2</a></li>
+                                <li class="tab"><a href="#test6">Test 3</a></li>
+                            </ul>
+                        </div>
+                        <div class="card-content grey lighten-4">
+                            <div id="test4">Test 1</div>
+                            <div id="test5">Test 2</div>
+                            <div id="test6">Test 3</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 push-m1 l3 push-l2" id="home-info-col">
+                    <div class="row">
+                        <div class="col s12 home-info-text-col teal-text text-lighten-5">
+                            <p class="home-info-text" id="home-info-text-1">Great recipe ideas for weaning your little munchkins!</p>
+                        </div>
+                        <div class="col s12 home-info-text-col purple-text text-lighten-5">
+                            <p class="home-info-text" id="home-info-text-2">Save your favourite recipes to your profile!</p>
+                        </div>
+                        <div class="col s12 home-info-text-col blue-text text-lighten-4">
+                            <p class="home-info-text" id="home-info-text-3">Add your own best recipes with our easy to use recipe builder!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.custom-animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
