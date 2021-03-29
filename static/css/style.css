@@ -38,11 +38,6 @@ main {
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
-  /*animation: fadeIn ease 3s;
-    -webkit-animation: fadeIn ease 3s;
-    -moz-animation: fadeIn ease 3s;
-    -o-animation: fadeIn ease 3s;
-    -ms-animation: fadeIn ease 3s;*/
 }
 
 #home-bg-highres {
@@ -88,15 +83,24 @@ main {
     display: none;
 }
 
-/*.home-info-text-col {
-    margin-bottom: 80px;
-}*/
-
 .home-info-text {
     font-size : 24px;
     font-weight: 900;
     text-shadow: 1px 1px #000; 
     opacity: 0; 
+}
+
+#recipe-card{
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+
+.card {
+    padding: 12px;
+}
+
+.card-content {
+    padding: 12px;
 }
 
 @keyframes fadeIn {

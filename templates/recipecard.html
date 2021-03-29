@@ -1,24 +1,34 @@
-{% block recipecard %}   
+{% block recipecard %}
 <div class="card" id="recipe-card">
-    <div class="card-content">
-        <h6>{{ recipecard.title|title}}</h6>
+    <div class="card-content grey lighten-2">
+        <h5>{{ recipecard.title|title }}</h5>
     </div>
     <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width" >
+        <ul class="tabs tabs-fixed-width">
             <li class="tab"><a class="tab-link active" id="desc-tab">Description</a></li>
             <li class="tab"><a class="tab-link" id="ingredients-tab">Ingredients</a></li>
             <li class="tab"><a class="tab-link" id="method-tab">Method</a></li>
         </ul>
     </div>
     <div class="card-content grey lighten-4">
-      <div id="desc">
-            <p>{{ recipecard.desc|capitalize }}</p>
+        <div id="desc">
+            <h6>{{ recipecard.desc|title }}</h6>
             <br>
             <p>Portions: {{ recipecard.portions }}</p>
-            <p>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</p>       
-      </div>
-      <div id="ingredients">{{ recipecard.ingredients|capitalize }}</div>
-      <div id="method">{{ recipecard.steps|capitalize}}</div>
+            <p>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</p>
+        </div>
+        <div id="ingredients">
+            {% for k, ingredient in recipecard.ingredients.items() %}
+                <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
+                <br>
+            {% endfor %}
+        </div>
+        <div id="method">
+            {% for k, step in recipecard.steps.items() %}
+                <p>- {{ step.action|capitalize }} <i>({{ step.time }} mins)</i></p>
+                <br>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
