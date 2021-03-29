@@ -1,8 +1,10 @@
 import os
+import json
 from flask import (
     Flask, flash, render_template,
-    redirect, request, session, url_for)
+    redirect, request, session, url_for, jsonify)
 from flask_pymongo import PyMongo
+from bson import json_util
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
@@ -21,13 +23,19 @@ mongo = PyMongo(app)
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    recipecard = mongo.db.recipes.find_one(
+        {"_id": ObjectId("604de9e6104b280ad6fa8464")})
+    return render_template("home.html", recipecard=recipecard)
 
 
-@app.route("/get_recipes")
-def get_recipes():
-    recipes = mongo.db.recipes.find()
-    return render_template("recipes.html", recipes=recipes)
+@app.route("/get_recipes/<id>")
+def get_recipes(id):
+    if id == '0':
+        recipes = mongo.db.recipes.find()
+        return jsonifylist(recipes)
+    else:
+        recipe = mongo.db.recipes.find({"_id": ObjectId(str(id))})
+        return jsonifylist(recipe)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -100,7 +108,17 @@ def logout():
     return redirect(url_for("home"))
 
 
+def jsonifylist(cursor):
+    json_docs = []
+    for doc in cursor:
+        json_doc = json.dumps(doc, default=json_util.default)
+        json_docs.append(json_doc)
+
+    return jsonify(json_docs)
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
             debug=True)
+

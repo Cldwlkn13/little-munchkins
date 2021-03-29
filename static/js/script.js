@@ -12,6 +12,17 @@ $(document).ready(function () {
     $('select').formSelect();
 
     $('#show-recipe-card').on("click", function(){
+        //fetch('/get_recipes/604de9e6104b280ad6fa8464')
+            //.then(function (response) {
+                //console.log(response);
+                //return response.json();
+            //}).then(function(text) {
+                //console.log('GET response:');
+                //console.log(text); 
+            //});
+        
+        console.log("click")
+        
         $('#recipe-content').toggle();
     });
 
