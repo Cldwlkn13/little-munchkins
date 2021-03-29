@@ -12,18 +12,7 @@ $(document).ready(function () {
     $('select').formSelect();
 
     $('#show-recipe-card').on("click", function(){
-        //fetch('/get_recipes/604de9e6104b280ad6fa8464')
-            //.then(function (response) {
-                //console.log(response);
-                //return response.json();
-            //}).then(function(text) {
-                //console.log('GET response:');
-                //console.log(text); 
-            //});
-        
-        console.log("click")
-        
-        $('#recipe-content').toggle();
+        $('#sample-recipe-content').toggle();
     });
 
     function slideAndFadeIn(elem, animateLength, timeout) {
@@ -35,6 +24,25 @@ $(document).ready(function () {
     slideAndFadeIn("#home-info-text-1", 2000, 0);
     slideAndFadeIn("#home-info-text-2", 2000, 1500);
     slideAndFadeIn("#home-info-text-3", 2000, 3000);
+
+    $('#ingredients-tab, #desc-tab, #method-tab').click(function(){
+        
+        var selector = $(this).get(0).id.toString().replace("-tab","");
+        
+        $(this).addClass("active");
+
+        $(this).parent().siblings(".tab").find(".tab-link").removeClass("active");
+
+        var tabs = $(this).parent().parent().parent().next();
+
+        var tab = tabs.children("#" + selector);
+        
+        tab.css("display", "block");
+
+        tab.siblings().css("display", "none");
+    });
+
+    $("#sample-recipe-content").find("#desc-tab").click();
 
     $("#password_confirm").on("focusout", function () {
         if (!validatePassword()) {
