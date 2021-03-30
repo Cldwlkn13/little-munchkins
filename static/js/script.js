@@ -74,9 +74,7 @@ $(document).ready(function () {
 
     $('#builder-add-step').click(function() {      
         var countsteps = $('.steps .step').length;
-        console.log(countsteps)
         var i = countsteps + 1;
-
         var step = `<div class='row step' id='step-${i}'>` +
                         "<div class='input-field col m2'>" +
                             `<select id='step-${i}-type'>` +
@@ -84,18 +82,26 @@ $(document).ready(function () {
                                 "<option value='2'>Cook</option>" +
                             "</select>" +
                         "</div>" +
-                        "<div class='input-field col m8'>" +
+                        "<div class='input-field col m7'>" +
                             `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' class='validate' required />` +
-                            `<label for='step-${i}-desc'>Describe Step ${i}</label>` +
+                            `<label for='step-${i}-desc'>Describe Step</label>` +
                         "</div>" +
                         "<div class='input-field col m2'>" +
                             `<input type='text' id='time-input-${i}' name='time-input-${i}'  minlength='1' maxlength='3' class='validate' pattern='^[0-9]{1,3}$' required />` +
                             `<label for='time-input-${i}'>Time</label>` +
                         "</div>" +
+                        "<div class='input-field col m1'>" +
+                            `<a href="#" class='remove-step' id='remove-step-${i}'><i class="material-icons red-text">delete</i></a>` + 
+                        "</div>" +
                     "</div>"    
-        
+      
         $('.steps').append(step); 
-
         $(`#step-${i}-type`).formSelect();
+        $(`#remove-step-${i}`).on('click',function(){
+            if(confirm("Are you sure?")) {
+                //var id = $(this).get(0).id.split('-')[2];
+                $(`#step-${i}`).remove();
+            }
+        });
     });
 });
