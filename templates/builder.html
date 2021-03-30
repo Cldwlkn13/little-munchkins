@@ -39,7 +39,7 @@
                 <div class="col s12">
                     <label for="portions">Portions</label>
                     <p class="range-field">
-                        <input type="range" name="portions" id="portions" min="1" max="24" value="1"/>
+                        <input type="range" name="portions" id="portions" min="1" max="24" value="1" />
                     </p>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <div class="col s12">
                     <label for="portions">Suitable for months (min)</label>
                     <p class="range-field">
-                        <input type="range" name="min" id="min" min="1" max="72" value="1"/>
+                        <input type="range" name="min" id="min" min="1" max="72" value="1" />
                     </p>
                 </div>
             </div>
@@ -57,28 +57,19 @@
                 <div class="col s12">
                     <label for="portions">Suitable for months (max)</label>
                     <p class="range-field">
-                        <input type="range" name="max" id="max" min="1" max="72" value="72"/>
+                        <input type="range" name="max" id="max" min="1" max="72" value="72" />
                     </p>
                 </div>
             </div>
+             <!-------method------->
             <div class="row">
                 <div class="col s12">
                     <label>Method</label>
                     <br>
-                    <button class="btn waves-effect waves-light" id="builder-add-step">Add Step</button>
-                    <br>
-                    <div class="row steps" id="step-1">
-                        <div class="input-field col m8">
-                            <input id="step-1-desc" name="step-1-desc" type="text" minlength="1" maxlength="100" required>
-                            <label for="step-1-desc">Describe Step 1</label>
-                        </div>
-                        <div class="col m4">
-                            <label for="step-1-time">Time to complete step (mins)</label>
-                            <p class="range-field">
-                                <input type="range" name="step-1-time" id="step-1-time" min="1" max="360" value="1"/>
-                            </p>
-                        </div>
+                    <div class="container steps">
                     </div>
+                    <br>
+                    <a class="btn waves-effect waves-light" id="builder-add-step">Add Step</a>
                 </div>
             </div>
             <!-------submit------->

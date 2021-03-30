@@ -111,10 +111,28 @@ main {
 
 .recipe-img {
     max-width: 100%;
+    display: block;
+    margin: auto;
 }
 
 .recipe-created-by {
     font-size: 12px;
+}
+
+.steps {
+    width: 90%;
+}
+
+.range {
+    width: 75%;
+}
+
+.range-value-col {
+    margin-top:25px;
+}
+
+.range-value {
+    float: right;
 }
 
 @keyframes fadeIn {
@@ -189,4 +207,8 @@ main {
         min-height: 50vh;
         max-height: 70vh;
     }   
+
+    .range-value-col {
+        margin-top:0px;
+    }
 }
