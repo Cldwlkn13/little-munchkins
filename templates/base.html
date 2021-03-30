@@ -21,7 +21,7 @@
                     {% if session.user %}
                         <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
                         <li><a href="{{ url_for('get_recipes', id='0')}}">Search</a></li>
-                        <li><a href="{{ url_for('get_recipes', id='0')}}">Builder</a></li>
+                        <li><a href="{{ url_for('builder', id='0')}}">Builder</a></li>
                         <li><a href="{{ url_for('logout')}}">Log Out</a></li>
                     {% else %}
                         <li><a href="{{ url_for('home')}}">Home</a></li>
@@ -36,7 +36,7 @@
             {% if session.user %}
                 <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
                 <li><a href="{{ url_for('get_recipes', id='0')}}">Search</a></li>
-                <li><a href="{{ url_for('get_recipes', id='0')}}">Builder</a></li>
+                <li><a href="{{ url_for('builder', id='0')}}">Builder</a></li>
                 <li><a href="{{ url_for('logout')}}">Log Out</a></li>
             {% else %}
                 <li><a href="{{ url_for('home')}}">Home</a></li>

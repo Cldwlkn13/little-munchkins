@@ -123,6 +123,10 @@ def profile(username):
     return redirect(url_for("login"))
 
 
+@app.route("/builder", methods=['GET', 'POST'])
+def builder():
+    return render_template("builder.html")
+
 @app.route("/logout")
 def logout():
     flash("You have been logged out")
