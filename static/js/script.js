@@ -29,9 +29,9 @@ $(document).ready(function () {
         
         var selector = $(this).get(0).id.toString().replace("-tab","");
         
-        $(this).addClass("active");
+        $(this).addClass("active grey darken-3");
 
-        $(this).parent().siblings(".tab").find(".tab-link").removeClass("active");
+        $(this).parent().siblings(".tab").find(".tab-link").removeClass("active grey darken-3");
 
         var tabs = $(this).parent().parent().parent().next();
 

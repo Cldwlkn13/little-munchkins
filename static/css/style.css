@@ -96,11 +96,25 @@ main {
 }
 
 .card {
-    padding: 12px;
+    padding: 25px;
 }
 
-.card-content {
-    padding: 12px;
+.card .card-content {
+    padding: 5px;
+}
+
+.card-tab-content {
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 5px;
+}
+
+.recipe-img {
+    max-width: 100%;
+}
+
+.recipe-created-by {
+    font-size: 12px;
 }
 
 @keyframes fadeIn {
@@ -155,6 +169,20 @@ main {
 
     #home-info-col {
         text-align: left;
+    }
+
+    .card {
+        padding: 10px;
+    }
+     
+    .card .card-content {
+        padding: 2.5px;
+    }
+
+    .card-tab-content {
+        font-size: 10px;
+        line-height: 1.2;
+        padding: 2.5px;
     }
 
     #recipe-card{

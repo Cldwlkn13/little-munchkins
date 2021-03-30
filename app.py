@@ -3,7 +3,7 @@ import json
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for, jsonify)
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, GridFS
 from bson import json_util
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -28,6 +28,28 @@ def home():
     return render_template("home.html", recipecard=recipecard)
 
 
+@app.route("/create")
+def create():
+    return '''
+        <form method="POST" action="/createimg" enctype="multipart/form-data">
+        <input type="file" name="recipe_img">
+        <input type="submit">
+    '''
+
+
+@app.route("/createimg", methods=['POST'])
+def createimg():
+    if 'recipe_img' in request.files:
+        recipe_img = request.files['recipe_img']
+        mongo.save_file(recipe_img.filename, recipe_img)
+    return redirect(url_for('create'))
+
+
+@app.route('/file/<filename>')
+def file(filename):
+    return mongo.send_file(filename)
+
+
 @app.route("/get_recipes/<id>")
 def get_recipes(id):
     if id == '0':
@@ -35,6 +57,7 @@ def get_recipes(id):
         return jsonifylist(recipes)
     else:
         recipe = mongo.db.recipes.find({"_id": ObjectId(str(id))})
+        recipe_img = mongo.send_file(recipe.recipe_img)
         return jsonifylist(recipe)
 
 
