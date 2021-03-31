@@ -2,22 +2,25 @@
 {% block content%}
 <div class="login-wrapper">
     <div class="row">
-        <header class="col s12 m8 offset-m2 center">Login</header>
-    </div>
-    <div class="row">
         <form class="col s12 m8 offset-m2" id="login-form" method="POST" action="{{ url_for('login') }}">
             <div class="card-panel">
+                <!-------header------->
+                <div class="row form-header">
+                    <h5>Login</h5>
+                </div>
                 <!-------username------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="username" name="username" type="text" class="validate" minlength="1" maxlength="14" pattern="^[a-zA-z0-9]{1,14}$" required>
+                        <input id="username" name="username" type="text" class="validate" minlength="1" maxlength="14"
+                            pattern="^[a-zA-z0-9]{1,14}$" required>
                         <label for="username">Username</label>
                     </div>
                 </div>
                 <!-------password------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="password" name="password" type="password" class="validate" minlength="1" maxlength="14" pattern="^[a-zA-z0-9]{1,14}$" required>
+                        <input id="password" name="password" type="password" class="validate" minlength="1"
+                            maxlength="14" pattern="^[a-zA-z0-9]{1,14}$" required>
                         <label for="password">Password</label>
                     </div>
                 </div>

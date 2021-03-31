@@ -12,37 +12,40 @@
     <title>Munchkins</title>
 </head>
 
-<body>
+<body class="site-bg">
     <header>
-        <nav class="teal darken-4">
-            <div class="nav-wrapper">
-                <a href="#!" class="brand-logo left">Munchkins</a>
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
-                <ul class="right hide-on-med-and-down">
-                    {% if session.user %}
-                        <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
-                        <li><a href="{{ url_for('get_recipes', id='0')}}">Search</a></li>
-                        <li><a href="{{ url_for('builder', id='0')}}">Builder</a></li>
-                        <li><a href="{{ url_for('logout')}}">Log Out</a></li>
-                    {% else %}
-                        <li><a href="{{ url_for('home')}}">Home</a></li>
-                        <li><a href="{{ url_for('login')}}">Log In</a></li>
-                        <li><a href="{{ url_for('register')}}">Register</a></li>
-                    {% endif %}
-                </ul>
+        <nav class="header-bg">
+            <div class="header-opacity">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo left amber-text">Munchkins.</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
+                    <ul class="right hide-on-med-and-down">
+                        {% if session.user %}
+                        <li><a href="{{ url_for('profile', username=session['user'])}}" class="amber-text">My
+                                Profile</a></li>
+                        <li><a href="{{ url_for('get_recipes', id='0')}}" class="amber-text">Search</a></li>
+                        <li><a href="{{ url_for('builder', id='0')}}" class="amber-text">My Recipe Builder</a></li>
+                        <li><a href="{{ url_for('logout')}}" class="amber-text">Log Out</a></li>
+                        {% else %}
+                        <li><a href="{{ url_for('home')}}" class="amber-text">Home</a></li>
+                        <li><a href="{{ url_for('login')}}" class="amber-text">Log In</a></li>
+                        <li><a href="{{ url_for('register')}}" class="amber-text">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </nav>
 
         <ul class="sidenav" id="mobile-demo">
             {% if session.user %}
-                <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
-                <li><a href="{{ url_for('get_recipes', id='0')}}">Search</a></li>
-                <li><a href="{{ url_for('builder', id='0')}}">Builder</a></li>
-                <li><a href="{{ url_for('logout')}}">Log Out</a></li>
+            <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
+            <li><a href="{{ url_for('get_recipes', id='0')}}">Search</a></li>
+            <li><a href="{{ url_for('builder', id='0')}}">My Recipe Builder</a></li>
+            <li><a href="{{ url_for('logout')}}">Log Out</a></li>
             {% else %}
-                <li><a href="{{ url_for('home')}}">Home</a></li>
-                <li><a href="{{ url_for('login')}}">Log In</a></li>
-                <li><a href="{{ url_for('register')}}">Register</a></li>
+            <li><a href="{{ url_for('home')}}">Home</a></li>
+            <li><a href="{{ url_for('login')}}">Log In</a></li>
+            <li><a href="{{ url_for('register')}}">Register</a></li>
             {% endif %}
         </ul>
     </header>
@@ -50,45 +53,50 @@
     <section>
         <!-- flash messages -->
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="row">
-                        <div class="col s12 m8 offset-m2 flashes">
-                            <h5 class="teal darken-3 lime-text text-accent-3 center-align">{{ message }}</h5>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="row">
+            <div class="flashes">
+                <h5 class="black-text center-align">{{ message }}</h5>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
     </section>
 
-    {% block content %}
-    {% endblock %}
+    <section class="content">
+        {% block content %}
+        {% endblock %}
+    </section>
 
-    <footer class="page-footer teal darken-4">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Footer Content</h5>
-                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
-                        content.
-                    </p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                    </ul>
+    <footer class="page-footer header-bg">
+        <div class="header-opacity">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Footer Content</h5>
+                        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
+                            content.
+                        </p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Links</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2014 Copyright Text
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2014 Copyright Text
+                    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+                </div>
             </div>
         </div>
     </footer>

@@ -7,14 +7,31 @@ body {
   font-weight: 400;
 }
 
+.content {
+    min-height: 100vh
+}
+
 .flashes h5 {
   line-height: 2;
   position: absolute;
   bottom: 40px;
   right: 20px;
-  border: 2px solid lime;
   border-radius: 5px;
   padding: 10px;
+}
+
+.header-opacity {
+    background-color: rgba(3, 0, 0, 0.6);
+    height:100%;
+}
+
+.brand-logo {
+    margin-left: 10px;
+    font-weight: 900;
+}
+
+.page-footer{
+    padding-top: 0px;
 }
 
 main {
@@ -132,6 +149,10 @@ main {
     margin-top: 30px;
 }
 
+.builder-extra-row {
+    padding:20px;
+}
+
 #preview-builder{
     position: fixed;
     top: 100px;
@@ -142,29 +163,8 @@ main {
     margin: 10px;
 }
 
-@keyframes fadeIn {
-0% {opacity:0;}
-100% {opacity:1;}
-}
-
-@-moz-keyframes fadeIn {
-0% {opacity:0;}
-100% {opacity:1;}
-}
-
-@-webkit-keyframes fadeIn {
-0% {opacity:0;}
-100% {opacity:1;}
-}
-
-@-o-keyframes fadeIn {
-0% {opacity:0;}
-100% {opacity:1;}
-}
-
-@-ms-keyframes fadeIn {
-0% {opacity:0;}
-100% {opacity:1;}
+.form-header {
+    text-align: center;
 }
 
 /* MEDIA QUERIES */
@@ -217,5 +217,19 @@ main {
 
     .range-value-col {
         margin-top:0px;
+    }
+
+    #preview-builder{
+        position: relative;
+        top: auto;
+        right: auto;
+    }
+
+    #submit-builder, #reset-builder {
+        margin-top: 5px;
+    }
+
+    .builder-extra-row {
+        padding:10px;
     }
 }

@@ -88,7 +88,7 @@ $(document).ready(function () {
                         "</div>" +
                         "<div class='input-field col m7'>" +
                             `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' class='validate' required />` +
-                            `<label for='step-${i}-desc'>Describe Step</label>` +
+                            `<label for='step-${i}-desc'>Describe This Step</label>` +
                         "</div>" +
                         "<div class='input-field col m2'>" +
                             `<input type='text' id='step-${i}-time' name='step-${i}-time'  minlength='1' maxlength='3' class='validate' pattern='^[0-9.]{1,3}$' required />` +
@@ -114,7 +114,7 @@ $(document).ready(function () {
         var ingredient = `<div class='row ingredient' id='ingredient-${i}'>` +
                             "<div class='input-field col m8'>" +
                                 `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='30' class='validate' required />` +
-                                `<label for='ingredient-${i}-desc'>Add Ingredient</label>` +
+                                `<label for='ingredient-${i}-desc'>Ingredient</label>` +
                             "</div>" +
                             "<div class='input-field col m2'>" +
                                 `<input type='text' id='ingredient-${i}-measure' name='ingredient-${i}-measure'  minlength='1' maxlength='4' class='validate' pattern='^[0-9]{1,4}$' required />` +
@@ -135,5 +135,13 @@ $(document).ready(function () {
                 $(`#ingredient-${i}`).remove();
             }
         });
+    });
+
+    $('#preview-builder').click(function(){
+        $('#builder-form').attr("target", "_blank")
+    });
+
+    $('#submit-builder').click(function(){
+        $('#builder-form').attr("target", "")
     });
 });

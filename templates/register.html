@@ -2,11 +2,12 @@
 {% block content%}
 <div class="register-wrapper">
     <div class="row">
-        <header class="col s12 m8 offset-m2 center">Register</header>
-    </div>
-    <div class="row">
         <form class="col s12 m8 offset-m2" id="register-form" method="POST" action="{{ url_for('register') }}">
             <div class="card-panel">
+                <!-------header------->
+                <div class="row form-header">
+                    <h5>Register</h5>
+                </div>
                 <!-------username------->
                 <div class="row">
                     <div class="input-field col s12">

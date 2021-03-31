@@ -1,4 +1,14 @@
+.site-bg {
+    background-color: #f0f4c3;
+    background-image: url("../images/food.png");
+}
+
+.header-bg {
+    background-color: #006064;
+    background-image: url("../images/food.png");
+}
+
 .food-bg {
-    background-color: #005c37;
+    background-color: #dce775;
     background-image: url("../images/food.png");
 }
