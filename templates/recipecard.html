@@ -15,12 +15,12 @@
         </ul>
     </div>
     <div class="card-tab-content lime lighten-5">
-        <div id="desc">
+        <div id="desc" style="display: block;">
             <h6>{{ recipecard.desc[0]|upper}}{{recipecard.desc[1:] }}</h6>
             <p><i>Portions: {{ recipecard.portions }}</i></p>
             <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i></p>
         </div>
-        <div id="ingredients">
+        <div id="ingredients" style="display: none;">
             {% if recipecard.ingredients.items() is not none %}
                 {% for k, ingredient in recipecard.ingredients.items() %}
                     <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
@@ -29,7 +29,7 @@
                 NONE
             {% endif %}
         </div>
-        <div id="method">
+        <div id="method" style="display: none;">
             {% if recipecard.steps.items() is not none %}
                 {% for k, step in recipecard.steps.items() %}
                     <p>{{loop.index}}. {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>

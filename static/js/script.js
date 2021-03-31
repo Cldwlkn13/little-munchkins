@@ -39,7 +39,7 @@ $(document).ready(function () {
         tab.siblings().css("display", "none");
     });
 
-    $("#sample-recipe-content").find("#desc-tab").click();
+    //$("#sample-recipe-content").find("#desc-tab").click();
 
     $("#password_confirm").on("focusout", function () {
         if (!validatePassword()) {
@@ -95,7 +95,7 @@ $(document).ready(function () {
                             `<label for='step-${i}-time'>Time (mins)</label>` +
                         "</div>" +
                         "<div class='input-field col m1'>" +
-                            `<a href="#" id='remove-step-${i}'><i class="material-icons red-text">delete</i></a>` + 
+                            `<a href="#" id='remove-step-${i}'><i class="material-icons black-text">delete</i></a>` + 
                         "</div>" +
                     "</div>"    
       
@@ -125,7 +125,7 @@ $(document).ready(function () {
                                 `<label for='ingredient-${i}-unit'>Unit</label>` +
                             "</div>" +
                             "<div class='input-field col m1'>" +
-                                `<a href="#" id='remove-ingredient-${i}'><i class="material-icons red-text">delete</i></a>` + 
+                                `<a href="#" id='remove-ingredient-${i}'><i class="material-icons black-text">delete</i></a>` + 
                             "</div>" +
                         "</div>"    
       

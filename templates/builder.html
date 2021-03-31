@@ -47,66 +47,76 @@
                     </div>
                 </div>
             </div>
-        <!-------portions------->
-        <div class="row">
-            <div class="col s12">
-                <label for="portions">Portions</label>
-                <p class="range-field">
-                    <input type="range" name="portions" id="portions" min="1" max="24" value="1" />
-                </p>
-            </div>
-        </div>
-        <!-------suitable for months min------->
-        <div class="row">
-            <div class="col s12">
-                <label for="portions">Suitable for months (min)</label>
-                <p class="range-field">
-                    <input type="range" name="min" id="min" min="1" max="72" value="1" />
-                </p>
-            </div>
-        </div>
-        <!-------suitable for months max------->
-        <div class="row">
-            <div class="col s12">
-                <label for="portions">Suitable for months (max)</label>
-                <p class="range-field">
-                    <input type="range" name="max" id="max" min="1" max="72" value="72" />
-                </p>
-            </div>
-        </div>
-        <!-------ingredients------->
-        <div class="row">
-            <div class="col s12">
-                <label>Ingredients</label>
-                <br>
-                <div class="container ingredients">
+            <!-------portions------->
+            <div class="row">
+                <div class="col s12">
+                    <label for="portions">Portions</label>
+                    <p class="range-field">
+                        <input type="range" name="portions" id="portions" min="1" max="24" value="1" />
+                    </p>
                 </div>
-                <br>
-                <a class="btn waves-effect waves-light" id="builder-add-ingredient">Add Ingredient</a>
             </div>
-        </div>
-        <br>
-        <!-------method------->
-        <div class="row">
-            <div class="col s12">
-                <label>Method</label>
-                <br>
-                <div class="container steps">
+            <!-------suitable for months min------->
+            <div class="row">
+                <div class="col s12">
+                    <label for="portions">Suitable for months (min)</label>
+                    <p class="range-field">
+                        <input type="range" name="min" id="min" min="1" max="72" value="1" />
+                    </p>
                 </div>
-                <br>
-                <a class="btn waves-effect waves-light" id="builder-add-step">Add Step</a>
             </div>
-        </div>
-        <!-------submit------->
-        <div class="row">
-            <div class="input-field col s12 center">
-                <button class="btn waves-effect waves-light orange" type="submit" id="submit-builder" name="submit"
-                    formaction="/addrecipe">Submit</button>
+            <!-------suitable for months max------->
+            <div class="row">
+                <div class="col s12">
+                    <label for="portions">Suitable for months (max)</label>
+                    <p class="range-field">
+                        <input type="range" name="max" id="max" min="1" max="72" value="72" />
+                    </p>
+                </div>
             </div>
+            <!-------ingredients------->
+            <div class="row">
+                <div class="col s12">
+                    <label>Ingredients</label>
+                    <br>
+                    <div class="container ingredients">
+                    </div>
+                    <br>
+                    <a class="btn waves-effect waves-light" id="builder-add-ingredient">Add Ingredient</a>
+                </div>
+            </div>
+            <br>
+            <!-------method------->
+            <div class="row">
+                <div class="col s12">
+                    <label>Method</label>
+                    <br>
+                    <div class="container steps">
+                    </div>
+                    <br>
+                    <a class="btn waves-effect waves-light" id="builder-add-step">Add Step</a>
+                </div>
+            </div>
+            <!-------submit------->
+            <div class="row">
+                <!-------submit btn------->
+                <div class="col s3 offset-s3">    
+                    <div class="input-field col s12 center">
+                        <button class="btn waves-effect waves-light orange" type="submit" id="submit-builder"
+                            name="submit" formaction="/addrecipe">Submit</button>
+                    </div>
+                </div>
+                <!-------reset btn------->
+                <div class="col s3">
+                    <div class="input-field col s12 center">
+                        <button class="btn waves-effect waves-light red" type="reset" id="reset-builder"
+                            name="reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+            <br>
         </div>
-        <br>
-    </div>
-</form>
+    </form>
 </div>
 
 {% endblock %}

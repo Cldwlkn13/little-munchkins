@@ -1,57 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-{% block recipecard %}
-<div class="row">
+
+<div class="row" id="recipe-preview">
     <div class="col s12 m7 l5">
-        <div class="card food-bg" id="recipe-card">
-            <div class="card-content lime lighten-5">
-                <h5>{{ recipecard.title|title }}</h5>
-                <p class="recipe-created-by"><i>from {{ recipecard.created_by }}</i></p>
-            </div>
-            <div class="recipe-img-wrapper">
-                <img class="recipe-img" src="/file/{{recipecard.recipe_img}}" alt="{{recipecard.recipe_img}}">
-            </div>
-            <div class="card-tabs">
-                <ul class="tabs tabs-fixed-width">
-                    <li class="tab"><a class="tab-link grey darken-3 light-green-text active" id="desc-tab">Description</a>
-                    </li>
-                    <li class="tab"><a class="tab-link light-green-text text-lighten-1" id="ingredients-tab">Ingredients</a>
-                    </li>
-                    <li class="tab"><a class="tab-link light-green-text text-lighten-2" id="method-tab">Method</a></li>
-                </ul>
-            </div>
-            <div class="card-tab-content lime lighten-5">
-                <div id="desc">
-                    <h6>{{ recipecard.desc[0]|upper}}{{recipecard.desc[1:] }}</h6>
-                    <p><i>Portions: {{ recipecard.portions }}</i></p>
-                    <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }}
-                            months</i></p>
-                </div>
-                <div id="ingredients">
-                    {% if recipecard.ingredients.items() is not none %}
-                        {% for k, ingredient in recipecard.ingredients.items() %}
-                            <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
-                        {% endfor %}
-                    {% else %}
-                        NONE
-                    {% endif %}
-                </div>
-                <div id="method">
-                    {% if recipecard.steps.items() is not none %}
-                        {% for k, step in recipecard.steps.items() %}
-                            <p>{{loop.index}}. {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>
-                        {% endfor %}
-                    {% else %}
-                        NONE
-                    {% endif %}
-                </div>
-            </div>
+        {% include "recipecard.html" %}      
+        <div class="col s12 m7 l5">
+            <a href="#" onclick="history.go(-1)" class="btn waves-effect waves-light" id="preview-back">Back</a>
         </div>
-    </div>
-    <div class="col s12 m7 l5">
-        <a href="#" onclick="history.go(-1)" class="btn waves-effect waves-light" id="preview-back">Back</a>
     </div>
 </div>
 
-{% endblock %}
 {% endblock %}

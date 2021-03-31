@@ -128,8 +128,14 @@ main {
     width: 90%;
 }
 
-#submit-builder {
+#submit-builder, #reset-builder {
     margin-top: 30px;
+}
+
+#preview-builder{
+    position: fixed;
+    top: 100px;
+    right: 20px;
 }
 
 #preview-back {
