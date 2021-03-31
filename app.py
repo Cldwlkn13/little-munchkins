@@ -125,7 +125,29 @@ def profile(username):
 
 @app.route("/builder", methods=['GET', 'POST'])
 def builder():
-    return render_template("builder.html")
+    if session.get('user'):
+        return render_template("builder.html")
+    return redirect(url_for("home"))
+
+
+@app.route("/preview", methods=['POST'])
+def preview():
+    steps = stepsBuilder(groupFormKeys(request.form.keys(), "step", 3))
+    ingredients = ingredientsBuilder(
+        groupFormKeys(request.form.keys(), "ingredient", 3))
+    recipecard = {
+        "title": request.form.get("title"),
+        "desc": request.form.get("desc"),
+        "recipe_img": request.form.get("recipe_img"),
+        "created_by": session.get("user"),
+        "portions": request.form.get("portions"),
+        "suitableForMinMnths": request.form.get("min"),
+        "suitableForMaxMnths": request.form.get("max"),
+        "ingredients": ingredients,
+        "steps": steps
+    }
+    return render_template("preview.html", recipecard=recipecard)
+
 
 @app.route("/logout")
 def logout():
@@ -143,8 +165,66 @@ def jsonifylist(cursor):
     return jsonify(json_docs)
 
 
+def groupFormKeys(keys, keytype, props):
+    keys = [key for key in keys if key.startswith(keytype)]
+    print(keys)
+    requestedcount = int(len(keys) / props)
+    mylist = []
+    for x in range(requestedcount):
+        mylist2 = []
+        for k in keys:
+            _iter = k.split("-")[1]
+            if(int(_iter) == int((x + 1))):
+                mylist2.append(k)
+        mylist.append(mylist2)
+        print(mylist)
+    return mylist
+
+
+def stepsBuilder(groupedkeys):
+    i = 1
+    stepslist = []
+    for s in groupedkeys:
+        step = {
+            "type": request.form.get("step-" + str(i) + "-type"),
+            "action": request.form.get("step-" + str(i) + "-desc"),
+            "time": request.form.get("step-" + str(i) + "-time"),
+        }
+        stepslist.append(step)
+        i = i + 1
+
+    stepsdict = {}
+    i = 0
+    for s in stepslist:
+        stepsdict.update({str(i): s})
+        i = i + 1
+    return stepsdict
+
+
+def ingredientsBuilder(groupedkeys):
+    i = 1
+    ingredientslist = []
+    for s in groupedkeys:
+        ingredient = {
+            "name": request.form.get("ingredient-" + str(i) + "-desc"),
+            "qty": {
+                "measure": request.form.get(
+                    "ingredient-" + str(i) + "-measure"),
+                "unit": request.form.get("ingredient-" + str(i) + "-unit")
+            }
+        }
+        ingredientslist.append(ingredient)
+        i = i + 1
+
+    ingredientsdict = {}
+    i = 0
+    for s in ingredientslist:
+        ingredientsdict.update({str(i): s})
+        i = i + 1
+    return ingredientsdict
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
             debug=True)
-

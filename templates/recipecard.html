@@ -21,14 +21,22 @@
             <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i></p>
         </div>
         <div id="ingredients">
-            {% for k, ingredient in recipecard.ingredients.items() %}
-                <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
-            {% endfor %}
+            {% if recipecard.ingredients.items() is not none %}
+                {% for k, ingredient in recipecard.ingredients.items() %}
+                    <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
+                {% endfor %}
+            {% else %}
+                NONE
+            {% endif %}
         </div>
         <div id="method">
-            {% for k, step in recipecard.steps.items() %}
-                <p>{{loop.index}}. {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>
-            {% endfor %}
+            {% if recipecard.steps.items() is not none %}
+                {% for k, step in recipecard.steps.items() %}
+                    <p>{{loop.index}}. {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>
+                {% endfor %}
+            {% else %}
+                NONE
+            {% endif %}
         </div>
     </div>
 </div>

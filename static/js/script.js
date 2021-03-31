@@ -15,6 +15,10 @@ $(document).ready(function () {
         $('#sample-recipe-content').toggle();
     });
 
+    $('#preview-recipe-card').on("click", function(){
+        $('#preview-recipe-content').toggle();
+    });
+
     function slideAndFadeIn(elem, animateLength, timeout) {
         setTimeout(function() {
             $(elem).animate({ opacity: 1 }, animateLength);
@@ -54,7 +58,7 @@ $(document).ready(function () {
             alert("Passwords do not match");
         }
         else
-            return true; //continue to submit form
+            return true;
     });
 
     function validatePassword() {
@@ -77,7 +81,7 @@ $(document).ready(function () {
         var i = countsteps + 1;
         var step = `<div class='row step' id='step-${i}'>` +
                         "<div class='input-field col m2'>" +
-                            `<select id='step-${i}-type'>` +
+                            `<select id='step-${i}-type' name='step-${i}-type'>` +
                                 "<option value='1' selected>Prepare</option>" +
                                 "<option value='2'>Cook</option>" +
                             "</select>" +
@@ -87,11 +91,11 @@ $(document).ready(function () {
                             `<label for='step-${i}-desc'>Describe Step</label>` +
                         "</div>" +
                         "<div class='input-field col m2'>" +
-                            `<input type='text' id='time-input-${i}' name='time-input-${i}'  minlength='1' maxlength='3' class='validate' pattern='^[0-9]{1,3}$' required />` +
-                            `<label for='time-input-${i}'>Time</label>` +
+                            `<input type='text' id='step-${i}-time' name='step-${i}-time'  minlength='1' maxlength='3' class='validate' pattern='^[0-9.]{1,3}$' required />` +
+                            `<label for='step-${i}-time'>Time (mins)</label>` +
                         "</div>" +
                         "<div class='input-field col m1'>" +
-                            `<a href="#" class='remove-step' id='remove-step-${i}'><i class="material-icons red-text">delete</i></a>` + 
+                            `<a href="#" id='remove-step-${i}'><i class="material-icons red-text">delete</i></a>` + 
                         "</div>" +
                     "</div>"    
       
@@ -99,8 +103,36 @@ $(document).ready(function () {
         $(`#step-${i}-type`).formSelect();
         $(`#remove-step-${i}`).on('click',function(){
             if(confirm("Are you sure?")) {
-                //var id = $(this).get(0).id.split('-')[2];
                 $(`#step-${i}`).remove();
+            }
+        });
+    });
+
+    $('#builder-add-ingredient').click(function() {      
+        var countingredients = $('.ingredients .ingredient').length;
+        var i = countingredients + 1;
+        var ingredient = `<div class='row ingredient' id='ingredient-${i}'>` +
+                            "<div class='input-field col m8'>" +
+                                `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='30' class='validate' required />` +
+                                `<label for='ingredient-${i}-desc'>Add Ingredient</label>` +
+                            "</div>" +
+                            "<div class='input-field col m2'>" +
+                                `<input type='text' id='ingredient-${i}-measure' name='ingredient-${i}-measure'  minlength='1' maxlength='4' class='validate' pattern='^[0-9]{1,4}$' required />` +
+                                `<label for='ingredient-${i}-measure'>Measure</label>` +
+                            "</div>" +
+                            "<div class='input-field col m1'>" +
+                                `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  minlength='1' maxlength='8' class='validate' pattern='^[a-z]{1,8}$' required />` +
+                                `<label for='ingredient-${i}-unit'>Unit</label>` +
+                            "</div>" +
+                            "<div class='input-field col m1'>" +
+                                `<a href="#" id='remove-ingredient-${i}'><i class="material-icons red-text">delete</i></a>` + 
+                            "</div>" +
+                        "</div>"    
+      
+        $('.ingredients').append(ingredient); 
+        $(`#remove-ingredient-${i}`).on('click',function(){
+            if(confirm("Are you sure?")) {
+                $(`#ingredient-${i}`).remove();
             }
         });
     });
