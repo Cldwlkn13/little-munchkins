@@ -16,7 +16,6 @@
             <p id="recipe-cook-time"><i class="material-icons">restaurant</i> Cooking Time: {{ recipecard.cook_time|int }} mins</p>
         </div>
     </div>
-    <div class="row">
         <div class="recipe-img-wrapper">
             {% if recipecard.recipe_img %}
             <img class="recipe-img" src="static/images/public/{{ recipecard.recipe_img }}">
@@ -64,6 +63,5 @@
                 {% endif %}
             </div>
         </div>
-    </div>
 </div>
 {% endblock %}

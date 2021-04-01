@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $(".sidenav").sidenav({ edge: "right" });
+    $('.modal').modal();
 
     $.get('static/text/countries.txt', function (data) {
         var lines = data.split('\n');
@@ -10,10 +11,6 @@ $(document).ready(function () {
     });
 
     $('select').formSelect();
-
-    $('#show-recipe-card').on("click", function(){
-        $('#sample-recipe-content').toggle();
-    });
 
     $('#preview-recipe-card').on("click", function(){
         $('#preview-recipe-content').toggle();

@@ -43,10 +43,10 @@
                         </div>
                     </div>
                     <!-- SAMPLE RECIPE CARD -->
-                    <a class="btn-floating red" id="show-recipe-card"><i class="material-icons">add</i></a>
+                    <a class="btn-floating red modal-trigger" id="show-recipe-card" href="#sample-recipe-content"><i class="material-icons">add</i></a>
                     <span class="lime-text text-lighten-5" style="line-height: 2.5;" id="sample-tag">View a sample
                         recipe card</span>
-                    <div id="sample-recipe-content">
+                    <div class="modal" id="sample-recipe-content">
                         {% include "recipecard.html" %}
                     </div>
                     
