@@ -111,7 +111,7 @@ main {
 }
 
 .card .card-content {
-    padding: 5px;
+    border-radius: 2px;
 }
 
 .card-tab-content {
@@ -167,6 +167,14 @@ main {
 
 #recipe-preview {
     height: 80vh;
+}
+
+#prep-time {
+    font-size: 10px;
+}
+
+.tabs .tab a {
+    padding: 0 3px;
 }
 
 /* MEDIA QUERIES */

@@ -27,6 +27,16 @@ mongo = PyMongo(app)
 def home():
     recipecard = mongo.db.recipes.find_one(
         {"_id": ObjectId("604de9e6104b280ad6fa8464")})
+    if recipecard['steps'] is not None:
+        prep_time = 0
+        cook_time = 0
+        for k, step in recipecard['steps'].items():
+            if step['type'] == "prepare":
+                prep_time = prep_time + step['time']
+            elif step['type'] == "cook":
+                cook_time = cook_time + step['time']
+        recipecard['prep_time'] = prep_time
+        recipecard['cook_time'] = cook_time
     return render_template("home.html", recipecard=recipecard)
 
 
@@ -134,6 +144,17 @@ def addrecipe():
 @app.route("/preview", methods=['POST'])
 def preview():
     recipecard = recipeCardBuilder(request)
+    print(recipecard['steps'])
+    if recipecard['steps'] is not None:
+        prep_time = 0
+        cook_time = 0
+        for k, step in recipecard['steps']:
+            if step.type == "prepare":
+                prep_time = prep_time + step.time
+            elif step.type == "cook":
+                cook_time = cook_time + step.time
+        recipecard['prep_time'] = prep_time
+        recipecard['cook_time'] = cook_time
     if 'recipe_img' in request.files:
         filename = request.files['recipe_img'].filename
         if filename != "":
