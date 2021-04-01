@@ -168,6 +168,8 @@ main {
 
 #recipe-preview {
     height: 80vh;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 #prep-time {
