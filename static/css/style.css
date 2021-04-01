@@ -106,12 +106,6 @@ main {
     opacity: 0; 
 }
 
-#recipe-card{
-    min-height: 40vh;
-    max-height: 40vh;
-    overflow-y: scroll;
-}
-
 .card {
     padding: 25px;
 }
@@ -159,12 +153,20 @@ main {
     right: 20px;
 }
 
-#preview-back {
-    margin: 10px;
+.img-wrapper {
+    margin-top: 10px;
+}
+
+#builder-preview-img{
+    width: 200;
 }
 
 .form-header {
     text-align: center;
+}
+
+#recipe-preview {
+    height: 80vh;
 }
 
 /* MEDIA QUERIES */

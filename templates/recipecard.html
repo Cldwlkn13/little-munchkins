@@ -2,10 +2,12 @@
 <div class="card food-bg" id="recipe-card">
     <div class="card-content lime lighten-5">
         <h5>{{ recipecard.title|title }}</h5>
-        <p class="recipe-created-by"><i>from {{ recipecard.created_by }}</i></p>
+        <p class="recipe-created-by"><i>by {{ recipecard.created_by }}</i></p>
     </div>
     <div class="recipe-img-wrapper">
-        <img class="recipe-img" src="/file/{{recipecard.recipe_img}}" alt="{{recipecard.recipe_img}}">
+        {% if recipecard.recipe_img %}
+        <img class="recipe-img" src="static/images/public/{{ recipecard.recipe_img }}">
+        {% endif %}
     </div>
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width">
@@ -16,7 +18,7 @@
     </div>
     <div class="card-tab-content lime lighten-5">
         <div id="desc" style="display: block;">
-            <h6>{{ recipecard.desc[0]|upper}}{{recipecard.desc[1:] }}</h6>
+            <h6>{{ recipecard.desc }}</h6>
             <p><i>Portions: {{ recipecard.portions }}</i></p>
             <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i></p>
         </div>

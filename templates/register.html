@@ -11,21 +11,21 @@
                 <!-------username------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="username" name="username" type="text" class="validate" minlength="1" maxlength="14" pattern="^[a-zA-z0-9]{1,14}$" required>
+                        <input id="username" name="username" type="text" class="validate" minlength="1" maxlength="20" pattern="^[a-zA-z0-9-_]{1,20}$" required>
                         <label for="username">Choose a username</label>
                     </div>
                 </div>
                 <!-------password------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="password" name="password" type="password" class="validate" minlength="1" maxlength="14" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                        <input id="password" name="password" type="password" class="validate" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                         <label for="password">Password</label>
                     </div>
                 </div>
                 <!-------password confirm------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="password_confirm" name="password_confirm" type="password" class="validate" minlength="1" maxlength="14" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                        <input id="password_confirm" name="password_confirm" type="password" class="validate" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                         <label id="lbl_password_confirm" for="password_confirm" data-error="Password not match" data-success="Password Match">Confirm Password</label>
                     </div>
                 </div>

@@ -15,6 +15,8 @@ app = Flask(__name__)
 
 app.config["MONGO_DB"] = os.environ.get("MONGO_DB")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
@@ -117,11 +119,28 @@ def builder():
 @app.route("/addrecipe", methods=['GET', 'POST'])
 def addrecipe():
     recipecard = recipeCardBuilder(request)
-    if request.method == 'POST':
-        mongo.db.recipes.insert_one(recipecard)
-        flash(f"{recipecard['title']} has been added to your recipes")
-        return redirect(url_for("profile", username=session['user']))
+    mongo.db.recipes.insert_one(recipecard)
+    if 'recipe_img' in request.files:
+        filename = request.files['recipe_img'].filename
+        if filename != "":
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext in app.config['UPLOAD_EXTENSIONS']:
+                path = "static/images/public/" + filename
+                request.files['recipe_img'].save(path)
+    flash(f"{recipecard['title']} has been added to your recipes")
+    return redirect(url_for("profile", username=session['user']))
 
+
+@app.route("/preview", methods=['POST'])
+def preview():
+    recipecard = recipeCardBuilder(request)
+    if 'recipe_img' in request.files:
+        filename = request.files['recipe_img'].filename
+        if filename != "":
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext in app.config['UPLOAD_EXTENSIONS']:
+                path = "static/images/public/" + filename
+                request.files['recipe_img'].save(path)
     return render_template("preview.html", recipecard=recipecard)
 
 
@@ -145,7 +164,7 @@ def recipeCardBuilder(request):
     recipecard = {
         "title": request.form.get("title"),
         "desc": request.form.get("desc"),
-        "recipe_img": request.form.get("recipe_img"),
+        "recipe_img": request.files['recipe_img'].filename,
         "created_by": session.get("user"),
         "portions": request.form.get("portions"),
         "suitableForMinMnths": request.form.get("min"),
@@ -153,14 +172,13 @@ def recipeCardBuilder(request):
         "ingredients": ingredientsBuilder(
             groupFormKeys(request.form.keys(), "ingredient", 3)),
         "steps": stepsBuilder(
-            groupFormKeys(request.form.keys(), "step", 3))
+            groupFormKeys(request.form.keys(), "step", 3)),
     }
     return recipecard
 
 
 def groupFormKeys(keys, keytype, props):
     keys = [key for key in keys if key.startswith(keytype)]
-    print(keys)
     requestedcount = int(len(keys) / props)
     mylist = []
     for x in range(requestedcount):
@@ -170,7 +188,6 @@ def groupFormKeys(keys, keytype, props):
             if(int(_iter) == int((x + 1))):
                 mylist2.append(k)
         mylist.append(mylist2)
-        print(mylist)
     return mylist
 
 
