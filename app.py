@@ -28,23 +28,6 @@ def home():
     return render_template("home.html", recipecard=recipecard)
 
 
-#@app.route("/create")
-#def create():
-    #return '''
-        #<form method="POST" action="/createimg" enctype="multipart/form-data">
-        #<input type="file" name="recipe_img">
-        #<input type="submit">
-    #'''
-
-
-#@app.route("/createimg", methods=['POST'])
-#def createimg():
-    #if 'recipe_img' in request.files:
-        #recipe_img = request.files['recipe_img']
-        #mongo.save_file(recipe_img.filename, recipe_img)
-    #return redirect(url_for('create'))
-
-
 @app.route('/file/<filename>')
 def file(filename):
     return mongo.send_file(filename)
@@ -131,22 +114,14 @@ def builder():
     return redirect(url_for("home"))
 
 
-@app.route("/preview", methods=['POST'])
-def preview():
-    steps = stepsBuilder(groupFormKeys(request.form.keys(), "step", 3))
-    ingredients = ingredientsBuilder(
-        groupFormKeys(request.form.keys(), "ingredient", 3))
-    recipecard = {
-        "title": request.form.get("title"),
-        "desc": request.form.get("desc"),
-        "recipe_img": request.form.get("recipe_img"),
-        "created_by": session.get("user"),
-        "portions": request.form.get("portions"),
-        "suitableForMinMnths": request.form.get("min"),
-        "suitableForMaxMnths": request.form.get("max"),
-        "ingredients": ingredients,
-        "steps": steps
-    }
+@app.route("/addrecipe", methods=['GET', 'POST'])
+def addrecipe():
+    recipecard = recipeCardBuilder(request)
+    if request.method == 'POST':
+        mongo.db.recipes.insert_one(recipecard)
+        flash(f"{recipecard['title']} has been added to your recipes")
+        return redirect(url_for("profile", username=session['user']))
+
     return render_template("preview.html", recipecard=recipecard)
 
 
@@ -164,6 +139,23 @@ def jsonifylist(cursor):
         json_docs.append(json_doc)
 
     return jsonify(json_docs)
+
+
+def recipeCardBuilder(request):
+    recipecard = {
+        "title": request.form.get("title"),
+        "desc": request.form.get("desc"),
+        "recipe_img": request.form.get("recipe_img"),
+        "created_by": session.get("user"),
+        "portions": request.form.get("portions"),
+        "suitableForMinMnths": request.form.get("min"),
+        "suitableForMaxMnths": request.form.get("max"),
+        "ingredients": ingredientsBuilder(
+            groupFormKeys(request.form.keys(), "ingredient", 3)),
+        "steps": stepsBuilder(
+            groupFormKeys(request.form.keys(), "step", 3))
+    }
+    return recipecard
 
 
 def groupFormKeys(keys, keytype, props):
