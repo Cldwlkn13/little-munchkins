@@ -87,8 +87,6 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        if session.get('user'):
-            session.pop('user')
         existing_user = mongo.db.users.find_one(
             {"username": request.form.get("username").lower()})
 
@@ -107,15 +105,24 @@ def login():
             flash("Incorrect Username and/or Password")
             return redirect(url_for('login'))
 
+    if session.get('user'):
+        return redirect(url_for(
+            "profile", username=session["user"]))
     return render_template("login.html")
 
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-    username = mongo.db.users.find_one(
-        {"username": session["user"]})["username"]
+    user = mongo.db.users.find_one(
+        {"username": session["user"]})
+    myrecipes = list(mongo.db.recipes.find(
+        {"created_by": session["user"]}))
+    for recipecard in myrecipes:
+        recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
+        recipecard['cook_time'] = calculateTiming(recipecard, "cook")
     if session['user']:
-        return render_template("profile.html", username=username)
+        return render_template(
+            "profile.html", user=user, myrecipes=myrecipes)
     return redirect(url_for("login"))
 
 
@@ -144,17 +151,8 @@ def addrecipe():
 @app.route("/preview", methods=['POST'])
 def preview():
     recipecard = recipeCardBuilder(request)
-    print(recipecard['steps'])
-    if recipecard['steps'] is not None:
-        prep_time = 0
-        cook_time = 0
-        for k, step in recipecard['steps']:
-            if step.type == "prepare":
-                prep_time = prep_time + step.time
-            elif step.type == "cook":
-                cook_time = cook_time + step.time
-        recipecard['prep_time'] = prep_time
-        recipecard['cook_time'] = cook_time
+    recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
+    recipecard['cook_time'] = calculateTiming(recipecard, "cook")
     if 'recipe_img' in request.files:
         filename = request.files['recipe_img'].filename
         if filename != "":
@@ -196,6 +194,15 @@ def recipeCardBuilder(request):
             groupFormKeys(request.form.keys(), "step", 3)),
     }
     return recipecard
+
+
+def calculateTiming(recipecard, src):
+    t = 0
+    if recipecard['steps'] is not None:
+        for k, step in recipecard['steps'].items():
+            if step['type'] == src:
+                t = t + int(step['time'])
+    return t
 
 
 def groupFormKeys(keys, keytype, props):

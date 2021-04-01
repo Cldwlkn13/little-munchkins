@@ -1,5 +1,5 @@
 {% block recipecard %}
-<div class="card food-bg" id="recipe-card">
+<div class="card recipe-card food-bg">
     <div class="row card-content lime lighten-5">
         <div class="col s12">
             <h5>{{ recipecard.title|title }}</h5>
@@ -8,60 +8,67 @@
             <p class="recipe-created-by"><i>by {{ recipecard.created_by }}</i></p>
         </div>
     </div>
-    <div class="row" id="prep-time">
+    <div class="row prep-time">
         <div class="col s6">
-            <p id="recipe-prep-time"><i class="material-icons">access_time</i> Preparation Time: {{ recipecard.prep_time|int }} mins</p>
+            <p class="recipe-prep-time"><i class="material-icons">access_time</i> Preparation Time:
+                {% if recipecard.prep_time is not none %}
+                    {{ recipecard.prep_time|int }} mins</p>
+                {% endif %}
         </div>
         <div class="col s6">
-            <p id="recipe-cook-time"><i class="material-icons">restaurant</i> Cooking Time: {{ recipecard.cook_time|int }} mins</p>
+            <p class="recipe-cook-time"><i class="material-icons">restaurant</i> Cooking Time:
+                {% if recipecard.cook_time is not none %}
+                    {{ recipecard.cook_time|int }} mins</p>
+                {% endif %}
         </div>
     </div>
-        <div class="recipe-img-wrapper">
-            {% if recipecard.recipe_img %}
-            <img class="recipe-img" src="static/images/public/{{ recipecard.recipe_img }}">
+    <div class="recipe-img-wrapper">
+        {% if recipecard.recipe_img %}
+            <img class="recipe-img" src="../static/images/public/{{ recipecard.recipe_img }}">
+        {% endif %}
+    </div>
+    <div class="card-tabs">
+        <ul class="tabs tabs-fixed-width">
+            <li class="tab"><a class="desc-tab tab-link grey darken-3 light-green-text active">Description</a></li>
+            <li class="tab"><a class="ingredients-tab tab-link light-green-text text-lighten-1">Ingredients</a></li>
+            <li class="tab"><a class="method-tab tab-link light-green-text text-lighten-2">Method</a></li>
+        </ul>
+    </div>
+    <div class="card-tab-content lime lighten-5">
+        <div class="desc-content" style="display: block;">
+            <h6>{{ recipecard.desc }}</h6>
+            <p><i>Portions: {{ recipecard.portions }}</i></p>
+            <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i>
+            </p>
+        </div>
+        <div class="ingredients-content" style="display: none;">
+            {% if recipecard.ingredients.items() is not none %}
+                {% for k, ingredient in recipecard.ingredients.items() %}
+                    <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
+                {% endfor %}
+            {% else %}
+                NONE
             {% endif %}
         </div>
-        <div class="card-tabs">
-            <ul class="tabs tabs-fixed-width">
-                <li class="tab"><a class="tab-link grey darken-3 light-green-text active" id="desc-tab">Description</a></li>
-                <li class="tab"><a class="tab-link light-green-text text-lighten-1" id="ingredients-tab">Ingredients</a></li>
-                <li class="tab"><a class="tab-link light-green-text text-lighten-2" id="method-tab">Method</a></li>
-            </ul>
+        <div class="method-content" style="display: none;">
+            {% if recipecard.steps.items() is not none %}
+                <h6><i class="material-icons">access_time</i> Preparation:</h6>
+                {% for k, step in recipecard.steps.items() %}
+                    {% if step.type == "prepare" %}
+                        <p>- {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>
+                    {% endif %}
+                {% endfor %}
+                <br>
+                <h6><i class="material-icons">restaurant</i> Method:</h6>
+                {% for k, step in recipecard.steps.items() %}
+                    {% if step.type == "cook" %}
+                        <p>- {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                NONE
+            {% endif %}
         </div>
-        <div class="card-tab-content lime lighten-5">
-            <div id="desc" style="display: block;">
-                <h6>{{ recipecard.desc }}</h6>
-                <p><i>Portions: {{ recipecard.portions }}</i></p>
-                <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i></p>
-            </div>
-            <div id="ingredients" style="display: none;">
-                {% if recipecard.ingredients.items() is not none %}
-                    {% for k, ingredient in recipecard.ingredients.items() %}
-                        <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
-                    {% endfor %}
-                {% else %}
-                    NONE
-                {% endif %}
-            </div>
-            <div id="method" style="display: none;">
-                {% if recipecard.steps.items() is not none %}
-                    <h6><i class="material-icons">access_time</i> Preparation:</h6>
-                    {% for k, step in recipecard.steps.items() %}
-                        {% if step.type == "prepare" %}    
-                            <p>- {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>
-                        {% endif %}
-                    {% endfor %}
-                    <br>
-                    <h6><i class="material-icons">restaurant</i> Method:</h6>
-                    {% for k, step in recipecard.steps.items() %}
-                        {% if step.type == "cook" %}    
-                            <p>- {{ step.action|capitalize }} <i>({{ step.time|int }} mins)</i></p>
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    NONE
-                {% endif %}
-            </div>
-        </div>
+    </div>
 </div>
 {% endblock %}

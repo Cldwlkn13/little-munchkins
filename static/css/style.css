@@ -154,12 +154,13 @@ main {
     right: 20px;
 }
 
-.img-wrapper {
+.builder-img-wrapper {
     margin-top: 10px;
 }
 
 #builder-preview-img{
-    width: 200;
+    max-width: 200px;
+    max-height: 200px;
 }
 
 .form-header {
@@ -172,12 +173,20 @@ main {
     margin-left: 10px;
 }
 
-#prep-time {
+.prep-time {
     font-size: 10px;
 }
 
 .tabs .tab a {
     padding: 0 3px;
+}
+
+#user-edit{
+    float: right;
+}
+
+#user-edit-submit{
+    margin-top: 20px;
 }
 
 /* MEDIA QUERIES */

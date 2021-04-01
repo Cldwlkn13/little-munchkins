@@ -26,17 +26,16 @@ $(document).ready(function () {
     slideAndFadeIn("#home-info-text-2", 2000, 1500);
     slideAndFadeIn("#home-info-text-3", 2000, 3000);
 
-    $('#ingredients-tab, #desc-tab, #method-tab').click(function(){        
-        var selector = $(this).get(0).id.toString().replace("-tab","");
+    $('.ingredients-tab, .desc-tab, .method-tab').click(function(){        
+        var selector = $(this).prop('className').split(' ')[0].replace("-tab", "");
+        console.log(selector);
         $(this).addClass("active grey darken-3");
         $(this).parent().siblings(".tab").find(".tab-link").removeClass("active grey darken-3");
         var tabs = $(this).parent().parent().parent().next();
-        var tab = tabs.children("#" + selector);
+        var tab = tabs.children("." + selector + "-content");
         tab.css("display", "block");
         tab.siblings().css("display", "none");
     });
-
-    //$("#sample-recipe-content").find("#desc-tab").click();
 
     $("#password_confirm").on("focusout", function () {
         if (!validatePassword()) {
@@ -140,5 +139,17 @@ $(document).ready(function () {
 
     $('#submit-builder').click(function(){
         $('#builder-form').attr("target", "")
+    });
+
+    $('#user-edit').click(function(){
+        $(this).siblings('form').first().children('input').prop("disabled", false);
+        $('#user-edit-submit').show();
+        $(this).hide();
+    });
+
+    $('#user-edit-submit').click(function(){
+        $(this).siblings('input').prop("disabled", true)
+        $(this).hide();
+        $('#user-edit').show();
     });
 });
