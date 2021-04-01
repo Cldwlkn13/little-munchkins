@@ -1,0 +1,16 @@
+{% block flashes %}
+     <section>
+        <!-- flash messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="row">
+            <div class="flashes">
+                <h5 class="black-text center-align">{{ message }}</h5>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </section>
+{% endblock %}

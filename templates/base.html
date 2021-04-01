@@ -9,98 +9,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/background-patterns.css') }}" type="text/css" />
-    <title>Munchkins</title>
+    <title>Little Munchkins</title>
 </head>
 
 <body class="site-bg">
-    <header>
-        <nav class="header-bg">
-            <div class="header-opacity">
-                <div class="nav-wrapper">
-                    <a href="#!" class="brand-logo left amber-text">Munchkins.</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
-                    <ul class="right hide-on-med-and-down">
-                        {% if session.user %}
-                        <li><a href="{{ url_for('profile', username=session['user'])}}" class="amber-text">My
-                                Profile</a></li>
-                        <li><a href="{{ url_for('get_recipes', id='0')}}" class="amber-text">Search</a></li>
-                        <li><a href="{{ url_for('builder', id='0')}}" class="amber-text">My Recipe Builder</a></li>
-                        <li><a href="{{ url_for('logout')}}" class="amber-text">Log Out</a></li>
-                        {% else %}
-                        <li><a href="{{ url_for('home')}}" class="amber-text">Home</a></li>
-                        <li><a href="{{ url_for('login')}}" class="amber-text">Log In</a></li>
-                        <li><a href="{{ url_for('register')}}" class="amber-text">Register</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    {% block fullcontent %}
 
-        <ul class="sidenav" id="mobile-demo">
-            {% if session.user %}
-            <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
-            <li><a href="{{ url_for('get_recipes', id='0')}}">Search</a></li>
-            <li><a href="{{ url_for('builder', id='0')}}">My Recipe Builder</a></li>
-            <li><a href="{{ url_for('logout')}}">Log Out</a></li>
-            {% else %}
-            <li><a href="{{ url_for('home')}}">Home</a></li>
-            <li><a href="{{ url_for('login')}}">Log In</a></li>
-            <li><a href="{{ url_for('register')}}">Register</a></li>
-            {% endif %}
-        </ul>
-    </header>
-
-    <section>
-        <!-- flash messages -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="row">
-            <div class="flashes">
-                <h5 class="black-text center-align">{{ message }}</h5>
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </section>
-
-    <section class="content">
-        {% block content %}
-        {% endblock %}
-    </section>
-
-    <footer class="page-footer header-bg">
-        <div class="header-opacity">
-            <div class="container">
-                <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Footer Content</h5>
-                        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
-                            content.
-                        </p>
-                    </div>
-                    <div class="col l4 offset-l2 s12">
-                        <h5 class="white-text">Links</h5>
-                        <ul>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-copyright">
-                <div class="container">
-                    © 2014 Copyright Text
-                    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    {% endblock %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

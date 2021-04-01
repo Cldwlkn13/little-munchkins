@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block fullcontent %}
+   {% include "header.html" %}
+   {% include "flashes.html" %}
+
+    <section class="content">
+        {% block content %}
+        {% endblock %}
+    </section>
+
+    {% include "footer.html" %}
+{% endblock %}
+
