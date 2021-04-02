@@ -12,6 +12,21 @@ $(document).ready(function () {
         });
     });
 
+    //$('.add-favourite').click(function(){
+        //var data = {'data': $(this).siblings('input').attr("value") };
+        //console.log(data)
+        //$.ajax({
+            //type: "POST",
+            //data: data,
+            //url: "/addfavourite",
+            //success: function(response){   
+                //console.log(response) 
+                //$(this).removeClass('purple').addClass('light-green')
+            //}
+        //});
+    //});
+
+
     $('select').formSelect();
 
     $('#preview-recipe-card').on("click", function(){

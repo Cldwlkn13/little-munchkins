@@ -54,8 +54,9 @@ def search():
     form = RecipeForm()
     if form.validate_on_submit():
         # search_term = form.query.data
+        user = mongo.db.users.find_one(
+            {"username": session["user"]})
         results = mongo.db.recipes.find({})
-        print(results)
         return render_template('search.html', form=form, results=results)
     return render_template('search.html', form=form)
 
@@ -125,6 +126,7 @@ def profile(username):
     for recipecard in myrecipes:
         recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
         recipecard['cook_time'] = calculateTiming(recipecard, "cook")
+        recipecard['isfavourite'] = isFavourited(user, recipecard)
     if session['user']:
         return render_template(
             "profile.html", user=user, myrecipes=myrecipes)
@@ -179,7 +181,7 @@ def editrecipe(recipecard):
 def updaterecipe():
     recipecard = recipeCardBuilder(request)
     mongo.db.recipes.update_one(
-        {"_id": ObjectId(ObjectId(str(request.form.get("_id"))))},
+        {"_id": ObjectId(str(request.form.get("_id")))},
         {"$set": recipecard}, upsert=False)
     flash(f'{request.form.get("title")} has been updated')
     return redirect(url_for(
@@ -195,12 +197,21 @@ def deleterecipe():
         "profile", username=session["user"]))
 
 
-@app.route("/addfavourite/<recipecard>", methods=['POST'])
-def addfavourite(recipecard):
-    user_favourites = mongo.db.users.find_one(
-            {"username": session['user']})['favourites']
-    js = jsonifyresponse(recipecard)
-    print(js)
+@app.route("/favourite", methods=['POST'])
+def addfavourite():
+    user = mongo.db.users.find_one(
+        {"username": session['user']})
+    _id = request.form.get('recipecard')
+    if isFavourited(user, _id):
+        user['favourites'].remove(_id)
+        mongo.db.users.update_one(
+            {"_id": user['_id']},
+            {"$set": user}, upsert=False)
+        return ('', 204)
+    user['favourites'].append(_id)
+    mongo.db.users.update_one(
+            {"_id": user['_id']},
+            {"$set": user}, upsert=False)
     return ('', 204)
 
 
@@ -249,6 +260,15 @@ def recipeCardBuilder(request):
             groupFormKeys(request.form.keys(), "step", 3)),
     }
     return recipecard
+
+
+def isFavourited(user, _id):
+    print(user)
+    if 'favourites' in user:
+        print("checking")
+        if _id in user['favourites']:
+            return True
+    return False
 
 
 def calculateTiming(recipecard, src):
