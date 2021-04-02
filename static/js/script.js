@@ -2,11 +2,13 @@ $(document).ready(function () {
     $(".sidenav").sidenav({ edge: "right" });
     $('.modal').modal();
 
-    $.get('static/text/countries.txt', function (data) {
-        var lines = data.split('\n');
-        $.each(lines, function (k, v) {
-            var $newOpt = $("<option>").attr("value", v).text(v)
-            $('#country').append($newOpt);
+    $('tbc').change(function(){
+        $.get('static/text/countries.txt', function (data) {
+            var lines = data.split('\n');
+            $.each(lines, function (k, v) {
+                var $newOpt = $("<option>").attr("value", v).text(v)
+                $('#country').append($newOpt);
+            });
         });
     });
 
@@ -99,7 +101,8 @@ $(document).ready(function () {
         $(`#step-${i}-type`).formSelect();
         $(`#remove-step-${i}`).on('click',function(){
             if(confirm("Are you sure?")) {
-                $(`#step-${i}`).remove();
+                $(`#step-${i}`).hide();
+                $(`#step-${i}`).children().find('input').attr("disabled", true);
             }
         });
     });
@@ -128,7 +131,8 @@ $(document).ready(function () {
         $('.ingredients').append(ingredient); 
         $(`#remove-ingredient-${i}`).on('click',function(){
             if(confirm("Are you sure?")) {
-                $(`#ingredient-${i}`).remove();
+                $(`#ingredient-${i}`).hide();
+                $(`#ingredient-${i}`).children().find('input').attr("disabled", true);
             }
         });
     });
@@ -152,4 +156,34 @@ $(document).ready(function () {
         $(this).hide();
         $('#user-edit').show();
     });
+
+    $(`.remove-step`).on('click',function(){
+        if(confirm("Are you sure?")) {
+            var i = $(this).get(0).id.split('-')[2]
+            $(`#step-${i}`).hide();
+                $(`#step-${i}`).children().find('input').attr("disabled", true);
+        }
+    });
+
+    $(`.remove-ingredient`).on('click',function(){
+        if(confirm("Are you sure?")) {
+            var i = $(this).get(0).id.split('-')[2]
+            $(`#ingredient-${i}`).hide();
+                $(`#ingredient-${i}`).children().find('input').attr("disabled", true);
+        }
+    });
+
+    $('#preview-recipe').click(function(){
+        $('#editor-form').attr("method", "POST");
+        $('#editor-form').attr("target", "_blank")
+    });
+
+    $('#delete-recipe').click(function(){
+        $('#editor-form').attr("method", "POST");
+    });
+
+    $('#cancel-changes').click(function(){
+        $('#editor-form').attr("method", "GET");
+    });
+    
 });

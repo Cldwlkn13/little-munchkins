@@ -148,10 +148,25 @@ main {
     padding:20px;
 }
 
-#preview-builder{
+#preview-recipe{
     position: fixed;
     top: 100px;
     right: 20px;
+    width: 120px;
+}
+
+#delete-recipe {
+    position: fixed;
+    top: 160px;
+    right: 20px;
+    width: 120px;
+}
+
+#cancel-changes{
+    position: fixed;
+    top: 220px;
+    right: 20px;
+    width: 120px;
 }
 
 .builder-img-wrapper {
@@ -187,6 +202,11 @@ main {
 
 #user-edit-submit{
     margin-top: 20px;
+}
+
+#recipe-edit{
+    margin-top: 5px;
+    float: right;
 }
 
 /* MEDIA QUERIES */

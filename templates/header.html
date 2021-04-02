@@ -10,7 +10,7 @@
                         <li><a href="{{ url_for('profile', username=session['user'])}}" class="amber-text">My
                                 Profile</a></li>
                         <li><a href="{{ url_for('get_recipes', id='0')}}" class="amber-text">Search</a></li>
-                        <li><a href="{{ url_for('builder', id='0')}}" class="amber-text">My Recipe Builder</a></li>
+                        <li><a href="{{ url_for('recipebuilder', id='0')}}" class="amber-text">My Recipe Builder</a></li>
                         <li><a href="{{ url_for('logout')}}" class="amber-text">Log Out</a></li>
                         {% else %}
                         <li><a href="{{ url_for('home')}}" class="amber-text">Home</a></li>
@@ -26,7 +26,7 @@
             {% if session.user %}
             <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
             <li><a href="{{ url_for('get_recipes', id='0')}}">Search</a></li>
-            <li><a href="{{ url_for('builder', id='0')}}">My Recipe Builder</a></li>
+            <li><a href="{{ url_for('recipebuilder', id='0')}}">My Recipe Builder</a></li>
             <li><a href="{{ url_for('logout')}}">Log Out</a></li>
             {% else %}
             <li><a href="{{ url_for('home')}}">Home</a></li>

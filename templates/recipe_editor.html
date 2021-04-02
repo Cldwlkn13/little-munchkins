@@ -1,0 +1,188 @@
+{% extends "base_overlay.html" %}
+{% block content %}
+<div class="container">
+    <form method="PUT" enctype="multipart/form-data" id="editor-form">
+        <div class="card-panel">
+            <!-- header -->
+            <div class="row form-header">
+                <h5>Recipe Editor</h5>
+            </div>
+            <!-- preview -->
+            <div class="row">
+                <div class="input-field col s12 center">
+                    <button class="btn waves-effect waves-light cyan" type="submit" id="preview-recipe" name="preview"
+                        formaction="/preview">Preview Recipe</button>
+                </div>
+                <div class="input-field col s12 center">
+                    <button class="btn waves-effect waves-light red" type="submit" id="delete-recipe" name="delete"
+                        formaction="/deleterecipe">Delete Recipe</button>
+                </div>
+                <div class="input-field col s12 center">
+                    <button class="btn waves-effect waves-light green" type="submit" id="cancel-changes" name="cancel"
+                        formaction="/canceledit">Cancel Changes</button>
+                </div>
+            </div>
+            <!-------recipe id placeholer------->
+            <input name="_id" type="text" value="{{ recipecard['_id'] }}" style="display:none;" required>
+            <!-------title------->
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="title" name="title" type="text" class="validate" minlength="1" maxlength="60"
+                        pattern="^.{1,60}$" value="{{ recipecard['title']|title }}" required>
+                    <label for="username">Recipe Title</label>
+                </div>
+            </div>
+            <!-------description------->
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="desc" name="desc" type="text" class="validate" minlength="1" maxlength="200"
+                        pattern="^.{1,200}$" value="{{ recipecard['desc'] }}" required>
+                    <label for="username">Describe your recipe</label>
+                </div>
+            </div>
+            <!-------image------->
+            <div class="row">
+                <div class="file-field input-field">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="btn pink darken-4">
+                                <span>Select Image</span>
+                                <input type="file" accept="image/*" onchange="loadPreviewFile(event)" name="recipe_img"
+                                    value="{{ recipecard['recipe_img'] }}">
+                            </div>
+                        </div>
+                        <div class="col s12">
+                            <div class="builder-img-wrapper">
+                                <img id="builder-preview-img" />
+                            </div>
+                        </div>
+                        <div class="col s12">
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" value="{{ recipecard['recipe_img'] }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-------portions------->
+            <div class="row">
+                <div class="col s12">
+                    <label for="portions">Portions</label>
+                    <p class="range-field">
+                        <input type="range" name="portions" id="portions" min="1" max="24"
+                            value="{{ recipecard['portions'] }}" />
+                    </p>
+                </div>
+            </div>
+            <!-------suitable for months min------->
+            <div class="row">
+                <div class="col s12">
+                    <label for="portions">Suitable for months (min)</label>
+                    <p class="range-field">
+                        <input type="range" name="min" id="min" min="1" max="72"
+                            value="{{ recipecard['suitableForMinMnths'] }}" />
+                    </p>
+                </div>
+            </div>
+            <!-------suitable for months max------->
+            <div class="row">
+                <div class="col s12">
+                    <label for="portions">Suitable for months (max)</label>
+                    <p class="range-field">
+                        <input type="range" name="max" id="max" min="1" max="72"
+                            value="{{ recipecard['suitableForMaxMnths'] }}" />
+                    </p>
+                </div>
+            </div>
+            <!-------ingredients------->
+            <div class="row teal lighten-5 builder-extra-row">
+                <div class="col s12">
+                    <label>Ingredients</label>
+                    <br>
+                    <div class="container ingredients">
+                        {% for ingredient in recipecard['ingredients'].items() %}
+                        <div class="row ingredient" id="ingredient-{{ loop.index }}">
+                            <div class="input-field col m8">
+                                <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="30" class="validate" value="{{ingredient[1].name}}" required />
+                                <label for="ingredient-{{ loop.index }}-desc">Ingredient</label>
+                            </div>
+                            <div class="input-field col m2">
+                                <input type="text" id="ingredient-{{ loop.index }}-measure" name="ingredient-{{ loop.index }}-measure"  minlength="1" maxlength="4" class="validate" pattern="^[0-9]{1,4}$" value="{{ingredient[1].qty.measure}}" required />
+                                <label for="ingredient-{{ loop.index }}-measure">Measure</label>
+                            </div>
+                            <div class="input-field col m1">
+                                <input type="text" id="ingredient-${i}-unit" name="ingredient-{{ loop.index }}-unit"  minlength="1" maxlength="8" class="validate" pattern="^[a-z]{1,8}$" value="{{ingredient[1].qty.unit}}" required />
+                                <label for="ingredient-{{ loop.index }}-unit">Unit</label>
+                            </div>
+                            <div class="input-field col m1">
+                                <a href="#" class="remove-ingredient" id="remove-ingredient-{{ loop.index }}"><i class="material-icons black-text">delete</i></a> 
+                            </div>
+                        </div>    
+                        {% endfor %}
+                    </div>
+                    <br>
+                    <a class="btn waves-effect waves-light" id="builder-add-ingredient">+ Ingredient</a>
+                </div>
+            </div>
+            <br>
+            <!-------method------->
+            <div class="row cyan lighten-5 builder-extra-row">
+                <div class="col s12">
+                    <label>Method</label>
+                    <br>
+                    <div class="container steps" id="editor-steps">
+                        {% for step in recipecard['steps'].items() %}
+                        <div class="row step" id="step-{{ loop.index}}">
+                            <div class="input-field col m2">
+                                <select id="step-{{ loop.index}}-type" name="step-{{ loop.index}}-type">
+                                    {% if step[1].type == "prepare" %}
+                                    <option value="1" selected>Prepare</option>
+                                    <option value="2">Cook</option>
+                                    {% else %}
+                                    <option value="1">Prepare</option>
+                                    <option value="2" selected>Cook</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="input-field col m7">
+                                <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" minlength="1"
+                                    maxlength="100" class="validate" value="{{step[1].action}}" required />
+                                <label for="step-{{ loop.index}}-desc">Describe This Step</label>
+                            </div>
+                            <div class="input-field col m2">
+                                <input type="text" id="step-{{ loop.index}}-time" name="step-{{ loop.index}}-time" minlength="1" maxlength="3"
+                                    class="validate" pattern="^[0-9.]{1,3}$" value="{{step[1].time}}" required />
+                                <label for="step-{{ loop.index}}-time">Time (mins)</label>
+                            </div>
+                            <div class="input-field col m1">
+                                <a href="#" class="remove-step" id="remove-step-{{ loop.index}}"><i class="material-icons black-text">delete</i></a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <br>
+                    <a class="btn waves-effect waves-light" id="builder-add-step">+ Step</a>
+                </div>
+            </div>
+            <!-------submit------->
+            <div class="row">
+                <!-------update btn------->
+                <div class="col s12">
+                    <div class="input-field col s12 center">
+                        <button class="btn waves-effect waves-light orange" type="submit" id="submit-builder"
+                            name="submit" formaction="/updaterecipe">Update</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </form>
+</div>
+
+<script>
+    var loadPreviewFile = function (event) {
+        $('#builder-preview-img').attr("src", URL.createObjectURL(event.target.files[0]));
+    };
+</script>
+
+{% endblock %}

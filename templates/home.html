@@ -47,7 +47,7 @@
                     <span class="lime-text text-lighten-5" style="line-height: 2.5;" id="sample-tag">View a sample
                         recipe card</span>
                     <div class="modal" id="sample-recipe-content">
-                        {% include "recipecard.html" %}
+                        {% include "recipe_card.html" %}
                     </div>
                     
                 </div>
@@ -72,20 +72,7 @@
                     </div>
                 </div>
             </div>
-            <section>
-                <!-- flash messages -->
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="row">
-                                <div class="flashes">
-                                    <h5 class="white-text center-align">{{ message }}</h5>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-            </section>
+            {% include "flashes.html" %}
         </div>
     </div>
 

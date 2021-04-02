@@ -126,10 +126,10 @@ def profile(username):
     return redirect(url_for("login"))
 
 
-@app.route("/builder", methods=['GET', 'POST'])
-def builder():
+@app.route("/recipebuilder", methods=['GET', 'POST'])
+def recipebuilder():
     if session.get('user'):
-        return render_template("builder.html")
+        return render_template("recipe_builder.html")
     return redirect(url_for("home"))
 
 
@@ -161,6 +161,36 @@ def preview():
                 path = "static/images/public/" + filename
                 request.files['recipe_img'].save(path)
     return render_template("preview.html", recipecard=recipecard)
+
+
+@app.route("/editrecipe/<recipecard>", methods=['POST'])
+def editrecipe(recipecard):
+    recipecard = recipecard.replace("\'", "\"")
+    recipecard = recipecard.replace(
+        "ObjectId(", "").replace("),", ",")
+    js = json.loads(recipecard)
+    return render_template("recipe_editor.html", recipecard=js)
+
+
+@app.route("/updaterecipe", methods=['PUT'])
+def updaterecipe():
+    return redirect(url_for(
+        "profile", username=session["user"]))
+
+
+@app.route("/deleterecipe", methods=['POST'])
+def deleterecipe():
+    mongo.db.recipes.remove(
+        {"_id", ObjectId(str(request.form.get("_id")))})
+    flash(f'{request.form.get("title")} has been deleted')
+    return redirect(url_for(
+        "profile", username=session["user"]))
+
+
+@app.route("/canceledit")
+def canceledit():
+    return redirect(url_for(
+        "profile", username=session["user"]))
 
 
 @app.route("/logout")
