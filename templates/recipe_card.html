@@ -7,6 +7,10 @@
                 <form action="/editrecipe/{{ recipecard }}" method="post">
                     <button type="submit" name="edit" id="recipe-edit" class="btn waves-effect waves-light green"><i class="material-icons">edit</i></button>
                 </form>
+            {% elif (session.user is not none) and (recipecard.created_by != session.user) and (recipecard.context is not defined) %}
+                <form action="/addfavourite/{{ recipecard }}" method="post">
+                    <button type="submit" name="edit" id="add-favourite" class="btn waves-effect waves-light yellow"><i class="material-icons">star_border</i></button>
+                </form>
             {% endif %}
         </div>
         <div class="col s2">
@@ -19,13 +23,13 @@
     <div class="row prep-time">
         <div class="col s6">
             <p class="recipe-prep-time"><i class="material-icons">access_time</i> Preparation Time:
-                {% if recipecard.prep_time is not none %}
+                {% if recipecard.prep_time is defined %}
                     {{ recipecard.prep_time|int }} mins</p>
                 {% endif %}
         </div>
         <div class="col s6">
             <p class="recipe-cook-time"><i class="material-icons">restaurant</i> Cooking Time:
-                {% if recipecard.cook_time is not none %}
+                {% if recipecard.cook_time is defined %}
                     {{ recipecard.cook_time|int }} mins</p>
                 {% endif %}
         </div>
@@ -50,7 +54,7 @@
             </p>
         </div>
         <div class="ingredients-content" style="display: none;">
-            {% if recipecard.ingredients.items() is not none %}
+            {% if recipecard.ingredients is defined %}
                 {% for k, ingredient in recipecard.ingredients.items() %}
                     <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
                 {% endfor %}
@@ -59,7 +63,7 @@
             {% endif %}
         </div>
         <div class="method-content" style="display: none;">
-            {% if recipecard.steps.items() is not none %}
+            {% if recipecard.steps is defined %}
                 <h6><i class="material-icons">access_time</i> Preparation:</h6>
                 {% for k, step in recipecard.steps.items() %}
                     {% if step.type == "prepare" %}

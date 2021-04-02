@@ -2,7 +2,7 @@ $(document).ready(function () {
     $(".sidenav").sidenav({ edge: "right" });
     $('.modal').modal();
 
-    $('tbc').change(function(){
+    $('#username').change(function(){
         $.get('static/text/countries.txt', function (data) {
             var lines = data.split('\n');
             $.each(lines, function (k, v) {

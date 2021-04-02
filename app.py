@@ -3,8 +3,13 @@ import json
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for, jsonify)
-from flask_pymongo import PyMongo, GridFS
+from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+from flask_pymongo import PyMongo
 from bson import json_util
+from bson.json_util import dumps
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
@@ -20,6 +25,13 @@ app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
+Bootstrap(app)
+
+
+class RecipeForm(FlaskForm):
+    name = StringField(
+        'search recipes by name', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 @app.route("/")
@@ -37,14 +49,15 @@ def file(filename):
     return mongo.send_file(filename)
 
 
-@app.route("/get_recipes/<id>")
-def get_recipes(id):
-    if id == '0':
-        recipes = mongo.db.recipes.find()
-        return jsonifylist(recipes)
-    else:
-        recipe = mongo.db.recipes.find({"_id": ObjectId(str(id))})
-        return jsonifylist(recipe)
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    form = RecipeForm()
+    if form.validate_on_submit():
+        # search_term = form.query.data
+        results = mongo.db.recipes.find({})
+        print(results)
+        return render_template('search.html', form=form, results=results)
+    return render_template('search.html', form=form)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -158,10 +171,7 @@ def preview():
 
 @app.route("/editrecipe/<recipecard>", methods=['POST'])
 def editrecipe(recipecard):
-    recipecard = recipecard.replace("\'", "\"")
-    recipecard = recipecard.replace(
-        "ObjectId(", "").replace("),", ",")
-    js = json.loads(recipecard)
+    js = jsonifyresponse(recipecard)
     return render_template("recipe_editor.html", recipecard=js)
 
 
@@ -185,6 +195,15 @@ def deleterecipe():
         "profile", username=session["user"]))
 
 
+@app.route("/addfavourite/<recipecard>", methods=['POST'])
+def addfavourite(recipecard):
+    user_favourites = mongo.db.users.find_one(
+            {"username": session['user']})['favourites']
+    js = jsonifyresponse(recipecard)
+    print(js)
+    return ('', 204)
+
+
 @app.route("/canceledit", methods=['POST'])
 def canceledit():
     return redirect(url_for(
@@ -205,6 +224,14 @@ def jsonifylist(cursor):
         json_docs.append(json_doc)
 
     return jsonify(json_docs)
+
+
+def jsonifyresponse(recipecard):
+    recipecard = recipecard.replace("\'", "\"")
+    recipecard = recipecard.replace(
+        "ObjectId(", "").replace("),", ",")
+    js = json.loads(recipecard)
+    return js
 
 
 def recipeCardBuilder(request):

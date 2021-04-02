@@ -1,0 +1,25 @@
+{% extends "base_overlay.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="card-panel">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="contianer">
+            <div class="card-panel">
+            {% for recipecard in results %}
+                <div class="row">
+                    <div class="col s12 m4 l3">
+                        {% include "recipe_card.html" %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
