@@ -1,15 +1,16 @@
 {% block recipecard %}
 <div class="card recipe-card food-bg">
     <div class="row card-content lime lighten-5">
-        <div class="col s10">
+        <div class="col s12">
             <h5>{{ recipecard.title|title }}</h5>
-        </div>
-        <div class="col s2">
-            {% if recipecard.created_by == session.user %}
+            {% if (recipecard.created_by == session.user) and (recipecard.context is not defined) %}
                 <form action="/editrecipe/{{ recipecard }}" method="post">
                     <button type="submit" name="edit" id="recipe-edit" class="btn waves-effect waves-light green"><i class="material-icons">edit</i></button>
                 </form>
             {% endif %}
+        </div>
+        <div class="col s2">
+            
         </div>
         <div class="col s12">
             <p class="recipe-created-by"><i>by {{ recipecard.created_by }}</i></p>

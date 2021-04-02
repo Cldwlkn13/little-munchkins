@@ -77,16 +77,16 @@ $(document).ready(function () {
     $('#builder-add-step').click(function() {      
         var countsteps = $('.steps .step').length;
         var i = countsteps + 1;
-        var step = `<div class='row step' id='step-${i}'>` +
+        var step = `<div class='row step cyan lighten-4' id='step-${i}'>` +
                         "<div class='input-field col m2'>" +
                             `<select id='step-${i}-type' name='step-${i}-type'>` +
-                                "<option value='1' selected>Prepare</option>" +
-                                "<option value='2'>Cook</option>" +
+                                "<option value='prepare' selected>Prepare</option>" +
+                                "<option value='cook'>Cook</option>" +
                             "</select>" +
                         "</div>" +
                         "<div class='input-field col m7'>" +
                             `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' class='validate' required />` +
-                            `<label for='step-${i}-desc'>Describe This Step</label>` +
+                            `<label for='step-${i}-desc'>Action</label>` +
                         "</div>" +
                         "<div class='input-field col m2'>" +
                             `<input type='text' id='step-${i}-time' name='step-${i}-time'  minlength='1' maxlength='3' class='validate' pattern='^[0-9.]{1,3}$' required />` +
@@ -110,7 +110,7 @@ $(document).ready(function () {
     $('#builder-add-ingredient').click(function() {      
         var countingredients = $('.ingredients .ingredient').length;
         var i = countingredients + 1;
-        var ingredient = `<div class='row ingredient' id='ingredient-${i}'>` +
+        var ingredient = `<div class='row ingredient cyan lighten-4' id='ingredient-${i}'>` +
                             "<div class='input-field col m8'>" +
                                 `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='30' class='validate' required />` +
                                 `<label for='ingredient-${i}-desc'>Ingredient</label>` +
@@ -137,7 +137,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#preview-builder').click(function(){
+    $('#preview-recipe').click(function(){
         $('#builder-form').attr("target", "_blank")
     });
 
@@ -174,16 +174,15 @@ $(document).ready(function () {
     });
 
     $('#preview-recipe').click(function(){
-        $('#editor-form').attr("method", "POST");
         $('#editor-form').attr("target", "_blank")
     });
 
     $('#delete-recipe').click(function(){
-        $('#editor-form').attr("method", "POST");
+        $('#editor-form').attr("target", "")
     });
 
     $('#cancel-changes').click(function(){
-        $('#editor-form').attr("method", "GET");
+        $('#editor-form').attr("target", "")
     });
     
 });

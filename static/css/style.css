@@ -206,7 +206,16 @@ main {
 
 #recipe-edit{
     margin-top: 5px;
-    float: right;
+    margin-bottom: 5px;
+    float: left;
+}
+
+.ingredients, .steps{
+    margin-top: 20px;
+}
+
+.ingredient, .step {
+    margin-top: 10px;
 }
 
 /* MEDIA QUERIES */
@@ -248,7 +257,19 @@ main {
         margin-top:0px;
     }
 
-    #preview-builder{
+    #preview-recipe{
+        position: relative;
+        top: auto;
+        right: auto;
+    }
+
+    #delete-recipe {
+        position: relative;
+        top: auto;
+        right: auto;
+    }
+
+    #cancel-changes{
         position: relative;
         top: auto;
         right: auto;

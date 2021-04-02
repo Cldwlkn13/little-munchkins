@@ -26,17 +26,9 @@ mongo = PyMongo(app)
 @app.route("/home")
 def home():
     recipecard = mongo.db.recipes.find_one(
-        {"_id": ObjectId("604de9e6104b280ad6fa8464")})
-    if recipecard['steps'] is not None:
-        prep_time = 0
-        cook_time = 0
-        for k, step in recipecard['steps'].items():
-            if step['type'] == "prepare":
-                prep_time = prep_time + step['time']
-            elif step['type'] == "cook":
-                cook_time = cook_time + step['time']
-        recipecard['prep_time'] = prep_time
-        recipecard['cook_time'] = cook_time
+        {"_id": ObjectId("606723fae85552aa30f3c63c")})
+    recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
+    recipecard['cook_time'] = calculateTiming(recipecard, "cook")
     return render_template("home.html", recipecard=recipecard)
 
 
@@ -153,6 +145,7 @@ def preview():
     recipecard = recipeCardBuilder(request)
     recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = calculateTiming(recipecard, "cook")
+    recipecard['context'] = "preview"
     if 'recipe_img' in request.files:
         filename = request.files['recipe_img'].filename
         if filename != "":
@@ -172,22 +165,27 @@ def editrecipe(recipecard):
     return render_template("recipe_editor.html", recipecard=js)
 
 
-@app.route("/updaterecipe", methods=['PUT'])
+@app.route("/updaterecipe", methods=['POST'])
 def updaterecipe():
+    recipecard = recipeCardBuilder(request)
+    mongo.db.recipes.update_one(
+        {"_id": ObjectId(ObjectId(str(request.form.get("_id"))))},
+        {"$set": recipecard}, upsert=False)
+    flash(f'{request.form.get("title")} has been updated')
     return redirect(url_for(
         "profile", username=session["user"]))
 
 
 @app.route("/deleterecipe", methods=['POST'])
 def deleterecipe():
-    mongo.db.recipes.remove(
-        {"_id", ObjectId(str(request.form.get("_id")))})
+    mongo.db.recipes.delete_one(
+        {"_id": ObjectId(ObjectId(str(request.form.get("_id"))))})
     flash(f'{request.form.get("title")} has been deleted')
     return redirect(url_for(
         "profile", username=session["user"]))
 
 
-@app.route("/canceledit")
+@app.route("/canceledit", methods=['POST'])
 def canceledit():
     return redirect(url_for(
         "profile", username=session["user"]))
