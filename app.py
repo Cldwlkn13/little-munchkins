@@ -210,18 +210,19 @@ def deleterecipe():
 def addfavourite():
     user = mongo.db.users.find_one(
         {"username": session['user']})
-    _id = request.form.get('recipecard')
+    _id = request.form.get('data')
+    print(_id)
     if isFavourited(user, _id):
         user['favourites'].remove(_id)
         mongo.db.users.update_one(
             {"_id": user['_id']},
             {"$set": user}, upsert=False)
-        return ('', 204)
+        return ("True", 200)
     user['favourites'].append(_id)
     mongo.db.users.update_one(
             {"_id": user['_id']},
             {"$set": user}, upsert=False)
-    return ('', 204)
+    return ("False", 200)
 
 
 @app.route("/canceledit", methods=['POST'])

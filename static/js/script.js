@@ -12,20 +12,29 @@ $(document).ready(function () {
         });
     });
 
-    //$('.add-favourite').click(function(){
-        //var data = {'data': $(this).siblings('input').attr("value") };
-        //console.log(data)
-        //$.ajax({
-            //type: "POST",
-            //data: data,
-            //url: "/addfavourite",
-            //success: function(response){   
-                //console.log(response) 
-                //$(this).removeClass('purple').addClass('light-green')
-            //}
-        //});
-    //});
+    $('.add-favourite').click(function(event){
+        event.preventDefault();
+        var myelem = $(this)
+        var data = {'data': $(this).siblings('#_id').attr("value") };
+        $.ajax({
+            type: "POST",
+            data: data,
+            url: "/favourite",
+            success: function(response){   
+                isFavourite = $.parseJSON(response.toLowerCase());
+                if(isFavourite){
+                    $(myelem).removeClass("purple").addClass("light-green");    
+                }
+                else {
+                    $(myelem).removeClass("light-green").addClass("purple");
+                }
+            }
+        });
+    });
 
+    function renderIsFavourite(element){
+        console.log(element)
+    };
 
     $('select').formSelect();
 
