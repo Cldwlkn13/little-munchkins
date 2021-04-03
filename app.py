@@ -56,7 +56,16 @@ def search():
         # search_term = form.query.data
         user = mongo.db.users.find_one(
             {"username": session["user"]})
-        results = mongo.db.recipes.find({})
+        results = list(mongo.db.recipes.find({}))
+        for result in results:
+            print(str(result['_id']))
+            print(user)
+            if isFavourited(user, result['_id']):
+                print(True)
+                result['isfavourite'] = True
+            else:
+                print(False)
+                result['isfavourite'] = False
         return render_template('search.html', form=form, results=results)
     return render_template('search.html', form=form)
 
@@ -263,10 +272,8 @@ def recipeCardBuilder(request):
 
 
 def isFavourited(user, _id):
-    print(user)
     if 'favourites' in user:
-        print("checking")
-        if _id in user['favourites']:
+        if str(_id) in user['favourites']:
             return True
     return False
 
