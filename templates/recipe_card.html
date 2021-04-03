@@ -11,7 +11,7 @@
                 <form class="favourite-form"> <!--</form> action="/favourite" method="post">-->
                     <input type="text" id="_id" value="{{ recipecard._id }}" name="recipecard" style="display: none;">
                     <input type="text" id="isfavourite" value="{{ recipecard.isfavourite }}" name="isfavourite" style="display: none;">
-                    <button type="submit" name="add-favourite" class="add-favourite btn waves-effect waves-light purple"><i class="material-icons">bookmark_border</i></button>
+                    <button type="submit" name="add-favourite" class="add-favourite btn waves-effect waves-light {{ 'light-green' if recipecard.isfavourite }} {{ 'purple' if not recipecard.isfavourite }}"><i class="material-icons">bookmark_border</i></button>
                 </form>
             {% endif %}
         </div>

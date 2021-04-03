@@ -218,6 +218,10 @@ main {
     margin-top: 10px;
 }
 
+.add-favourite{
+    margin-bottom: 5px;
+}
+
 /* MEDIA QUERIES */
 @media only screen and (max-height: 500px) {
     .opacity-layer {
