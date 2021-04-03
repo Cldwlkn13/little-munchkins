@@ -132,6 +132,10 @@ main {
     margin: auto;
 }
 
+.card-tabs {
+    margin-top: 10px;
+}
+
 .recipe-created-by {
     font-size: 12px;
 }
@@ -190,6 +194,8 @@ main {
 
 .prep-time {
     font-size: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .tabs .tab a {

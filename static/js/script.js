@@ -15,11 +15,11 @@ $(document).ready(function () {
     $('.add-favourite').click(function(event){
         event.preventDefault();
         var myelem = $(this)
-        var data = {'data': $(this).siblings('#_id').attr("value") };
+        var data = {'data': $(this).siblings('#favourite_id').attr("value") };
         $.ajax({
             type: "POST",
             data: data,
-            url: "/favourite",
+            url: "/favouriterecipe",
             success: function(response){   
                 isFavourite = $.parseJSON(response.toLowerCase());
                 if(isFavourite){
@@ -107,6 +107,7 @@ $(document).ready(function () {
                                 "<option value='prepare' selected>Prepare</option>" +
                                 "<option value='cook'>Cook</option>" +
                             "</select>" +
+                            `<label for="step-${i}-type">Action Type</label>` +
                         "</div>" +
                         "<div class='input-field col m7'>" +
                             `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' class='validate' required />` +
@@ -176,8 +177,8 @@ $(document).ready(function () {
     });
 
     $('#user-edit-submit').click(function(){
-        $(this).siblings('input').prop("disabled", true)
-        $(this).hide();
+        //$(this).siblings('input').prop("disabled", true)
+        //$(this).hide();
         $('#user-edit').show();
     });
 

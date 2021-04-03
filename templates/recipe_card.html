@@ -4,12 +4,13 @@
         <div class="col s12">
             <h5>{{ recipecard.title|title }}</h5>
             {% if (recipecard.created_by == session.user) and (recipecard.context is not defined) %}
-                <form action="/editrecipe/{{ recipecard }}" method="post">
+                <form action="/editrecipe" method="post">
+                    <input type="text" id="recipe_id" value="{{ recipecard._id }}" name="_id" style="display: none;">
                     <button type="submit" name="edit" class="recipe-edit btn waves-effect waves-light green"><i class="material-icons">edit</i></button>
                 </form>
             {% elif recipecard.isfavourite is defined %}
-                <form class="favourite-form"> <!--</form> action="/favourite" method="post">-->
-                    <input type="text" id="_id" value="{{ recipecard._id }}" name="recipecard" style="display: none;">
+                <form> 
+                    <input type="text" id="favourite_id" value="{{ recipecard._id }}" name="_id" style="display: none;">
                     <input type="text" id="isfavourite" value="{{ recipecard.isfavourite }}" name="isfavourite" style="display: none;">
                     <button type="submit" name="add-favourite" class="add-favourite btn waves-effect waves-light {{ 'light-green' if recipecard.isfavourite }} {{ 'purple' if not recipecard.isfavourite }}"><i class="material-icons">bookmark_border</i></button>
                 </form>
@@ -22,7 +23,7 @@
             <p class="recipe-created-by"><i>by {{ recipecard.created_by }}</i></p>
         </div>
     </div>
-    <div class="row prep-time">
+    <div class="row prep-time lime lighten-5">
         <div class="col s6">
             <p class="recipe-prep-time"><i class="material-icons">access_time</i> Preparation Time:
                 {% if recipecard.prep_time is defined %}
@@ -50,7 +51,7 @@
     </div>
     <div class="card-tab-content lime lighten-5">
         <div class="desc-content" style="display: block;">
-            <h6>{{ recipecard.desc }}</h6>
+            <h6><i>{{ recipecard.desc }}</i></h6>
             <p><i>Portions: {{ recipecard.portions }}</i></p>
             <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i>
             </p>

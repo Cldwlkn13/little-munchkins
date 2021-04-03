@@ -44,27 +44,6 @@ def home():
     return render_template("home.html", recipecard=recipecard)
 
 
-@app.route("/search", methods=['GET', 'POST'])
-def search():
-    form = RecipeForm()
-    if form.validate_on_submit():
-        query = form.name.data
-        user = mongo.db.users.find_one(
-            {"username": session["user"]})
-        results = list(mongo.db.recipes.find(
-            {'title': {'$regex': query}}))
-        print(results)
-        for result in results:
-            if isFavourited(user, result['_id']):
-                result['isfavourite'] = True
-            else:
-                result['isfavourite'] = False
-            result['prep_time'] = calculateTiming(result, "prepare")
-            result['cook_time'] = calculateTiming(result, "cook")
-        return render_template('search.html', form=form, results=results)
-    return render_template('search.html', form=form)
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -84,7 +63,8 @@ def register():
             "first_name": request.form.get("first_name").lower(),
             "last_name": request.form.get("last_name").lower(),
             "dob": request.form.get("dob"),
-            "country": request.form.get("country").lower()
+            "country": request.form.get("country").lower(), 
+            "favourites": []
         }
         mongo.db.users.insert_one(register)
 
@@ -133,11 +113,11 @@ def profile(username):
             recipecard['cook_time'] = calculateTiming(recipecard, "cook")
             recipecard['isfavourite'] = isFavourited(user, recipecard)
         if user['favourites']:
-            print(user['favourites'])
             objIds = []
             myfavourites = []
             for _id in user['favourites']:
-                objIds.append((ObjectId(str(_id))))
+                if type(_id) is str:
+                    objIds.append((ObjectId(str(_id))))
             for objId in objIds:
                 recipecard = mongo.db.recipes.find_one({"_id": objId})
                 recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
@@ -149,6 +129,47 @@ def profile(username):
                     myfavourites=myfavourites)
         return render_template("profile.html", user=user, myrecipes=myrecipes)
     return redirect(url_for("login"))
+
+
+@app.route("/edituser", methods=['POST'])
+def edituser():
+    user = dict(request.form)
+    user.pop('_id')
+    user['favourites'] = user['favourites'].replace("[", "").replace(
+        "]", "").replace("'", "").split(",")
+    mongo.db.users.update_one(
+        {"_id": ObjectId(str(request.form.get("_id")))},
+        {"$set": user}, upsert=False)
+    return redirect(url_for(
+        "profile", username=session["user"]))
+
+
+@app.route("/deleteuser", methods=['POST'])
+def deleteuser():
+    session.pop('user')
+    mongo.db.recipes.delete_one(
+        {"_id": ObjectId(ObjectId(str(request.form.get("_id"))))})
+    return redirect(url_for("home"))
+
+
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    form = RecipeForm()
+    if form.validate_on_submit():
+        query = form.name.data
+        user = mongo.db.users.find_one(
+            {"username": session["user"]})
+        results = list(mongo.db.recipes.find(
+            {'title': {'$regex': query}}))
+        for result in results:
+            if isFavourited(user, result['_id']):
+                result['isfavourite'] = True
+            else:
+                result['isfavourite'] = False
+            result['prep_time'] = calculateTiming(result, "prepare")
+            result['cook_time'] = calculateTiming(result, "cook")
+        return render_template('search.html', form=form, results=results)
+    return render_template('search.html', form=form)
 
 
 @app.route("/recipebuilder", methods=['GET', 'POST'])
@@ -173,7 +194,7 @@ def addrecipe():
     return redirect(url_for("profile", username=session['user']))
 
 
-@app.route("/preview", methods=['POST'])
+@app.route("/previewrecipe", methods=['POST'])
 def preview():
     recipecard = recipeCardBuilder(request)
     recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
@@ -189,10 +210,12 @@ def preview():
     return render_template("preview.html", recipecard=recipecard)
 
 
-@app.route("/editrecipe/<recipecard>", methods=['POST'])
-def editrecipe(recipecard):
-    js = jsonifyresponse(recipecard)
-    return render_template("recipe_editor.html", recipecard=js)
+@app.route("/editrecipe", methods=['POST'])
+def editrecipe():
+    objId = ObjectId(str(request.form.get('_id')))
+    recipecard = mongo.db.recipes.find_one(
+        {"_id": objId})
+    return render_template("recipe_editor.html", recipecard=recipecard)
 
 
 @app.route("/updaterecipe", methods=['POST'])
@@ -215,7 +238,7 @@ def deleterecipe():
         "profile", username=session["user"]))
 
 
-@app.route("/favourite", methods=['POST'])
+@app.route("/favouriterecipe", methods=['POST'])
 def addfavourite():
     user = mongo.db.users.find_one(
         {"username": session['user']})
@@ -233,7 +256,7 @@ def addfavourite():
     return ("True", 200)
 
 
-@app.route("/canceledit", methods=['POST'])
+@app.route("/canceleditrecipe", methods=['POST'])
 def canceledit():
     return redirect(url_for(
         "profile", username=session["user"]))
@@ -251,16 +274,7 @@ def jsonifylist(cursor):
     for doc in cursor:
         json_doc = json.dumps(doc, default=json_util.default)
         json_docs.append(json_doc)
-
     return jsonify(json_docs)
-
-
-def jsonifyresponse(recipecard):
-    recipecard = recipecard.replace("\'", "\"")
-    recipecard = recipecard.replace(
-        "ObjectId(", "").replace("),", ",")
-    js = json.loads(recipecard)
-    return js
 
 
 def recipeCardBuilder(request):
