@@ -160,20 +160,25 @@ main {
     position: fixed;
     top: 100px;
     right: 20px;
-    width: 120px;
 }
 
 #delete-recipe {
     position: fixed;
     top: 160px;
     right: 20px;
-    width: 120px;
 }
 
 #cancel-changes{
     position: fixed;
     top: 220px;
     right: 20px;
+}
+
+#builder-form button {
+    width: 120px;
+}
+
+#editor-form button {
     width: 120px;
 }
 
