@@ -5,8 +5,9 @@ from flask import (
     redirect, request, session, url_for, jsonify)
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, IntegerField
+from wtforms.validators import DataRequired, Optional
+from wtforms.widgets.html5 import NumberInput
 from flask_pymongo import PyMongo
 from bson import json_util
 from bson.json_util import dumps
@@ -29,8 +30,10 @@ Bootstrap(app)
 
 
 class RecipeForm(FlaskForm):
-    name = StringField(
+    title = StringField(
         'search recipes by name', validators=[DataRequired()])
+    months = IntegerField(
+        "Age (months)", validators=[Optional()], widget=NumberInput())
     submit = SubmitField('Submit')
 
 
@@ -161,11 +164,20 @@ def deleteuser():
 def search():
     form = RecipeForm()
     if form.validate_on_submit():
-        query = form.name.data.lower()
         user = mongo.db.users.find_one(
             {"username": session["user"]})
-        results = list(mongo.db.recipes.find(
-            {'title': {'$regex': query}}))
+        title = form.title.data.lower()
+        months = form.months.data
+        if months:
+            results = list(mongo.db.recipes.find(
+                {
+                    'title': {'$regex': title},
+                    'suitableForMinMnths': {'$lte': months},
+                    'suitableForMaxMnths': {'$gte': months}
+                }))
+        else:
+            results = list(mongo.db.recipes.find(
+                {'title': {'$regex': title}}))
         for result in results:
             if isFavourited(user, result['_id']):
                 result['isfavourite'] = True
@@ -298,9 +310,9 @@ def recipeCardBuilder(request):
         "desc": request.form.get("desc").lower(),
         "recipe_img": request.form.get('recipe_img_name'),
         "created_by": session.get("user"),
-        "portions": request.form.get("portions"),
-        "suitableForMinMnths": request.form.get("min"),
-        "suitableForMaxMnths": request.form.get("max"),
+        "portions": int(request.form.get("portions")),
+        "suitableForMinMnths": int(request.form.get("min")),
+        "suitableForMaxMnths": int(request.form.get("max")),
         "ingredients": ingredientsBuilder(
             groupFormKeys(
                 [key for key in request.form.keys() if key.startswith(
@@ -349,7 +361,7 @@ def stepsBuilder(groupedkeys):
         step = {
             "type": request.form.get("step-" + str(i) + "-type"),
             "action": request.form.get("step-" + str(i) + "-desc"),
-            "time": request.form.get("step-" + str(i) + "-time"),
+            "time": float(request.form.get("step-" + str(i) + "-time")),
         }
         stepslist.append(step)
         i = i + 1
@@ -369,9 +381,9 @@ def ingredientsBuilder(groupedkeys):
         ingredient = {
             "name": request.form.get("ingredient-" + str(i) + "-desc"),
             "qty": {
-                "measure": request.form.get(
-                    "ingredient-" + str(i) + "-measure"),
-                "unit": request.form.get("ingredient-" + str(i) + "-unit")
+                "measure": int(request.form.get(
+                    "ingredient-" + str(i) + "-measure")),
+                "unit": int(request.form.get("ingredient-" + str(i) + "-unit"))
             }
         }
         ingredientslist.append(ingredient)
