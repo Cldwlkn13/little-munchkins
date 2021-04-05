@@ -149,7 +149,8 @@ def edituser():
 @app.route("/deleteuser", methods=['POST'])
 def deleteuser():
     session.pop('user')
-    mongo.db.recipes.delete_one(
+    print(request.form.get("_id"))
+    mongo.db.users.delete_one(
         {"_id": ObjectId(str(request.form.get("_id")))})
     return redirect(url_for("home"))
 

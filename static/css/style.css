@@ -329,4 +329,9 @@ main {
         left: 40px;
         font-size: 14px;
     }
+
+    .brand-logo {
+        margin-left: 5px;
+        font-size: 12px;
+    }
 }
