@@ -118,17 +118,19 @@ def profile(username):
             myfavourites = []
             for _id in user['favourites']:
                 if type(_id) is str:
-                    objIds.append((ObjectId(str(_id))))
+                    objIds.append(ObjectId(str(_id)))
             for objId in objIds:
                 recipecard = mongo.db.recipes.find_one({"_id": objId})
                 recipecard['prep_time'] = calculateTiming(
                     recipecard, "prepare")
                 recipecard['cook_time'] = calculateTiming(recipecard, "cook")
-                recipecard['isfavourite'] = isFavourited(user, recipecard)
+                recipecard['isfavourite'] = isFavourited(
+                    user, str(recipecard['_id']))
                 myfavourites.append(recipecard)
                 myfavourites = list(myfavourites)
             return render_template(
-                "profile.html", user=user, myrecipes=myrecipes, myfavourites=myfavourites)
+                "profile.html", user=user, myrecipes=myrecipes,
+                myfavourites=myfavourites)
         return render_template("profile.html", user=user, myrecipes=myrecipes)
     return redirect(url_for("login"))
 
@@ -320,7 +322,7 @@ def isFavourited(user, _id):
 
 def calculateTiming(recipecard, src):
     t = 0
-    if recipecard['steps']:
+    if 'steps' in recipecard:
         for k, step in recipecard['steps'].items():
             if step['type'] == src:
                 t = t + int(step['time'])

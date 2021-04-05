@@ -243,7 +243,6 @@ main {
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black; 
 }
 
 .tooltip .tooltiptext {
@@ -277,6 +276,14 @@ main {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.page-footer .header-opacity {
+    padding-top: 50px;
+}
+
+a.disabled {
+    pointer-events: none;
 }
 
 /* MEDIA QUERIES */
