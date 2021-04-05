@@ -12,6 +12,7 @@ from flask_pymongo import PyMongo
 from bson import json_util
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.exceptions import HTTPException
 if os.path.exists("env.py"):
     import env
 
@@ -30,7 +31,7 @@ Bootstrap(app)
 
 class RecipeForm(FlaskForm):
     title = StringField(
-        'search recipes by name', validators=[DataRequired()])
+        'Search recipes by name', validators=[DataRequired()])
     months = IntegerField(
         "Age (months)", validators=[Optional()], widget=NumberInput())
     submit = SubmitField('Submit')
@@ -39,18 +40,18 @@ class RecipeForm(FlaskForm):
 @app.route("/")
 @app.route("/home")
 def home():
-    recipecard = mongo.db.recipes.find_one(
-        {"_id": ObjectId("606b015b1e35f5bd1498a565")})
-    if recipecard:
+    result = list(mongo.db.recipes.find())
+    if result:
+        recipecard = result[0]
         recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
         recipecard['cook_time'] = calculateTiming(recipecard, "cook")
-    return render_template("home.html", recipecard=recipecard)
+        return render_template("home.html", recipecard=recipecard)
+    return render_template("home.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-
         existing_user = mongo.db.users.find_one(
             {"username": request.form.get("username").lower()})
 
@@ -70,9 +71,8 @@ def register():
             "favourites": []
         }
         mongo.db.users.insert_one(register)
-
         session['user'] = request.form.get("username").lower()
-        flash('Regisration Succcessful')
+
         return redirect(url_for("profile", username=session['user']))
     return render_template("register.html")
 
@@ -91,9 +91,11 @@ def login():
                     request.form.get("username")))
                 return redirect(url_for(
                         "profile", username=session["user"]))
+
             else:
                 flash("Incorrect Username and/or Password")
                 return redirect(url_for('login'))
+
         else:
             flash("Incorrect Username and/or Password")
             return redirect(url_for('login'))
@@ -111,16 +113,20 @@ def profile(username):
             {"username": session["user"]})
         myrecipes = list(mongo.db.recipes.find(
             {"created_by": session["user"]}))
+
         for recipecard in myrecipes:
             recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
             recipecard['cook_time'] = calculateTiming(recipecard, "cook")
             recipecard['isfavourite'] = isFavourited(user, recipecard)
+
         if user['favourites']:
             objIds = []
             myfavourites = []
+
             for _id in user['favourites']:
                 if type(_id) is str:
                     objIds.append(ObjectId(str(_id)))
+
             for objId in objIds:
                 recipecard = mongo.db.recipes.find_one({"_id": objId})
                 recipecard['prep_time'] = calculateTiming(
@@ -141,8 +147,12 @@ def profile(username):
 def edituser():
     user = dict(request.form)
     user.pop('_id')
-    user['favourites'] = user['favourites'].replace("[", "").replace(
-        "]", "").replace("'", "").split(",")
+    if len(user['favourites']) == 2:
+        user['favourites'] = []
+    else:
+        user['favourites'] = user['favourites'].replace("[", "").replace(
+            "]", "").replace("'", "").split(",")
+            
     mongo.db.users.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
         {"$set": user}, upsert=False)
@@ -153,20 +163,22 @@ def edituser():
 @app.route("/deleteuser", methods=['POST'])
 def deleteuser():
     session.pop('user')
-    print(request.form.get("_id"))
     mongo.db.users.delete_one(
         {"_id": ObjectId(str(request.form.get("_id")))})
+    flash("Delete successful")
     return redirect(url_for("home"))
 
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
+    user = mongo.db.users.find_one(
+        {"username": session["user"]})
     form = RecipeForm()
-    if form.validate_on_submit():
-        user = mongo.db.users.find_one(
-            {"username": session["user"]})
+
+    if form.validate_on_submit() or not user:
         title = form.title.data.lower()
         months = form.months.data
+
         if months:
             results = list(mongo.db.recipes.find(
                 {
@@ -177,6 +189,7 @@ def search():
         else:
             results = list(mongo.db.recipes.find(
                 {'title': {'$regex': title}}))
+
         for result in results:
             if isFavourited(user, result['_id']):
                 result['isfavourite'] = True
@@ -192,10 +205,11 @@ def search():
 def recipebuilder():
     if session.get('user'):
         return render_template("recipe_builder.html")
+    flash("Could not identify user")
     return redirect(url_for("home"))
 
 
-@app.route("/addrecipe", methods=['GET', 'POST'])
+@app.route("/addrecipe", methods=['POST'])
 def addrecipe():
     recipecard = recipeCardBuilder(request)
     mongo.db.recipes.insert_one(recipecard)
@@ -251,8 +265,10 @@ def deleterecipe():
         {"_id": ObjectId(str(request.form.get("_id")))})
     users = list(mongo.db.users.find(
         {"favourites": str(request.form.get("_id"))}))
+
     for user in users:
         _list = list(user['favourites'])
+
         for _recipeid in _list:
             if(_recipeid == str(request.form.get("_id"))):
                 _list.remove(_recipeid)
@@ -268,24 +284,30 @@ def deleterecipe():
 def addfavourite():
     user = mongo.db.users.find_one(
         {"username": session['user']})
-    _id = request.form.get('data')
-    if isFavourited(user, _id):
-        user['favourites'].remove(_id)
+    if user:
+        _id = request.form.get('data')
+        if isFavourited(user, _id):
+            user['favourites'].remove(_id)
+            mongo.db.users.update_one(
+                {"_id": user['_id']},
+                {"$set": user}, upsert=False)
+            return ("False", 200)
+        user['favourites'].append(_id)
         mongo.db.users.update_one(
-            {"_id": user['_id']},
-            {"$set": user}, upsert=False)
-        return ("False", 200)
-    user['favourites'].append(_id)
-    mongo.db.users.update_one(
-            {"_id": user['_id']},
-            {"$set": user}, upsert=False)
-    return ("True", 200)
+                {"_id": user['_id']},
+                {"$set": user}, upsert=False)
+        return ("True", 200)
+    flash("Could not identify user")
+    return redirect(url_for('home'))
 
 
 @app.route("/canceleditrecipe", methods=['POST'])
 def canceledit():
-    return redirect(url_for(
-        "profile", username=session["user"]))
+    if session['user']:
+        return redirect(url_for(
+            "profile", username=session["user"]))
+    flash("Could not identify user")
+    return redirect(url_for('home'))
 
 
 @app.route("/logout")
@@ -293,6 +315,13 @@ def logout():
     flash("You have been logged out")
     session.pop('user')
     return redirect(url_for("home"))
+
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    if isinstance(e, HTTPException):
+        return e
+    return render_template("500_generic.html", e=e), 500
 
 
 def jsonifylist(cursor):
