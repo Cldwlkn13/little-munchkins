@@ -24,11 +24,11 @@ $(document).ready(function () {
                 isFavourite = $.parseJSON(response.toLowerCase());
                 if(isFavourite){
                     $(myelem).removeClass("purple").addClass("light-green");
-                    $(myelem).siblings('span').first().text('Remove Bookmark');
+                    $(myelem).siblings('span').first().text('Remove Favourite');
                 }
                 else {
                     $(myelem).removeClass("light-green").addClass("purple");
-                    $(myelem).siblings('span').first().text('Bookmark this recipe');
+                    $(myelem).siblings('span').first().text('Favourite this recipe');
                 }
             }
         });
