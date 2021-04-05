@@ -11,14 +11,16 @@ body {
     min-height: 100vh
 }
 
-.flashes h5 {
+.flashes {
   line-height: 2;
   position: absolute;
-  bottom: 40px;
-  right: 20px;
-  border-radius: 5px;
-  padding: 10px;
+  top: 80px;
+  right: 50px;
+  color: #ffc107;
+  border-radius: 10px;
+  padding: 10px 30px;
   z-index: 5;
+  font-size: 20px;
 }
 
 .header-opacity {
@@ -320,5 +322,11 @@ main {
 
     .card-panel {
         padding: 10px 5px;
+    }
+
+    .flashes {
+        top: 70px;
+        left: 40px;
+        font-size: 14px;
     }
 }
