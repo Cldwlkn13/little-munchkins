@@ -25,7 +25,9 @@
                     <input disabled type="date" id="dob" name="dob"  class="datepicker" value="{{ user.dob }}" required>
 
                     <label for="country">country</label>
-                    <input disabled type="text" name="country" value="{{ user.country }}" class="validate" required/>
+                    <select class="browser-default" name="country" id="country" disabled required>
+                        <option value="{{ user.country|title }}" selected>{{ user.country|title }}</option>
+                    </select>
 
                     <input disabled type="text" name="favourites" value="{{ user.favourites }}" style="display: none;"/>
                     <input disabled type="text" name="_id" value="{{ user._id }}" style="display: none;"/>

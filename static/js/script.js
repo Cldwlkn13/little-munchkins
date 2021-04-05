@@ -3,14 +3,19 @@ $(document).ready(function () {
     $('.modal').modal();
 
     $('#username').change(function(){
-        $.get('static/text/countries.txt', function (data) {
+        loadCountryOptions($('#country'));
+    });
+
+    function loadCountryOptions(elem){
+        $.get('/static/text/countries.txt', function (data) {
+            console.log(data);
             var lines = data.split('\n');
             $.each(lines, function (k, v) {
                 var $newOpt = $("<option>").attr("value", v).text(v)
-                $('#country').append($newOpt);
-            });
+                elem.append($newOpt);
+             });
         });
-    });
+    }
 
     $('.add-favourite').click(function(event){
         event.preventDefault();
@@ -174,8 +179,10 @@ $(document).ready(function () {
 
     $('#user-edit').click(function(){
         $(this).siblings('form').first().children('input').prop("disabled", false);
+        $(this).siblings('form').first().children('select').prop("disabled", false);
         $('.profile-submit-btn').show();
         $(this).hide();
+        loadCountryOptions($('#country'));
     });
 
     $('.profile-submit-btn').click(function(){
