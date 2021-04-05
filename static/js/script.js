@@ -23,10 +23,12 @@ $(document).ready(function () {
             success: function(response){   
                 isFavourite = $.parseJSON(response.toLowerCase());
                 if(isFavourite){
-                    $(myelem).removeClass("purple").addClass("light-green");    
+                    $(myelem).removeClass("purple").addClass("light-green");
+                    $(myelem).siblings('span').first().text('Remove Bookmark');
                 }
                 else {
                     $(myelem).removeClass("light-green").addClass("purple");
+                    $(myelem).siblings('span').first().text('Bookmark this recipe');
                 }
             }
         });
@@ -208,4 +210,6 @@ $(document).ready(function () {
     $('#cancel-changes').click(function(){
         $('#editor-form').attr("target", "")
     });
+
+    
 });

@@ -9,7 +9,8 @@
                     <button type="submit" name="edit" class="recipe-edit btn waves-effect waves-light green"><i class="material-icons">edit</i></button>
                 </form>
             {% elif recipecard.isfavourite is defined %}
-                <form> 
+                <form class="tooltip"> 
+                    <span class="tooltiptext">{% if recipecard.isfavourite %} Remove Bookmark {% else %} Bookmark this recipe {% endif %}</span>
                     <input type="text" id="favourite_id" value="{{ recipecard._id }}" name="_id" style="display: none;">
                     <input type="text" id="isfavourite" value="{{ recipecard.isfavourite }}" name="isfavourite" style="display: none;">
                     <button type="submit" name="add-favourite" class="add-favourite btn waves-effect waves-light {{ 'light-green' if recipecard.isfavourite }} {{ 'purple' if not recipecard.isfavourite }}"><i class="material-icons">bookmark_border</i></button>
