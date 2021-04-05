@@ -97,6 +97,7 @@ main {
 
 #sample-recipe-content {
     display: none;
+    width: 33%;
 }
 
 .home-info-text {
@@ -237,6 +238,9 @@ main {
 
 /* MEDIA QUERIES */
 @media only screen and (max-width: 993px) {
+    #sample-recipe-content {
+        width: 66%;
+    }   
 }
 
 @media only screen and (max-width: 601px) {
@@ -292,4 +296,8 @@ main {
     .builder-extra-row {
         padding:10px;
     }
+
+    #sample-recipe-content {
+        width: 90%;
+    }   
 }

@@ -37,7 +37,7 @@
                         <div class="col s12">
                             <div class="btn pink darken-4">
                                 <span>Select Image</span>
-                                <input type="file" accept="image/*" onchange="loadPreviewFile(event)" name="recipe_img">
+                                <input type="file" accept="image/*" name="recipe_img" onchange="loadPreviewFile(event)">
                             </div>
                         </div>
                         <div class="col s12">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col s12">
                             <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text">
+                                <input class="file-path validate" type="text" name="recipe_img_name">
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
 </div>
 
 <script>
-    var loadPreviewFile = function(event) { 
+    var loadPreviewFile = function(event){ 
         $('#builder-preview-img').attr("src", URL.createObjectURL(event.target.files[0]));
     };
 </script>

@@ -177,8 +177,6 @@ $(document).ready(function () {
     });
 
     $('#user-edit-submit').click(function(){
-        //$(this).siblings('input').prop("disabled", true)
-        //$(this).hide();
         $('#user-edit').show();
     });
 
@@ -209,5 +207,4 @@ $(document).ready(function () {
     $('#cancel-changes').click(function(){
         $('#editor-form').attr("target", "")
     });
-    
 });

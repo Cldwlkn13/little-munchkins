@@ -156,7 +156,7 @@ def deleteuser():
 def search():
     form = RecipeForm()
     if form.validate_on_submit():
-        query = form.name.data
+        query = form.name.data.lower()
         user = mongo.db.users.find_one(
             {"username": session["user"]})
         results = list(mongo.db.recipes.find(
@@ -186,9 +186,9 @@ def addrecipe():
     if 'recipe_img' in request.files:
         filename = request.files['recipe_img'].filename
         if filename != "":
-            file_ext = os.path.splitext(filename)[1]
+            file_ext = os.path.splitext(filename)[1].lower()
             if file_ext in app.config['UPLOAD_EXTENSIONS']:
-                path = "static/images/public/" + filename
+                path = "static/images/public/" + filename.lower()
                 request.files['recipe_img'].save(path)
     flash(f"{recipecard['title']} has been added to your recipes")
     return redirect(url_for("profile", username=session['user']))
@@ -200,6 +200,7 @@ def preview():
     recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = calculateTiming(recipecard, "cook")
     recipecard['context'] = "preview"
+    print(recipecard['recipe_img'])
     if 'recipe_img' in request.files:
         filename = request.files['recipe_img'].filename
         if filename != "":
@@ -279,17 +280,21 @@ def jsonifylist(cursor):
 
 def recipeCardBuilder(request):
     recipecard = {
-        "title": request.form.get("title"),
-        "desc": request.form.get("desc"),
-        "recipe_img": request.files['recipe_img'].filename,
+        "title": request.form.get("title").lower(),
+        "desc": request.form.get("desc").lower(),
+        "recipe_img": request.form.get('recipe_img_name'),
         "created_by": session.get("user"),
         "portions": request.form.get("portions"),
         "suitableForMinMnths": request.form.get("min"),
         "suitableForMaxMnths": request.form.get("max"),
         "ingredients": ingredientsBuilder(
-            groupFormKeys(request.form.keys(), "ingredient", 3)),
+            groupFormKeys(
+                [key for key in request.form.keys() if key.startswith(
+                    "ingredient")], 3)),
         "steps": stepsBuilder(
-            groupFormKeys(request.form.keys(), "step", 3)),
+            groupFormKeys(
+                [key for key in request.form.keys() if key.startswith(
+                    "step")], 3)),
     }
     return recipecard
 
@@ -310,8 +315,7 @@ def calculateTiming(recipecard, src):
     return t
 
 
-def groupFormKeys(keys, keytype, props):
-    keys = [key for key in keys if key.startswith(keytype)]
+def groupFormKeys(keys, props):
     requestedcount = int(len(keys) / props)
     mylist = []
     for x in range(requestedcount):
