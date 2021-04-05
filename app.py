@@ -152,7 +152,7 @@ def edituser():
     else:
         user['favourites'] = user['favourites'].replace("[", "").replace(
             "]", "").replace("'", "").split(",")
-            
+
     mongo.db.users.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
         {"$set": user}, upsert=False)

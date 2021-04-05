@@ -16,10 +16,10 @@
                     <input disabled type="email" name="email" value="{{ user.email }}" class="validate" required/>
 
                     <label for="first_name">first name</label>
-                    <input disabled type="text" name="first_name" value="{{ user.first_name }}" class="validate" required/>
+                    <input disabled type="text" name="first_name" value="{{ user.first_name|title }}" class="validate" required/>
 
                     <label for="last_name">last name</label>
-                    <input disabled type="text" name="last_name" value="{{ user.last_name }}" class="validate" required/>
+                    <input disabled type="text" name="last_name" value="{{ user.last_name|title }}" class="validate" required/>
 
                     <label for="dob">date of birth</label>
                     <input disabled type="date" id="dob" name="dob"  class="datepicker" value="{{ user.dob }}" required>
