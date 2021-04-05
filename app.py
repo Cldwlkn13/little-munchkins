@@ -411,7 +411,7 @@ def ingredientsBuilder(groupedkeys):
             "qty": {
                 "measure": int(request.form.get(
                     "ingredient-" + str(i) + "-measure")),
-                "unit": int(request.form.get("ingredient-" + str(i) + "-unit"))
+                "unit": request.form.get("ingredient-" + str(i) + "-unit")
             }
         }
         ingredientslist.append(ingredient)
