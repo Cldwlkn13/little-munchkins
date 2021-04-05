@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 {% block fullcontent %}
+<!-- header -->    
    {% include "header.html" %}
+   <!-- flash messages -->
    {% include "flashes.html" %}
 
+    <!-- content -->
     <section class="content">
         {% block content %}
         {% endblock %}
     </section>
 
+    <!-- footer --> 
     {% include "footer.html" %}
 {% endblock %}
 

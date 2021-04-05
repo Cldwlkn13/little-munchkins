@@ -38,9 +38,10 @@ class RecipeForm(FlaskForm):
 @app.route("/home")
 def home():
     recipecard = mongo.db.recipes.find_one(
-        {"_id": ObjectId("606723fae85552aa30f3c63c")})
-    recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
-    recipecard['cook_time'] = calculateTiming(recipecard, "cook")
+        {"_id": ObjectId("606b015b1e35f5bd1498a565")})
+    if recipecard:
+        recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
+        recipecard['cook_time'] = calculateTiming(recipecard, "cook")
     return render_template("home.html", recipecard=recipecard)
 
 
@@ -63,7 +64,7 @@ def register():
             "first_name": request.form.get("first_name").lower(),
             "last_name": request.form.get("last_name").lower(),
             "dob": request.form.get("dob"),
-            "country": request.form.get("country").lower(), 
+            "country": request.form.get("country").lower(),
             "favourites": []
         }
         mongo.db.users.insert_one(register)
@@ -120,13 +121,14 @@ def profile(username):
                     objIds.append((ObjectId(str(_id))))
             for objId in objIds:
                 recipecard = mongo.db.recipes.find_one({"_id": objId})
-                recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
+                recipecard['prep_time'] = calculateTiming(
+                    recipecard, "prepare")
                 recipecard['cook_time'] = calculateTiming(recipecard, "cook")
                 recipecard['isfavourite'] = isFavourited(user, recipecard)
                 myfavourites.append(recipecard)
                 myfavourites = list(myfavourites)
-            return render_template("profile.html", user=user, myrecipes=myrecipes,
-                    myfavourites=myfavourites)
+            return render_template(
+                "profile.html", user=user, myrecipes=myrecipes, myfavourites=myfavourites)
         return render_template("profile.html", user=user, myrecipes=myrecipes)
     return redirect(url_for("login"))
 
@@ -148,7 +150,7 @@ def edituser():
 def deleteuser():
     session.pop('user')
     mongo.db.recipes.delete_one(
-        {"_id": ObjectId(ObjectId(str(request.form.get("_id"))))})
+        {"_id": ObjectId(str(request.form.get("_id")))})
     return redirect(url_for("home"))
 
 
@@ -200,7 +202,6 @@ def preview():
     recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = calculateTiming(recipecard, "cook")
     recipecard['context'] = "preview"
-    print(recipecard['recipe_img'])
     if 'recipe_img' in request.files:
         filename = request.files['recipe_img'].filename
         if filename != "":
@@ -233,7 +234,17 @@ def updaterecipe():
 @app.route("/deleterecipe", methods=['POST'])
 def deleterecipe():
     mongo.db.recipes.delete_one(
-        {"_id": ObjectId(ObjectId(str(request.form.get("_id"))))})
+        {"_id": ObjectId(str(request.form.get("_id")))})
+    users = list(mongo.db.users.find(
+        {"favourites": str(request.form.get("_id"))}))
+    for user in users:
+        _list = list(user['favourites'])
+        for _recipeid in _list:
+            if(_recipeid == str(request.form.get("_id"))):
+                _list.remove(_recipeid)
+        mongo.db.users.update_one(
+            {"_id": ObjectId(str(user["_id"]))},
+            {"$set": {"favourites": _list}})
     flash(f'{request.form.get("title")} has been deleted')
     return redirect(url_for(
         "profile", username=session["user"]))
@@ -308,7 +319,7 @@ def isFavourited(user, _id):
 
 def calculateTiming(recipecard, src):
     t = 0
-    if recipecard['steps'] is not None:
+    if recipecard['steps']:
         for k, step in recipecard['steps'].items():
             if step['type'] == src:
                 t = t + int(step['time'])

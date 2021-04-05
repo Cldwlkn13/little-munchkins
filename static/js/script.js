@@ -172,12 +172,13 @@ $(document).ready(function () {
 
     $('#user-edit').click(function(){
         $(this).siblings('form').first().children('input').prop("disabled", false);
-        $('#user-edit-submit').show();
+        $('.profile-submit-btn').show();
         $(this).hide();
     });
 
-    $('#user-edit-submit').click(function(){
+    $('.profile-submit-btn').click(function(){
         $('#user-edit').show();
+        $('.profile-submit-btn').hide();
     });
 
     $(`.remove-step`).on('click',function(){

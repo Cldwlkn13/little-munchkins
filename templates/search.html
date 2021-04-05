@@ -1,25 +1,31 @@
 {% extends "base_overlay.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-    <section>
-        <div class="container">
-            <div class="card-panel">
-                {{ wtf.quick_form(form) }}
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="container">
-            <div class="card-panel">
-            {% for recipecard in results %}
-                <div class="row">
-                    <div class="col s12 m6">
-                        {% include "recipe_card.html" %}
-                    </div>
+    <div class="search-wrapper">
+        <section class="search-form">
+            <div class="container">
+                <div class="card-panel">
+                    {{ wtf.quick_form(form) }}
                 </div>
-            {% endfor %}
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section class="search-results">
+            <div class="container">
+                <div class="card-panel">
+                {% if results|length %}
+                <div class="row">
+                {% for recipecard in results %}
+                        <div class="col s12 m6">
+                            {% include "recipe_card.html" %}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                    <p>no results found</p>
+                {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
 {% endblock %}

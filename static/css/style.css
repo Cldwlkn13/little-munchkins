@@ -208,8 +208,8 @@ main {
     float: right;
 }
 
-#user-edit-submit{
-    margin-top: 20px;
+.profile-submit-btn{
+    margin: 20px;
 }
 
 .recipe-edit{
@@ -228,6 +228,14 @@ main {
 
 .add-favourite{
     margin-bottom: 5px;
+}
+
+.profile-wrapper .recipe-card {
+    margin-bottom: 25px;
+}
+
+.search-results .recipe-card {
+    margin-bottom: 25px;
 }
 
 /* MEDIA QUERIES */
@@ -301,4 +309,16 @@ main {
     #sample-recipe-content {
         width: 90%;
     }   
+
+    .search-wrapper .container {
+        padding: 5px;
+    }
+
+    .card-panel h5{
+        text-align: center;
+    }
+
+    .card-panel {
+        padding: 10px 5px;
+    }
 }
