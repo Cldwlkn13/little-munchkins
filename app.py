@@ -156,6 +156,7 @@ def edituser():
     mongo.db.users.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
         {"$set": user}, upsert=False)
+    session["user"] = request.form.get("username").lower()
     return redirect(url_for(
         "profile", username=session["user"]))
 

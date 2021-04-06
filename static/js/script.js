@@ -36,7 +36,26 @@ $(document).ready(function () {
                 }
             }
         });
+
+        if($('#profile-wrap').is(":visible")){
+            refreshProfile();
+        }
     });
+
+    function refreshProfile() {
+        var username = $('input[name="username"]');
+        var isDisabled = username.attr('disabled') == "disabled";
+        var url = "/profile/" + username.attr("value")
+        if(isDisabled){
+            $.ajax({
+                type: "GET",
+                url: url,
+                success:function(response){ 
+                    window.location.reload();
+                }
+            });
+        }
+    }
 
     $('select').formSelect();
 
