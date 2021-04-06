@@ -41,13 +41,21 @@
         <div class="col s12 m4" id="my-recipes">
              <div class="card-panel">
                 <h5>My Recipes</h5>
-                {% include "my_recipes.html" %}
+                {% if (myrecipes is not defined) or (myrecipes|length) %}
+                    <p>You have not created any recipes yet.</p>
+                {% else %}
+                    {% include "my_recipes.html" %}
+                {% endif %}
             </div>
         </div>
         <div class="col s12 m4" id="my-favourites">
             <div class="card-panel">
                 <h5>My Favourites</h5>
-                {% include "my_favourites.html" %}
+                {% if (myfavourites is not defined) or (myfavourites|length) %}
+                    <p>You have no favourites yet.</p>
+                {% else %}
+                    {% include "my_favourites.html" %}
+                {% endif %}
             </div>
         </div>
     </div>

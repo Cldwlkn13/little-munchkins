@@ -6,7 +6,7 @@ from flask import (
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import Optional
 from wtforms.widgets.html5 import NumberInput
 from flask_pymongo import PyMongo
 from bson import json_util
@@ -31,7 +31,7 @@ Bootstrap(app)
 
 class RecipeForm(FlaskForm):
     title = StringField(
-        'Search recipes by name', validators=[DataRequired()])
+        'Search recipes by name', validators=[Optional()])
     months = IntegerField(
         "Age (months)", validators=[Optional()], widget=NumberInput())
     submit = SubmitField('Submit')
@@ -113,6 +113,7 @@ def profile(username):
             {"username": session["user"]})
         myrecipes = list(mongo.db.recipes.find(
             {"created_by": session["user"]}))
+        myfavourites = []
 
         for recipecard in myrecipes:
             recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
@@ -121,7 +122,6 @@ def profile(username):
 
         if user['favourites']:
             objIds = []
-            myfavourites = []
 
             for _id in user['favourites']:
                 if type(_id) is str:
@@ -136,10 +136,24 @@ def profile(username):
                     user, str(recipecard['_id']))
                 myfavourites.append(recipecard)
                 myfavourites = list(myfavourites)
+
+        if user and myrecipes and myfavourites:
             return render_template(
                 "profile.html", user=user, myrecipes=myrecipes,
                 myfavourites=myfavourites)
-        return render_template("profile.html", user=user, myrecipes=myrecipes)
+
+        elif user and myrecipes and not myfavourites:
+            return render_template(
+                "profile.html", user=user, myrecipes=myrecipes)
+
+        elif user and myfavourites and not myrecipes:
+            return render_template(
+                "profile.html", user=user, myfavourites=myfavourites)
+
+        else:
+            return render_template(
+                "profile.html", user=user)
+
     return redirect(url_for("login"))
 
 
@@ -176,20 +190,33 @@ def search():
         {"username": session["user"]})
     form = RecipeForm()
 
-    if form.validate_on_submit() or not user:
+    if form.validate_on_submit() and user:
         title = form.title.data.lower()
         months = form.months.data
 
-        if months:
+        if title and not months:
+            results = list(mongo.db.recipes.find(
+                {
+                    'title': {'$regex': title}
+                }))
+
+        elif months and not title:
+            results = list(mongo.db.recipes.find(
+                {
+                    'suitableForMinMnths': {'$lte': months},
+                    'suitableForMaxMnths': {'$gte': months}
+                }))
+
+        elif not title and not months:
+            results = list(mongo.db.recipes.find({}))
+
+        else:
             results = list(mongo.db.recipes.find(
                 {
                     'title': {'$regex': title},
                     'suitableForMinMnths': {'$lte': months},
                     'suitableForMaxMnths': {'$gte': months}
                 }))
-        else:
-            results = list(mongo.db.recipes.find(
-                {'title': {'$regex': title}}))
 
         for result in results:
             if isFavourited(user, result['_id']):
