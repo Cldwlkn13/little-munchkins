@@ -368,7 +368,8 @@ def logout():
 def handle_exception(e):
     if isinstance(e, HTTPException):
         code = e.code
-        return  render_template("400_generic.html", e=e, code=code), code
+        return render_template(
+            "400_generic.html", e=e, code=code), code
     return render_template("500_generic.html", e=e), 500
 
 
