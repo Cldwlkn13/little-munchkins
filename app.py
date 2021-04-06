@@ -4,15 +4,12 @@ from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for, jsonify)
 from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField
-from wtforms.validators import Optional
-from wtforms.widgets.html5 import NumberInput
 from flask_pymongo import PyMongo
 from bson import json_util
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.exceptions import HTTPException
+from recipeform import RecipeForm
 if os.path.exists("env.py"):
     import env
 
@@ -27,14 +24,6 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 Bootstrap(app)
-
-
-class RecipeForm(FlaskForm):
-    title = StringField(
-        'Search recipes by name', validators=[Optional()])
-    months = IntegerField(
-        "Age (months)", validators=[Optional()], widget=NumberInput())
-    submit = SubmitField('Submit')
 
 
 @app.route("/")
