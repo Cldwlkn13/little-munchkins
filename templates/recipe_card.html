@@ -5,14 +5,14 @@
             <h5>{{ recipecard.title|title }}</h5>
             {% if (recipecard.created_by == session.user) and (recipecard.context is not defined) %}
                 <form action="/editrecipe" method="post">
-                    <input type="text" id="recipe_id" value="{{ recipecard._id }}" name="_id" style="display: none;">
+                    <input type="text" value="{{ recipecard._id }}" name="_id" style="display: none;">
                     <button type="submit" name="edit" class="recipe-edit btn waves-effect waves-light green"><i class="material-icons">edit</i></button>
                 </form>
             {% elif recipecard.isfavourite is defined %}
                 <form class="tooltip"> 
                     <span class="tooltiptext">{% if recipecard.isfavourite %} Remove Favourite {% else %} Favourite this recipe {% endif %}</span>
-                    <input type="text" id="favourite_id" value="{{ recipecard._id }}" name="_id" style="display: none;">
-                    <input type="text" id="isfavourite" value="{{ recipecard.isfavourite }}" name="isfavourite" style="display: none;">
+                    <input type="text" value="{{ recipecard._id }}" name="_id" style="display: none;">
+                    <input type="text" value="{{ recipecard.isfavourite }}" name="isfavourite" style="display: none;">
                     <button type="submit" name="add-favourite" class="add-favourite btn waves-effect waves-light {{ 'light-green' if recipecard.isfavourite }} {{ 'purple' if not recipecard.isfavourite }}"><i class="material-icons">bookmark_border</i></button>
                 </form>
             {% endif %}
@@ -43,15 +43,21 @@
             <img class="recipe-img" src="../static/images/public/{{ recipecard.recipe_img }}">
         {% endif %}
     </div>
-    <div class="card-tabs">
+    <div class="row">
+        <div class="col s6 offset-s3 tooltip center-align">
+            <span class="tooltiptext center-align"> Click to see more </span>
+            <a href="#" class="expand-content center-align black-text"><i class="material-icons">expand_more</i></a>
+        </div>
+    </div>
+    <div class="card-tabs" style="display: none;">
         <ul class="tabs tabs-fixed-width">
             <li class="tab"><a class="desc-tab tab-link grey darken-3 light-green-text active">Description</a></li>
             <li class="tab"><a class="ingredients-tab tab-link light-green-text text-lighten-1">Ingredients</a></li>
             <li class="tab"><a class="method-tab tab-link light-green-text text-lighten-2">Method</a></li>
         </ul>
     </div>
-    <div class="card-tab-content lime lighten-5">
-        <div class="desc-content" style="display: block;">
+    <div class="card-tab-content lime lighten-5" style="display: none;">
+        <div class="desc-content" style="display: none;">
             <h6><i>{{ recipecard.desc }}</i></h6>
             <p><i>Portions: {{ recipecard.portions }}</i></p>
             <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i>

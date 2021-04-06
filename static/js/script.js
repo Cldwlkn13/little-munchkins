@@ -8,7 +8,6 @@ $(document).ready(function () {
 
     function loadCountryOptions(elem){
         $.get('/static/text/countries.txt', function (data) {
-            console.log(data);
             var lines = data.split('\n');
             $.each(lines, function (k, v) {
                 var $newOpt = $("<option>").attr("value", v).text(v)
@@ -20,7 +19,7 @@ $(document).ready(function () {
     $('.add-favourite').click(function(event){
         event.preventDefault();
         var myelem = $(this)
-        var data = {'data': $(this).siblings('#favourite_id').attr("value") };
+        var data = {'data': $(this).siblings('input[name="_id"]').attr("value") };
         $.ajax({
             type: "POST",
             data: data,
@@ -38,10 +37,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    function renderIsFavourite(element){
-        console.log(element)
-    };
 
     $('select').formSelect();
 
@@ -61,7 +56,6 @@ $(document).ready(function () {
 
     $('.ingredients-tab, .desc-tab, .method-tab').click(function(){        
         var selector = $(this).prop('className').split(' ')[0].replace("-tab", "");
-        console.log(selector);
         $(this).addClass("active grey darken-3");
         $(this).parent().siblings(".tab").find(".tab-link").removeClass("active grey darken-3");
         var tabs = $(this).parent().parent().parent().next();
@@ -218,5 +212,19 @@ $(document).ready(function () {
         $('#editor-form').attr("target", "")
     });
 
-    
+    $('.expand-content').click(function(){
+        if($(this).hasClass('expanded')) {
+            $(this).siblings('span').first().text("Click to see more")
+            $(this).children('i').first().text("expand_more");
+            $(this).parent().parent().siblings('.card-tabs').css("display", "none");
+            $(this).parent().parent().siblings('.card-tab-content').css("display", "none");
+            $(this).removeClass('expanded');
+            return;
+        }
+        $(this).siblings('span').first().text("Click to see less");
+        $(this).children('i').first().text("expand_less");
+        $(this).parent().parent().siblings('.card-tabs').css("display", "block");
+        $(this).parent().parent().siblings('.card-tab-content').css("display", "block");
+        $(this).addClass('expanded');
+    });
 });
