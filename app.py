@@ -368,7 +368,7 @@ def logout():
 def handle_exception(e):
     if isinstance(e, HTTPException):
         code = e.code
-        return jsonify(error=str(e)), code
+        return  render_template("400_generic.html", e=e, code=code), code
     return render_template("500_generic.html", e=e), 500
 
 
@@ -498,7 +498,7 @@ def ingredientsBuilder(groupedkeys, request):
                     "measure": measure,
                     "unit": unit
                 }
-            }   
+            }
             ingredientslist.append(ingredient)
 
     ingredientsdict = {}
