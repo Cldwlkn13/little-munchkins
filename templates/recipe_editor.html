@@ -112,7 +112,7 @@
                                         <label for="ingredient-{{ loop.index }}-measure">Measure</label>
                                     </div>
                                     <div class="input-field col m1">
-                                        <input type="text" id="ingredient-${i}-unit" name="ingredient-{{ loop.index }}-unit"  minlength="1" maxlength="8" class="validate" pattern="^[a-z]{1,8}$" value="{{ingredient[1].qty.unit}}" required />
+                                        <input type="text" id="ingredient-${i}-unit" name="ingredient-{{ loop.index }}-unit"  minlength="1" maxlength="8" class="validate" pattern="^[a-z]{1,8}$" value="{{ingredient[1].qty.unit}}" />
                                         <label for="ingredient-{{ loop.index }}-unit">Unit</label>
                                     </div>
                                     <div class="input-field col m1">

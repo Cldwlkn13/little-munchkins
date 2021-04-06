@@ -165,7 +165,7 @@ $(document).ready(function () {
                                 `<label for='ingredient-${i}-measure'>Measure</label>` +
                             "</div>" +
                             "<div class='input-field col m1'>" +
-                                `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  minlength='1' maxlength='8' class='validate' pattern='^[a-z]{1,8}$' required />` +
+                                `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  minlength='1' maxlength='8' class='validate' pattern='^[a-z]{1,8}$' />` +
                                 `<label for='ingredient-${i}-unit'>Unit</label>` +
                             "</div>" +
                             "<div class='input-field col m1'>" +
