@@ -26,13 +26,13 @@
     </div>
     <div class="row prep-time lime lighten-5">
         <div class="col s6">
-            <p class="recipe-prep-time"><i class="material-icons">access_time</i> Preparation Time:
+            <p class="recipe-prep-time center-align"><i class="material-icons">access_time</i> Preparation Time:
                 {% if recipecard.prep_time is defined %}
                     {{ recipecard.prep_time|int }} mins</p>
                 {% endif %}
         </div>
         <div class="col s6">
-            <p class="recipe-cook-time"><i class="material-icons">restaurant</i> Cooking Time:
+            <p class="recipe-cook-time center-align"><i class="material-icons">restaurant</i> Cooking Time:
                 {% if recipecard.cook_time is defined %}
                     {{ recipecard.cook_time|int }} mins</p>
                 {% endif %}

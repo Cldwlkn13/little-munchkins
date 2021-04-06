@@ -294,6 +294,10 @@ a.disabled {
     padding: 5px 3px;
 }
 
+.prep-time .col .row{
+    margin: 0;
+}
+
 /* MEDIA QUERIES */
 @media only screen and (max-height: 500px) {
     .opacity-layer {

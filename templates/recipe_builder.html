@@ -128,7 +128,7 @@
         if(event.target.files[0].size > (1024 * 1024)){
             $('input[name="recipe_img"]').val('')
             $('input[name="recipe_img_name"]').val('');
-            alert('file is too large, please select another');
+            alert('file is too large, limit is 1MB, please select another');
             return;
         }
         $('#builder-preview-img').attr("src", URL.createObjectURL(event.target.files[0]));
