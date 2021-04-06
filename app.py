@@ -367,7 +367,6 @@ def logout():
 @app.errorhandler(Exception)
 def handle_exception(e):
     if isinstance(e, HTTPException):
-        print("called here")
         code = e.code
         return jsonify(error=str(e)), code
     return render_template("500_generic.html", e=e), 500
@@ -393,11 +392,11 @@ def recipeCardBuilder(request):
         "ingredients": ingredientsBuilder(
             groupFormKeys(
                 [key for key in request.form.keys() if key.startswith(
-                    "ingredient")], 3)),
+                    "ingredient")], 3), request),
         "steps": stepsBuilder(
             groupFormKeys(
                 [key for key in request.form.keys() if key.startswith(
-                    "step")], 3)),
+                    "step")], 3), request),
     }
     return recipecard
 
@@ -419,25 +418,31 @@ def calculateTiming(recipecard, src):
 
 
 def groupFormKeys(keys, props):
-    requestedcount = int(len(keys) / props)
+    max_iter = 0
+    if keys:
+        max_iter = int(keys[-1].split("-")[1])
+    _dict = dict({})
     mylist = []
-    for x in range(requestedcount):
-        mylist2 = []
+    for x in range(max_iter):
+        _dict[x] = []
         for k in keys:
             _iter = k.split("-")[1]
             if(int(_iter) == int((x + 1))):
-                mylist2.append(k)
-        mylist.append(mylist2)
+                _dict[x].append(k)
+        if _dict[x]:
+            mylist.append(_dict[x])
     return mylist
 
 
-def stepsBuilder(groupedkeys):
-    i = 1
+def stepsBuilder(groupedkeys, request):
+    max_iter = 0
+    if groupedkeys:
+        max_iter = int(groupedkeys[-1][0].split("-")[1]) + 1
     stepslist = []
-    for s in groupedkeys:
+    for i in range(1, max_iter):
         t = ""
         action = ""
-        time = 0.0
+        time = 0
 
         if "step-" + str(i) + "-type" in request.form:
             t = request.form.get("step-" + str(i) + "-type")
@@ -446,15 +451,16 @@ def stepsBuilder(groupedkeys):
             action = request.form.get("step-" + str(i) + "-desc")
 
         if "step-" + str(i) + "-time" in request.form:
-            time = float(request.form.get("step-" + str(i) + "-time"))
+            time = int(request.form.get("step-" + str(i) + "-time"))
 
-        step = {
-            "type": t,
-            "action": action,
-            "time": time,
-        }
-        stepslist.append(step)
-        i = i + 1
+        step = {}
+        if action != "":
+            step = {
+                "type": t,
+                "action": action,
+                "time": time,
+            }
+            stepslist.append(step)
 
     stepsdict = {}
     i = 0
@@ -464,10 +470,12 @@ def stepsBuilder(groupedkeys):
     return stepsdict
 
 
-def ingredientsBuilder(groupedkeys):
-    i = 1
+def ingredientsBuilder(groupedkeys, request):
+    max_iter = 0
+    if groupedkeys:
+        max_iter = int(groupedkeys[-1][0].split("-")[1]) + 1
     ingredientslist = []
-    for s in groupedkeys:
+    for i in range(1, max_iter):
         desc = ""
         measure = 0
         unit = ""
@@ -482,16 +490,16 @@ def ingredientsBuilder(groupedkeys):
         if "ingredient-" + str(i) + "-unit" in request.form:
             unit = request.form.get("ingredient-" + str(i) + "-unit")
 
-        ingredient = {
-            "name": desc,
-            "qty": {
-                "measure": measure,
-                "unit": unit
-            }
-        }
-
-        ingredientslist.append(ingredient)
-        i = i + 1
+        ingredient = {}
+        if desc != "":
+            ingredient = {
+                "name": desc,
+                "qty": {
+                    "measure": measure,
+                    "unit": unit
+                }
+            }   
+            ingredientslist.append(ingredient)
 
     ingredientsdict = {}
     i = 0

@@ -134,7 +134,7 @@ $(document).ready(function () {
                             `<label for='step-${i}-desc'>Action</label>` +
                         "</div>" +
                         "<div class='input-field col m2'>" +
-                            `<input type='text' id='step-${i}-time' name='step-${i}-time'  minlength='1' maxlength='3' class='validate' pattern='^[0-9.]{1,3}$' required />` +
+                            `<input type='text' id='step-${i}-time' name='step-${i}-time'  minlength='1' maxlength='3' class='validate' pattern='^[0-9]{1,3}$' required />` +
                             `<label for='step-${i}-time'>Time (mins)</label>` +
                         "</div>" +
                         "<div class='input-field col m1'>" +
@@ -207,7 +207,8 @@ $(document).ready(function () {
         if(confirm("Are you sure?")) {
             var i = $(this).get(0).id.split('-')[2]
             $(`#step-${i}`).hide();
-                $(`#step-${i}`).children().find('input').attr("disabled", true);
+            $(`#step-${i}`).children().find('input').attr("disabled", true);
+            $(`#step-${i}`).children().find('select').attr("disabled", true);
         }
     });
 
@@ -215,7 +216,7 @@ $(document).ready(function () {
         if(confirm("Are you sure?")) {
             var i = $(this).get(0).id.split('-')[2]
             $(`#ingredient-${i}`).hide();
-                $(`#ingredient-${i}`).children().find('input').attr("disabled", true);
+            $(`#ingredient-${i}`).children().find('input').attr("disabled", true);
         }
     });
 
