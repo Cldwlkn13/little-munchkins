@@ -136,30 +136,21 @@ def profile(username):
                     user, str(recipecard['_id']))
                 myfavourites.append(recipecard)
                 myfavourites = list(myfavourites)
-        print()
-        print(user)
-        print()
-        print(myrecipes)
-        print()
-        print(myfavourites)
+
         if user and myrecipes and myfavourites:
-            print("boo")
             return render_template(
                 "profile.html", user=user, myrecipes=myrecipes,
                 myfavourites=myfavourites)
 
         elif user and myrecipes and not myfavourites:
-            print("hiss")
             return render_template(
                 "profile.html", user=user, myrecipes=myrecipes)
 
         elif user and myfavourites and not myrecipes:
-            print("here")
             return render_template(
                 "profile.html", user=user, myfavourites=myfavourites)
 
         else:
-            print("else")
             return render_template(
                 "profile.html", user=user)
 
@@ -234,6 +225,7 @@ def search():
                 result['isfavourite'] = False
             result['prep_time'] = calculateTiming(result, "prepare")
             result['cook_time'] = calculateTiming(result, "cook")
+
         return render_template('search.html', form=form, results=results)
     return render_template('search.html', form=form)
 
@@ -242,22 +234,29 @@ def search():
 def recipebuilder():
     if session.get('user'):
         return render_template("recipe_builder.html")
+
     flash("Could not identify user")
     return redirect(url_for("home"))
 
 
 @app.route("/addrecipe", methods=['POST'])
 def addrecipe():
+
     recipecard = recipeCardBuilder(request)
-    mongo.db.recipes.insert_one(recipecard)
+
     if 'recipe_img' in request.files:
-        filename = request.files['recipe_img'].filename
-        if filename != "":
-            file_ext = os.path.splitext(filename)[1].lower()
-            if file_ext in app.config['UPLOAD_EXTENSIONS']:
-                path = "static/images/public/" + filename.lower()
-                request.files['recipe_img'].save(path)
+        if request.form.get('recipe_img_name') != "":
+            filename = request.files['recipe_img'].filename
+            if filename != "":
+                file_ext = os.path.splitext(filename)[1].lower()
+                if file_ext in app.config['UPLOAD_EXTENSIONS']:
+                    path = "static/images/public/" + filename.lower()
+                    request.files['recipe_img'].save(path)
+
+    mongo.db.recipes.insert_one(recipecard)
+
     flash(f"{recipecard['title']} has been added to your recipes")
+
     return redirect(url_for("profile", username=session['user']))
 
 
@@ -267,6 +266,7 @@ def preview():
     recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = calculateTiming(recipecard, "cook")
     recipecard['context'] = "preview"
+
     if 'recipe_img' in request.files:
         filename = request.files['recipe_img'].filename
         if filename != "":
@@ -274,24 +274,30 @@ def preview():
             if file_ext in app.config['UPLOAD_EXTENSIONS']:
                 path = "static/images/public/" + filename
                 request.files['recipe_img'].save(path)
+
     return render_template("preview.html", recipecard=recipecard)
 
 
 @app.route("/editrecipe", methods=['POST'])
 def editrecipe():
     objId = ObjectId(str(request.form.get('_id')))
+
     recipecard = mongo.db.recipes.find_one(
         {"_id": objId})
+
     return render_template("recipe_editor.html", recipecard=recipecard)
 
 
 @app.route("/updaterecipe", methods=['POST'])
 def updaterecipe():
     recipecard = recipeCardBuilder(request)
+
     mongo.db.recipes.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
         {"$set": recipecard}, upsert=False)
+
     flash(f'{request.form.get("title")} has been updated')
+
     return redirect(url_for(
         "profile", username=session["user"]))
 
@@ -300,6 +306,7 @@ def updaterecipe():
 def deleterecipe():
     mongo.db.recipes.delete_one(
         {"_id": ObjectId(str(request.form.get("_id")))})
+
     users = list(mongo.db.users.find(
         {"favourites": str(request.form.get("_id"))}))
 
@@ -309,10 +316,13 @@ def deleterecipe():
         for _recipeid in _list:
             if(_recipeid == str(request.form.get("_id"))):
                 _list.remove(_recipeid)
+
         mongo.db.users.update_one(
             {"_id": ObjectId(str(user["_id"]))},
             {"$set": {"favourites": _list}})
+
     flash(f'{request.form.get("title")} has been deleted')
+
     return redirect(url_for(
         "profile", username=session["user"]))
 
@@ -357,7 +367,9 @@ def logout():
 @app.errorhandler(Exception)
 def handle_exception(e):
     if isinstance(e, HTTPException):
-        return e
+        print("called here")
+        code = e.code
+        return jsonify(error=str(e)), code
     return render_template("500_generic.html", e=e), 500
 
 
@@ -423,10 +435,23 @@ def stepsBuilder(groupedkeys):
     i = 1
     stepslist = []
     for s in groupedkeys:
+        t = ""
+        action = ""
+        time = 0.0
+
+        if "step-" + str(i) + "-type" in request.form:
+            t = request.form.get("step-" + str(i) + "-type")
+
+        if "step-" + str(i) + "-desc" in request.form:
+            action = request.form.get("step-" + str(i) + "-desc")
+
+        if "step-" + str(i) + "-time" in request.form:
+            time = float(request.form.get("step-" + str(i) + "-time"))
+
         step = {
-            "type": request.form.get("step-" + str(i) + "-type"),
-            "action": request.form.get("step-" + str(i) + "-desc"),
-            "time": float(request.form.get("step-" + str(i) + "-time")),
+            "type": t,
+            "action": action,
+            "time": time,
         }
         stepslist.append(step)
         i = i + 1
@@ -443,14 +468,28 @@ def ingredientsBuilder(groupedkeys):
     i = 1
     ingredientslist = []
     for s in groupedkeys:
+        desc = ""
+        measure = 0
+        unit = ""
+
+        if "ingredient-" + str(i) + "-desc" in request.form:
+            desc = request.form.get("ingredient-" + str(i) + "-desc")
+
+        if "ingredient-" + str(i) + "-measure" in request.form:
+            measure = int(request.form.get(
+                    "ingredient-" + str(i) + "-measure"))
+
+        if "ingredient-" + str(i) + "-unit" in request.form:
+            unit = request.form.get("ingredient-" + str(i) + "-unit")
+
         ingredient = {
-            "name": request.form.get("ingredient-" + str(i) + "-desc"),
+            "name": desc,
             "qty": {
-                "measure": int(request.form.get(
-                    "ingredient-" + str(i) + "-measure")),
-                "unit": request.form.get("ingredient-" + str(i) + "-unit")
+                "measure": measure,
+                "unit": unit
             }
         }
+
         ingredientslist.append(ingredient)
         i = i + 1
 
