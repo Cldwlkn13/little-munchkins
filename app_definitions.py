@@ -1,6 +1,6 @@
 import json
 from bson import json_util
-from flask import request, jsonify
+from flask import jsonify
 
 
 class AppDefinitions(object):
@@ -17,23 +17,23 @@ class AppDefinitions(object):
             json_docs.append(json_doc)
         return jsonify(json_docs)
 
-    def recipeCardBuilder(self, formrequest, user):
+    def recipeCardBuilder(self, requestform, user):
         recipecard = {
-            "title": request.form.get("title").lower(),
-            "desc": request.form.get("desc").lower(),
-            "recipe_img": request.form.get('recipe_img_name'),
+            "title": requestform.get("title").lower(),
+            "desc": requestform.get("desc").lower(),
+            "recipe_img": requestform.get('recipe_img_name'),
             "created_by": user,
-            "portions": int(request.form.get("portions")),
-            "suitableForMinMnths": int(request.form.get("min")),
-            "suitableForMaxMnths": int(request.form.get("max")),
+            "portions": int(requestform.get("portions")),
+            "suitableForMinMnths": int(requestform.get("min")),
+            "suitableForMaxMnths": int(requestform.get("max")),
             "ingredients": self.ingredientsBuilder(
                 self.groupFormKeys(
-                    [key for key in request.form.keys() if key.startswith(
-                        "ingredient")], 3), request),
+                    [key for key in requestform.keys() if key.startswith(
+                        "ingredient")], 3), requestform),
             "steps": self.stepsBuilder(
                 self.groupFormKeys(
-                    [key for key in request.form.keys() if key.startswith(
-                        "step")], 3), request),
+                    [key for key in requestform.keys() if key.startswith(
+                        "step")], 3), requestform),
         }
         return recipecard
 
@@ -47,21 +47,22 @@ class AppDefinitions(object):
 
     def groupFormKeys(self, keys, props):
         max_iter = 0
-        if keys:
-            max_iter = int(keys[-1].split("-")[1])
         _dict = dict({})
         mylist = []
-        for x in range(max_iter):
-            _dict[x] = []
-            for k in keys:
-                _iter = k.split("-")[1]
-                if(int(_iter) == int((x + 1))):
-                    _dict[x].append(k)
-            if _dict[x]:
-                mylist.append(_dict[x])
+        if len(keys) > 0:
+            max_iter = int(keys[-1].split("-")[1])
+
+            for x in range(max_iter):
+                _dict[x] = []
+                for k in keys:
+                    _iter = k.split("-")[1]
+                    if(int(_iter) == int((x + 1))):
+                        _dict[x].append(k)
+                if _dict[x]:
+                    mylist.append(_dict[x])
         return mylist
 
-    def stepsBuilder(self, groupedkeys, request):
+    def stepsBuilder(self, groupedkeys, requestform):
         max_iter = 0
         if groupedkeys:
             max_iter = int(groupedkeys[-1][0].split("-")[1]) + 1
@@ -71,14 +72,14 @@ class AppDefinitions(object):
             action = ""
             time = 0
 
-            if "step-" + str(i) + "-type" in request.form:
-                t = request.form.get("step-" + str(i) + "-type")
+            if "step-" + str(i) + "-type" in requestform:
+                t = requestform.get("step-" + str(i) + "-type")
 
-            if "step-" + str(i) + "-desc" in request.form:
-                action = request.form.get("step-" + str(i) + "-desc")
+            if "step-" + str(i) + "-desc" in requestform:
+                action = requestform.get("step-" + str(i) + "-desc")
 
-            if "step-" + str(i) + "-time" in request.form:
-                time = int(request.form.get("step-" + str(i) + "-time"))
+            if "step-" + str(i) + "-time" in requestform:
+                time = int(requestform.get("step-" + str(i) + "-time"))
 
             step = {}
             if action != "":
@@ -96,7 +97,7 @@ class AppDefinitions(object):
             i = i + 1
         return stepsdict
 
-    def ingredientsBuilder(self, groupedkeys, request):
+    def ingredientsBuilder(self, groupedkeys, requestform):
         max_iter = 0
         if groupedkeys:
             max_iter = int(groupedkeys[-1][0].split("-")[1]) + 1
@@ -106,15 +107,15 @@ class AppDefinitions(object):
             measure = 0
             unit = ""
 
-            if "ingredient-" + str(i) + "-desc" in request.form:
-                desc = request.form.get("ingredient-" + str(i) + "-desc")
+            if "ingredient-" + str(i) + "-desc" in requestform:
+                desc = requestform.get("ingredient-" + str(i) + "-desc")
 
-            if "ingredient-" + str(i) + "-measure" in request.form:
-                measure = int(request.form.get(
+            if "ingredient-" + str(i) + "-measure" in requestform:
+                measure = int(requestform.get(
                         "ingredient-" + str(i) + "-measure"))
 
-            if "ingredient-" + str(i) + "-unit" in request.form:
-                unit = request.form.get("ingredient-" + str(i) + "-unit")
+            if "ingredient-" + str(i) + "-unit" in requestform:
+                unit = requestform.get("ingredient-" + str(i) + "-unit")
 
             ingredient = {}
             if desc != "":

@@ -233,7 +233,7 @@ def recipebuilder():
 @app.route("/addrecipe", methods=['POST'])
 def addrecipe():
 
-    recipecard = defs.recipeCardBuilder(request, session['user'])
+    recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
     if 'recipe_img' in request.files:
         if request.form.get('recipe_img_name') != "":
@@ -253,7 +253,7 @@ def addrecipe():
 
 @app.route("/previewrecipe", methods=['POST'])
 def preview():
-    recipecard = defs.recipeCardBuilder(request, session['user'])
+    recipecard = defs.recipeCardBuilder(request.form, session['user'])
     recipecard['prep_time'] = defs.calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
     recipecard['context'] = "preview"
@@ -281,7 +281,7 @@ def editrecipe():
 
 @app.route("/updaterecipe", methods=['POST'])
 def updaterecipe():
-    recipecard = defs.recipeCardBuilder(request, session['user'])
+    recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
     mongo.db.recipes.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
