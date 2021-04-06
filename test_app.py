@@ -38,7 +38,8 @@ class TestApp(unittest.TestCase):
         isfav = defs.isFavourited(user, _id)
         self.assertFalse(isfav)
 
-    # Testing recipeCardBuilder() (rcb) ---> groupFormKeys() ---> stepsBuilder()/ingredientsBuilder()
+    # Testing recipeCardBuilder() (rcb) ---> groupFormKeys() --->
+    # stepsBuilder()/ingredientsBuilder()
     def test_rcb_withSimpleObj_shouldReturnRecipeCard(self):
         requestform = {
             "title": "test",
@@ -177,6 +178,95 @@ class TestApp(unittest.TestCase):
         self.app = app.test_client()
         response = self.app.get("/")
         self.assertEqual(response.status_code, 200)
+
+    def test_callRegister(self):
+        self.app = app.test_client()
+        requestform = {
+            "username": "test_user",
+            "password": "test_pass",
+            "email": "test@testy.com",
+            "first_name": "test",
+            "last_name": "testington",
+            "dob": "01/01/2013",
+            "country": "Testville",
+        }
+
+        response = self.app.post(
+            "/register", data=requestform, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_callLogin(self):
+        self.app = app.test_client()
+        requestform = {
+            "username": "test_user",
+            "password": "test_pass",
+        }
+
+        response = self.app.post(
+            "/login", data=requestform, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_callSearch(self):
+        self.app = app.test_client()
+        response = self.app.get("/search")
+        self.assertEqual(response.status_code, 200)
+
+    def test_callRecipeBuilder(self):
+        self.app = app.test_client()
+        response = self.app.get("/recipebuilder")
+        self.assertEqual(response.status_code, 302)
+
+    def test_callAddRecipe(self):
+        with app.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['user'] = 'test_user'
+                sess['_fresh'] = True
+            resp = c.post("/addrecipe", data={})
+            self.assertEqual(resp.status_code, 302)
+
+    def test_callPreviewRecipe(self):
+        requestform = {
+            "title": "test",
+            "desc": "test desc",
+            "portions": 4,
+            "min": 1,
+            "max": 72,
+            "step-1-desc": "test_step",
+            "step-1-type": "prepare",
+            "step-1-time": 5,
+        }
+        with app.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['user'] = 'test_user'
+                sess['_fresh'] = True
+            resp = c.post("/previewrecipe", data=requestform)
+            self.assertEqual(resp.status_code, 200)
+
+    def test_callEditRecipe(self):
+        with app.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['user'] = 'test_user'
+                sess['_fresh'] = True
+            resp = c.post(
+                "/editrecipe", data={"_id": "111"})
+            self.assertEqual(resp.status_code, 500)
+
+    def test_callFavouriteRecipe(self):
+        with app.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['user'] = 'some_fake_user'
+                sess['_fresh'] = True
+            resp = c.post(
+                "/favouriterecipe", data={})
+            self.assertEqual(resp.status_code, 302)
+
+    def test_callLogout(self):
+        with app.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['user'] = 'some_fake_user'
+                sess['_fresh'] = True
+            resp = c.get("/logout")
+            self.assertEqual(resp.status_code, 302)
 
 
 if __name__ == '__main__':

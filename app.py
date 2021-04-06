@@ -15,6 +15,7 @@ if os.path.exists("env.py"):
 
 app = Flask(__name__)
 
+
 app.config["MONGO_DB"] = os.environ.get("MONGO_DB")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
@@ -177,45 +178,48 @@ def deleteuser():
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
-    user = mongo.db.users.find_one(
-        {"username": session["user"]})
     form = RecipeForm()
+    user = ""
+    if request.method == 'POST':
+        if session['user']:
+            user = mongo.db.users.find_one(
+                {"username": session["user"]})
 
-    if form.validate_on_submit() and user:
-        title = form.title.data.lower()
-        months = form.months.data
+        if form.validate_on_submit() and user != "":
+            title = form.title.data.lower()
+            months = form.months.data
 
-        if title and not months:
-            results = list(mongo.db.recipes.find(
-                {
-                    'title': {'$regex': title}
-                }))
+            if title and not months:
+                results = list(mongo.db.recipes.find(
+                    {
+                        'title': {'$regex': title}
+                    }))
 
-        elif months and not title:
-            results = list(mongo.db.recipes.find(
-                {
-                    'suitableForMinMnths': {'$lte': months},
-                    'suitableForMaxMnths': {'$gte': months}
-                }))
+            elif months and not title:
+                results = list(mongo.db.recipes.find(
+                    {
+                        'suitableForMinMnths': {'$lte': months},
+                        'suitableForMaxMnths': {'$gte': months}
+                    }))
 
-        elif not title and not months:
-            results = list(mongo.db.recipes.find({}))
+            elif not title and not months:
+                results = list(mongo.db.recipes.find({}))
 
-        else:
-            results = list(mongo.db.recipes.find(
-                {
-                    'title': {'$regex': title},
-                    'suitableForMinMnths': {'$lte': months},
-                    'suitableForMaxMnths': {'$gte': months}
-                }))
-
-        for result in results:
-            if defs.isFavourited(user, result['_id']):
-                result['isfavourite'] = True
             else:
-                result['isfavourite'] = False
-            result['prep_time'] = defs.calculateTiming(result, "prepare")
-            result['cook_time'] = defs.calculateTiming(result, "cook")
+                results = list(mongo.db.recipes.find(
+                    {
+                        'title': {'$regex': title},
+                        'suitableForMinMnths': {'$lte': months},
+                        'suitableForMaxMnths': {'$gte': months}
+                    }))
+
+            for result in results:
+                if defs.isFavourited(user, result['_id']):
+                    result['isfavourite'] = True
+                else:
+                    result['isfavourite'] = False
+                result['prep_time'] = defs.calculateTiming(result, "prepare")
+                result['cook_time'] = defs.calculateTiming(result, "cook")
 
         return render_template('search.html', form=form, results=results)
     return render_template('search.html', form=form)
@@ -232,23 +236,22 @@ def recipebuilder():
 
 @app.route("/addrecipe", methods=['POST'])
 def addrecipe():
+    if session and session['user'] and request.form:
+        recipecard = defs.recipeCardBuilder(request.form, session['user'])
+        if 'recipe_img' in request.files:
+            if request.form.get('recipe_img_name') != "":
+                filename = request.files['recipe_img'].filename
+                if filename != "":
+                    file_ext = os.path.splitext(filename)[1].lower()
+                    if file_ext in app.config['UPLOAD_EXTENSIONS']:
+                        path = "static/images/public/" + filename.lower()
+                        request.files['recipe_img'].save(path)
 
-    recipecard = defs.recipeCardBuilder(request.form, session['user'])
+        mongo.db.recipes.insert_one(recipecard)
 
-    if 'recipe_img' in request.files:
-        if request.form.get('recipe_img_name') != "":
-            filename = request.files['recipe_img'].filename
-            if filename != "":
-                file_ext = os.path.splitext(filename)[1].lower()
-                if file_ext in app.config['UPLOAD_EXTENSIONS']:
-                    path = "static/images/public/" + filename.lower()
-                    request.files['recipe_img'].save(path)
-
-    mongo.db.recipes.insert_one(recipecard)
-
-    flash(f"{recipecard['title']} has been added to your recipes")
-
-    return redirect(url_for("profile", username=session['user']))
+        flash(f"{recipecard['title']} has been added to your recipes")
+        return redirect(url_for("profile", username=session['user']))
+    return redirect(url_for("login"))
 
 
 @app.route("/previewrecipe", methods=['POST'])
@@ -272,11 +275,12 @@ def preview():
 @app.route("/editrecipe", methods=['POST'])
 def editrecipe():
     objId = ObjectId(str(request.form.get('_id')))
-
-    recipecard = mongo.db.recipes.find_one(
-        {"_id": objId})
-
-    return render_template("recipe_editor.html", recipecard=recipecard)
+    try:
+        recipecard = list(mongo.db.recipes.find(
+            {"_id": objId}))
+        return render_template("recipe_editor.html", recipecard=recipecard[0])
+    except(Exception):
+        raise
 
 
 @app.route("/updaterecipe", methods=['POST'])
@@ -341,7 +345,7 @@ def addfavourite():
 
 @app.route("/canceleditrecipe", methods=['POST'])
 def canceledit():
-    if session['user']:
+    if session and session['user']:
         return redirect(url_for(
             "profile", username=session["user"]))
     flash("Could not identify user")
@@ -351,8 +355,9 @@ def canceledit():
 @app.route("/logout")
 def logout():
     flash("You have been logged out")
-    session.pop('user')
-    return redirect(url_for("home"))
+    if session:
+        session.pop('user')
+        return redirect(url_for("home"))
 
 
 @app.errorhandler(Exception)
