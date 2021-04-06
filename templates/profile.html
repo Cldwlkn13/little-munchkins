@@ -41,7 +41,7 @@
         <div class="col s12 m4" id="my-recipes">
              <div class="card-panel">
                 <h5>My Recipes</h5>
-                {% if (myrecipes is not defined) or (myrecipes|length) %}
+                {% if (myrecipes is not defined) or (myrecipes|length == 0) %}
                     <p>You have not created any recipes yet.</p>
                 {% else %}
                     {% include "my_recipes.html" %}
@@ -51,7 +51,7 @@
         <div class="col s12 m4" id="my-favourites">
             <div class="card-panel">
                 <h5>My Favourites</h5>
-                {% if (myfavourites is not defined) or (myfavourites|length) %}
+                {% if (myfavourites is not defined) or (myfavourites|length == 0) %}
                     <p>You have no favourites yet.</p>
                 {% else %}
                     {% include "my_favourites.html" %}

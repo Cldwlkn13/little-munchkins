@@ -136,21 +136,30 @@ def profile(username):
                     user, str(recipecard['_id']))
                 myfavourites.append(recipecard)
                 myfavourites = list(myfavourites)
-
+        print()
+        print(user)
+        print()
+        print(myrecipes)
+        print()
+        print(myfavourites)
         if user and myrecipes and myfavourites:
+            print("boo")
             return render_template(
                 "profile.html", user=user, myrecipes=myrecipes,
                 myfavourites=myfavourites)
 
         elif user and myrecipes and not myfavourites:
+            print("hiss")
             return render_template(
                 "profile.html", user=user, myrecipes=myrecipes)
 
         elif user and myfavourites and not myrecipes:
+            print("here")
             return render_template(
                 "profile.html", user=user, myfavourites=myfavourites)
 
         else:
+            print("else")
             return render_template(
                 "profile.html", user=user)
 
