@@ -290,6 +290,10 @@ a.disabled {
     pointer-events: none;
 }
 
+.tabs .tab a {
+    padding: 5px 3px;
+}
+
 /* MEDIA QUERIES */
 @media only screen and (max-height: 500px) {
     .opacity-layer {

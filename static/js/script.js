@@ -225,6 +225,7 @@ $(document).ready(function () {
         $(this).children('i').first().text("expand_less");
         $(this).parent().parent().siblings('.card-tabs').css("display", "block");
         $(this).parent().parent().siblings('.card-tab-content').css("display", "block");
+        $(this).parent().parent().siblings('.card-tab-content').children('.desc-content').first().css("display", "block");
         $(this).addClass('expanded');
     });
 });

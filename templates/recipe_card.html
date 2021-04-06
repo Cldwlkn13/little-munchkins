@@ -46,14 +46,14 @@
     <div class="row">
         <div class="col s6 offset-s3 tooltip center-align">
             <span class="tooltiptext center-align"> Click to see more </span>
-            <a href="#" class="expand-content center-align black-text"><i class="material-icons">expand_more</i></a>
+            <a class="expand-content center-align black-text"><i class="material-icons">expand_more</i></a>
         </div>
     </div>
     <div class="card-tabs" style="display: none;">
         <ul class="tabs tabs-fixed-width">
-            <li class="tab"><a class="desc-tab tab-link grey darken-3 light-green-text active">Description</a></li>
-            <li class="tab"><a class="ingredients-tab tab-link light-green-text text-lighten-1">Ingredients</a></li>
-            <li class="tab"><a class="method-tab tab-link light-green-text text-lighten-2">Method</a></li>
+            <li class="tab"><a class="desc-tab tab-link grey darken-3 light-green-text active"><i class="material-icons">border_color</i></a></li>
+            <li class="tab"><a class="ingredients-tab tab-link light-green-text text-lighten-1"><i class="material-icons">format_list_bulleted</i></a></li>
+            <li class="tab"><a class="method-tab tab-link light-green-text text-lighten-2"><i class="material-icons">av_timer</i></a></li>
         </ul>
     </div>
     <div class="card-tab-content lime lighten-5" style="display: none;">
@@ -64,6 +64,7 @@
             </p>
         </div>
         <div class="ingredients-content" style="display: none;">
+            <h6>Ingredients</h6>
             {% if recipecard.ingredients is defined %}
                 {% for k, ingredient in recipecard.ingredients.items() %}
                     <p>- {{ ingredient.name|capitalize }} - {{ ingredient.qty.measure }}{{ ingredient.qty.unit }}</p>
