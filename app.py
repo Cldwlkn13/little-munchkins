@@ -1,15 +1,14 @@
 import os
-import json
 from flask import (
     Flask, flash, render_template,
-    redirect, request, session, url_for, jsonify)
+    redirect, request, session, url_for)
 from flask_bootstrap import Bootstrap
 from flask_pymongo import PyMongo
-from bson import json_util
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.exceptions import HTTPException
 from recipeform import RecipeForm
+from app_definitions import AppDefinitions
 if os.path.exists("env.py"):
     import env
 
@@ -24,6 +23,7 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 Bootstrap(app)
+defs = AppDefinitions()
 
 
 @app.route("/")
@@ -32,8 +32,8 @@ def home():
     result = list(mongo.db.recipes.find())
     if result:
         recipecard = result[0]
-        recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
-        recipecard['cook_time'] = calculateTiming(recipecard, "cook")
+        recipecard['prep_time'] = defs.calculateTiming(recipecard, "prepare")
+        recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
         return render_template("home.html", recipecard=recipecard)
     return render_template("home.html")
 
@@ -105,9 +105,10 @@ def profile(username):
         myfavourites = []
 
         for recipecard in myrecipes:
-            recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
-            recipecard['cook_time'] = calculateTiming(recipecard, "cook")
-            recipecard['isfavourite'] = isFavourited(user, recipecard)
+            recipecard['prep_time'] = defs.calculateTiming(
+                recipecard, "prepare")
+            recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
+            recipecard['isfavourite'] = defs.isFavourited(user, recipecard)
 
         if user['favourites']:
             objIds = []
@@ -118,10 +119,11 @@ def profile(username):
 
             for objId in objIds:
                 recipecard = mongo.db.recipes.find_one({"_id": objId})
-                recipecard['prep_time'] = calculateTiming(
+                recipecard['prep_time'] = defs.calculateTiming(
                     recipecard, "prepare")
-                recipecard['cook_time'] = calculateTiming(recipecard, "cook")
-                recipecard['isfavourite'] = isFavourited(
+                recipecard['cook_time'] = defs.calculateTiming(
+                    recipecard, "cook")
+                recipecard['isfavourite'] = defs.isFavourited(
                     user, str(recipecard['_id']))
                 myfavourites.append(recipecard)
                 myfavourites = list(myfavourites)
@@ -208,12 +210,12 @@ def search():
                 }))
 
         for result in results:
-            if isFavourited(user, result['_id']):
+            if defs.isFavourited(user, result['_id']):
                 result['isfavourite'] = True
             else:
                 result['isfavourite'] = False
-            result['prep_time'] = calculateTiming(result, "prepare")
-            result['cook_time'] = calculateTiming(result, "cook")
+            result['prep_time'] = defs.calculateTiming(result, "prepare")
+            result['cook_time'] = defs.calculateTiming(result, "cook")
 
         return render_template('search.html', form=form, results=results)
     return render_template('search.html', form=form)
@@ -231,7 +233,7 @@ def recipebuilder():
 @app.route("/addrecipe", methods=['POST'])
 def addrecipe():
 
-    recipecard = recipeCardBuilder(request)
+    recipecard = defs.recipeCardBuilder(request, session['user'])
 
     if 'recipe_img' in request.files:
         if request.form.get('recipe_img_name') != "":
@@ -251,9 +253,9 @@ def addrecipe():
 
 @app.route("/previewrecipe", methods=['POST'])
 def preview():
-    recipecard = recipeCardBuilder(request)
-    recipecard['prep_time'] = calculateTiming(recipecard, "prepare")
-    recipecard['cook_time'] = calculateTiming(recipecard, "cook")
+    recipecard = defs.recipeCardBuilder(request, session['user'])
+    recipecard['prep_time'] = defs.calculateTiming(recipecard, "prepare")
+    recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
     recipecard['context'] = "preview"
 
     if 'recipe_img' in request.files:
@@ -279,7 +281,7 @@ def editrecipe():
 
 @app.route("/updaterecipe", methods=['POST'])
 def updaterecipe():
-    recipecard = recipeCardBuilder(request)
+    recipecard = defs.recipeCardBuilder(request, session['user'])
 
     mongo.db.recipes.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
@@ -322,7 +324,7 @@ def addfavourite():
         {"username": session['user']})
     if user:
         _id = request.form.get('data')
-        if isFavourited(user, _id):
+        if defs.isFavourited(user, _id):
             user['favourites'].remove(_id)
             mongo.db.users.update_one(
                 {"_id": user['_id']},
@@ -360,143 +362,6 @@ def handle_exception(e):
         return render_template(
             "400_generic.html", e=e, code=code), code
     return render_template("500_generic.html", e=e), 500
-
-
-def jsonifylist(cursor):
-    json_docs = []
-    for doc in cursor:
-        json_doc = json.dumps(doc, default=json_util.default)
-        json_docs.append(json_doc)
-    return jsonify(json_docs)
-
-
-def recipeCardBuilder(request):
-    recipecard = {
-        "title": request.form.get("title").lower(),
-        "desc": request.form.get("desc").lower(),
-        "recipe_img": request.form.get('recipe_img_name'),
-        "created_by": session.get("user"),
-        "portions": int(request.form.get("portions")),
-        "suitableForMinMnths": int(request.form.get("min")),
-        "suitableForMaxMnths": int(request.form.get("max")),
-        "ingredients": ingredientsBuilder(
-            groupFormKeys(
-                [key for key in request.form.keys() if key.startswith(
-                    "ingredient")], 3), request),
-        "steps": stepsBuilder(
-            groupFormKeys(
-                [key for key in request.form.keys() if key.startswith(
-                    "step")], 3), request),
-    }
-    return recipecard
-
-
-def isFavourited(user, _id):
-    if 'favourites' in user:
-        if str(_id) in user['favourites']:
-            return True
-    return False
-
-
-def calculateTiming(recipecard, src):
-    t = 0
-    if 'steps' in recipecard:
-        for k, step in recipecard['steps'].items():
-            if step['type'] == src:
-                t = t + int(step['time'])
-    return t
-
-
-def groupFormKeys(keys, props):
-    max_iter = 0
-    if keys:
-        max_iter = int(keys[-1].split("-")[1])
-    _dict = dict({})
-    mylist = []
-    for x in range(max_iter):
-        _dict[x] = []
-        for k in keys:
-            _iter = k.split("-")[1]
-            if(int(_iter) == int((x + 1))):
-                _dict[x].append(k)
-        if _dict[x]:
-            mylist.append(_dict[x])
-    return mylist
-
-
-def stepsBuilder(groupedkeys, request):
-    max_iter = 0
-    if groupedkeys:
-        max_iter = int(groupedkeys[-1][0].split("-")[1]) + 1
-    stepslist = []
-    for i in range(1, max_iter):
-        t = ""
-        action = ""
-        time = 0
-
-        if "step-" + str(i) + "-type" in request.form:
-            t = request.form.get("step-" + str(i) + "-type")
-
-        if "step-" + str(i) + "-desc" in request.form:
-            action = request.form.get("step-" + str(i) + "-desc")
-
-        if "step-" + str(i) + "-time" in request.form:
-            time = int(request.form.get("step-" + str(i) + "-time"))
-
-        step = {}
-        if action != "":
-            step = {
-                "type": t,
-                "action": action,
-                "time": time,
-            }
-            stepslist.append(step)
-
-    stepsdict = {}
-    i = 0
-    for s in stepslist:
-        stepsdict.update({str(i): s})
-        i = i + 1
-    return stepsdict
-
-
-def ingredientsBuilder(groupedkeys, request):
-    max_iter = 0
-    if groupedkeys:
-        max_iter = int(groupedkeys[-1][0].split("-")[1]) + 1
-    ingredientslist = []
-    for i in range(1, max_iter):
-        desc = ""
-        measure = 0
-        unit = ""
-
-        if "ingredient-" + str(i) + "-desc" in request.form:
-            desc = request.form.get("ingredient-" + str(i) + "-desc")
-
-        if "ingredient-" + str(i) + "-measure" in request.form:
-            measure = int(request.form.get(
-                    "ingredient-" + str(i) + "-measure"))
-
-        if "ingredient-" + str(i) + "-unit" in request.form:
-            unit = request.form.get("ingredient-" + str(i) + "-unit")
-
-        ingredient = {}
-        if desc != "":
-            ingredient = {
-                "name": desc,
-                "qty": {
-                    "measure": measure,
-                    "unit": unit
-                }
-            }
-            ingredientslist.append(ingredient)
-
-    ingredientsdict = {}
-    i = 0
-    for s in ingredientslist:
-        ingredientsdict.update({str(i): s})
-        i = i + 1
-    return ingredientsdict
 
 
 if __name__ == "__main__":
