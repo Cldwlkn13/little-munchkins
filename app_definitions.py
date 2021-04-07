@@ -29,11 +29,11 @@ class AppDefinitions(object):
             "ingredients": self.ingredientsBuilder(
                 self.groupFormKeys(
                     [key for key in requestform.keys() if key.startswith(
-                        "ingredient")], 3), requestform),
+                        "ingredient")]), requestform),
             "steps": self.stepsBuilder(
                 self.groupFormKeys(
                     [key for key in requestform.keys() if key.startswith(
-                        "step")], 3), requestform),
+                        "step")]), requestform),
         }
         return recipecard
 
@@ -45,7 +45,7 @@ class AppDefinitions(object):
                     t = t + int(step['time'])
         return t
 
-    def groupFormKeys(self, keys, props):
+    def groupFormKeys(self, keys):
         max_iter = 0
         _dict = dict({})
         mylist = []

@@ -20,7 +20,7 @@ class TestApp(unittest.TestCase):
         isfav = defs.isFavourited(user, _id)
         self.assertTrue(isfav)
 
-    def test_isFavourited_hasFavouritesWithIncCorrectId_expectFalse(self):
+    def test_isFavourited_hasFavouritesWithIncorrectId_expectFalse(self):
         user = {'favourites': ["Iwanttopass"]}
         _id = "thisshouldnotpass"
         isfav = defs.isFavourited(user, _id)
@@ -40,7 +40,7 @@ class TestApp(unittest.TestCase):
 
     # Testing recipeCardBuilder() (rcb) ---> groupFormKeys() --->
     # stepsBuilder()/ingredientsBuilder()
-    def test_rcb_withSimpleObj_shouldReturnRecipeCard(self):
+    def test_rcb_withSimpleObj_expectRecipeCard(self):
         requestform = {
             "title": "test",
             "desc": "test desc",
@@ -55,7 +55,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(recipeCard['portions'], 4)
         self.assertEqual(recipeCard['suitableForMinMnths'], 1)
 
-    def test_rcb_withOneIngredientAndOneStep_shouldReturnRecipeCard(self):
+    def test_rcb_withOneIngredientAndOneStep_expectRecipeCard(self):
         requestform = {
             "title": "test",
             "desc": "test desc",
@@ -78,7 +78,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(
             recipeCard['ingredients']['0']['name'], "test_ingredient")
 
-    def test_rcb_withManyIngredientsAndManySteps_shouldReturnRecipeCard(self):
+    def test_rcb_withManyIngredientsAndManySteps_expectRecipeCard(self):
         requestform = {
             "title": "test",
             "desc": "test desc",
@@ -111,7 +111,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(
             recipeCard['steps']['1']['action'], "test_step_2")
 
-    def test_rcb_withIngredAndStepsWrongOrder_shouldReturnRecipeCard(self):
+    def test_rcb_withIngredAndStepsWrongOrder_expectRecipeCard(self):
         requestform = {
             "title": "test",
             "desc": "test desc",
@@ -133,6 +133,71 @@ class TestApp(unittest.TestCase):
             recipeCard['ingredients']['0']['name'], "test_ingredient_2")
         self.assertEqual(
             recipeCard['steps']['0']['action'], "test_step_2")
+
+    # Testing groupFormKeys()
+    def test_groupFormKeys_withOneSet_expectList(self):
+        _keys = ['step-1-desc', 'step-1-type', 'step-1-time']
+        _list = defs.groupFormKeys(_keys)
+        self.assertIsNotNone(_list)
+        self.assertTrue(len(_list), 1)
+        self.assertEqual(str(_list[0]), "['step-1-desc', 'step-1-type', 'step-1-time']")
+
+    def test_groupFormKeys_withManySets_expectList(self):
+        _keys = ['step-1-desc', 'step-1-type', 'step-1-time',
+         'step-2-desc', 'step-2-type', 'step-2-time']
+        _list = defs.groupFormKeys(_keys)
+        self.assertIsNotNone(_list)
+        self.assertTrue(len(_list), 2)
+        self.assertEqual(str(_list[1]), "['step-2-desc', 'step-2-type', 'step-2-time']")
+
+    def test_groupFormKeys_withEmptyKeys_expectList(self):
+        _keys = []
+        _list = defs.groupFormKeys(_keys)
+        self.assertEqual([], _list)
+
+    # Testing stepsBuilder()
+    def test_stepsBuilder_withKeysAndForm_expectObj(self):
+        _groupedKeys = [['step-1-desc', 'step-1-type', 'step-1-time']]
+        _requestform = {'step-1-desc': "test_desc", 'step-1-type': "prepare", 'step-1-time': 1}
+        _steps = defs.stepsBuilder(_groupedKeys, _requestform)
+        self.assertIsNotNone(_steps)
+        self.assertEqual(_steps, {'0': {'type': 'prepare', 'action': 'test_desc', 'time': 1}})
+
+    def test_stepsBuilder_withKeysAndNoForm_expectEmptyObj(self):
+        _groupedKeys = [['step-1-desc', 'step-1-type', 'step-1-time']]
+        _requestform = {}
+        _steps = defs.stepsBuilder(_groupedKeys, _requestform)
+        self.assertIsNotNone(_steps)
+        self.assertEqual(_steps, {})
+
+    def test_stepsBuilder_withNoKeysAndForm_expectEmptyObj(self):
+        _groupedKeys = []
+        _requestform = {'step-1-desc': "test_desc", 'step-1-type': "prepare", 'step-1-time': 1}
+        _steps = defs.stepsBuilder(_groupedKeys, _requestform)
+        self.assertIsNotNone(_steps)
+        self.assertEqual(_steps, {})
+
+    # Testing ingredientsBuilder()
+    def test_ingredientsBuilder_withKeysAndForm_expectObj(self):
+        _groupedKeys = [['ingredient-1-desc', 'ingredient-1-measure', 'ingredient-1-unit']]
+        _requestform = {'ingredient-1-desc': "test_desc", 'ingredient-1-measure': 100, 'ingredient-1-unit': "g"}
+        _ingredients = defs.ingredientsBuilder(_groupedKeys, _requestform)
+        self.assertIsNotNone(_ingredients)
+        self.assertEqual(_ingredients, {'0': {'name': 'test_desc', 'qty': {'measure': 100, 'unit': 'g'}}})
+
+    def test_ingredientsBuilder_withKeysAndNoForm_expectEmptyObj(self):
+        _groupedKeys = [['ingredient-1-desc', 'ingredient-1-measure', 'ingredient-1-unit']]
+        _requestform = {}
+        _ingredients = defs.ingredientsBuilder(_groupedKeys, _requestform)
+        self.assertIsNotNone(_ingredients)
+        self.assertEqual(_ingredients, {})
+
+    def test_ingredientsBuilder_withNoKeysAndForm_expectEmptyObj(self):
+        _groupedKeys = []
+        _requestform = {'ingredient-1-desc': "test_desc", 'ingredient-1-measure': 100, 'ingredient-1-unit': "g"}
+        _ingredients = defs.ingredientsBuilder(_groupedKeys, _requestform)
+        self.assertIsNotNone(_ingredients)
+        self.assertEqual(_ingredients, {})
 
     # Testing calculateTiming()
     def test_calculateTiming_WithOneStep_AssertTrue(self):
@@ -174,12 +239,12 @@ class TestApp(unittest.TestCase):
         self.assertEqual(t, 17)
 
     # Testing http endpoints
-    def test_callHome(self):
+    def test_callHome_expect200(self):
         self.app = app.test_client()
         response = self.app.get("/")
         self.assertEqual(response.status_code, 200)
 
-    def test_callRegister(self):
+    def test_callRegister_expect200(self):
         self.app = app.test_client()
         requestform = {
             "username": "test_user",
@@ -195,7 +260,7 @@ class TestApp(unittest.TestCase):
             "/register", data=requestform, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_callLogin(self):
+    def test_callLogin_expect200(self):
         self.app = app.test_client()
         requestform = {
             "username": "test_user",
@@ -206,17 +271,17 @@ class TestApp(unittest.TestCase):
             "/login", data=requestform, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_callSearch(self):
+    def test_callSearch_expect200(self):
         self.app = app.test_client()
         response = self.app.get("/search")
         self.assertEqual(response.status_code, 200)
 
-    def test_callRecipeBuilder(self):
+    def test_callRecipeBuilder_expect302(self):
         self.app = app.test_client()
         response = self.app.get("/recipebuilder")
         self.assertEqual(response.status_code, 302)
 
-    def test_callAddRecipe(self):
+    def test_callAddRecipe_expect302(self):
         with app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['user'] = 'test_user'
@@ -224,7 +289,7 @@ class TestApp(unittest.TestCase):
             resp = c.post("/addrecipe", data={})
             self.assertEqual(resp.status_code, 302)
 
-    def test_callPreviewRecipe(self):
+    def test_callPreviewRecipe_expect200(self):
         requestform = {
             "title": "test",
             "desc": "test desc",
@@ -242,7 +307,7 @@ class TestApp(unittest.TestCase):
             resp = c.post("/previewrecipe", data=requestform)
             self.assertEqual(resp.status_code, 200)
 
-    def test_callEditRecipe(self):
+    def test_callEditRecipe_expect500(self):
         with app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['user'] = 'test_user'
@@ -251,7 +316,7 @@ class TestApp(unittest.TestCase):
                 "/editrecipe", data={"_id": "111"})
             self.assertEqual(resp.status_code, 500)
 
-    def test_callFavouriteRecipe(self):
+    def test_callFavouriteRecipe_expect302(self):
         with app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['user'] = 'some_fake_user'
@@ -260,7 +325,7 @@ class TestApp(unittest.TestCase):
                 "/favouriterecipe", data={})
             self.assertEqual(resp.status_code, 302)
 
-    def test_callLogout(self):
+    def test_callLogout_expect302(self):
         with app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['user'] = 'some_fake_user'
