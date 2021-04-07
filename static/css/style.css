@@ -298,6 +298,21 @@ a.disabled {
     margin: 0;
 }
 
+.clear-preview {
+    position: absolute;
+    top: 10px;
+    left: 160px;
+    color: #000;
+}
+
+.clear-preview i:hover {
+    cursor:pointer;
+}
+
+.file-field .btn {
+    width: 120px;
+}
+
 /* MEDIA QUERIES */
 @media only screen and (max-height: 500px) {
     .opacity-layer {

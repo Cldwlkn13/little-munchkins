@@ -43,6 +43,7 @@
                         <div class="col s12">
                             <div class="builder-img-wrapper">
                                 <img id="builder-preview-img"/>
+                                <a class="clear-preview" style="display: none;" onclick="clearImage()"><i class="material-icons">close</i></a>
                             </div>
                         </div>
                         <div class="col s12">
@@ -131,14 +132,23 @@
             alert('file is too large, limit is 1MB, please select another');
             return;
         }
-        $('#builder-preview-img').attr("src", URL.createObjectURL(event.target.files[0]));
+        $('#builder-preview-img').attr("src", URL.createObjectURL(event.target.files[0])).css("display", "block");
+        $('.clear-preview').show();
     };
 
     function clearOnReset(){
         if(confirm('Are you sure you want to cancel changes?')){
             $('#builder-preview-img').attr("src", "");
+            $('.clear-preview').hide();
         }
-    }
+    };
+
+    function clearImage(){
+        $('input[name="recipe_img"]').val('')
+        $('input[name="recipe_img_name"]').val('');
+        $('#builder-preview-img').attr("src", "").css("display", "none");
+        $('.clear-preview').hide();
+    };
 </script>
 
 {% endblock %}
