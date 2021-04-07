@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config["MONGO_DB"] = os.environ.get("MONGO_DB")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
-app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
 app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
