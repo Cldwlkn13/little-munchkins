@@ -287,6 +287,14 @@ def editrecipe():
 def updaterecipe():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
+    if 'recipe_img' in request.files:
+        filename = request.files['recipe_img'].filename
+        if filename != "":
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext in app.config['UPLOAD_EXTENSIONS']:
+                path = "static/images/public/" + filename
+                request.files['recipe_img'].save(path)
+
     mongo.db.recipes.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
         {"$set": recipecard}, upsert=False)
@@ -343,7 +351,7 @@ def addfavourite():
     return redirect(url_for('home'))
 
 
-@app.route("/canceleditrecipe", methods=['POST'])
+@app.route("/cancelleditrecipe", methods=['POST'])
 def canceledit():
     if session and session['user']:
         return redirect(url_for(
