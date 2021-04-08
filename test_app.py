@@ -140,15 +140,23 @@ class TestApp(unittest.TestCase):
         _list = defs.groupFormKeys(_keys)
         self.assertIsNotNone(_list)
         self.assertTrue(len(_list), 1)
-        self.assertEqual(str(_list[0]), "['step-1-desc', 'step-1-type', 'step-1-time']")
+        self.assertEqual(
+            str(_list[0]), "['step-1-desc', 'step-1-type', 'step-1-time']")
 
     def test_groupFormKeys_withManySets_expectList(self):
-        _keys = ['step-1-desc', 'step-1-type', 'step-1-time',
-         'step-2-desc', 'step-2-type', 'step-2-time']
+        _keys = [
+            'step-1-desc',
+            'step-1-type',
+            'step-1-time',
+            'step-2-desc',
+            'step-2-type',
+            'step-2-time'
+        ]
         _list = defs.groupFormKeys(_keys)
         self.assertIsNotNone(_list)
         self.assertTrue(len(_list), 2)
-        self.assertEqual(str(_list[1]), "['step-2-desc', 'step-2-type', 'step-2-time']")
+        self.assertEqual(
+            str(_list[1]), "['step-2-desc', 'step-2-type', 'step-2-time']")
 
     def test_groupFormKeys_withEmptyKeys_expectList(self):
         _keys = []
@@ -158,10 +166,20 @@ class TestApp(unittest.TestCase):
     # Testing stepsBuilder()
     def test_stepsBuilder_withKeysAndForm_expectObj(self):
         _groupedKeys = [['step-1-desc', 'step-1-type', 'step-1-time']]
-        _requestform = {'step-1-desc': "test_desc", 'step-1-type': "prepare", 'step-1-time': 1}
+        _requestform = {
+            'step-1-desc': "test_desc",
+            'step-1-type': "prepare",
+            'step-1-time': 1
+        }
         _steps = defs.stepsBuilder(_groupedKeys, _requestform)
         self.assertIsNotNone(_steps)
-        self.assertEqual(_steps, {'0': {'type': 'prepare', 'action': 'test_desc', 'time': 1}})
+        self.assertEqual(_steps, {
+            '0': {
+                'type': 'prepare',
+                'action': 'test_desc',
+                'time': 1
+            }
+        })
 
     def test_stepsBuilder_withKeysAndNoForm_expectEmptyObj(self):
         _groupedKeys = [['step-1-desc', 'step-1-type', 'step-1-time']]
@@ -172,21 +190,49 @@ class TestApp(unittest.TestCase):
 
     def test_stepsBuilder_withNoKeysAndForm_expectEmptyObj(self):
         _groupedKeys = []
-        _requestform = {'step-1-desc': "test_desc", 'step-1-type': "prepare", 'step-1-time': 1}
+        _requestform = {
+            'step-1-desc': "test_desc",
+            'step-1-type': "prepare",
+            'step-1-time': 1
+        }
         _steps = defs.stepsBuilder(_groupedKeys, _requestform)
         self.assertIsNotNone(_steps)
         self.assertEqual(_steps, {})
 
     # Testing ingredientsBuilder()
     def test_ingredientsBuilder_withKeysAndForm_expectObj(self):
-        _groupedKeys = [['ingredient-1-desc', 'ingredient-1-measure', 'ingredient-1-unit']]
-        _requestform = {'ingredient-1-desc': "test_desc", 'ingredient-1-measure': 100, 'ingredient-1-unit': "g"}
+        _groupedKeys = [
+            [
+                'ingredient-1-desc',
+                'ingredient-1-measure',
+                'ingredient-1-unit'
+            ]
+        ]
+        _requestform = {
+             'ingredient-1-desc': "test_desc",
+             'ingredient-1-measure': 100,
+             'ingredient-1-unit': "g"
+             }
         _ingredients = defs.ingredientsBuilder(_groupedKeys, _requestform)
         self.assertIsNotNone(_ingredients)
-        self.assertEqual(_ingredients, {'0': {'name': 'test_desc', 'qty': {'measure': 100, 'unit': 'g'}}})
+        self.assertEqual(_ingredients, {
+            '0': {
+                'name': 'test_desc',
+                'qty': {
+                    'measure': 100,
+                    'unit': 'g'
+                }
+            }
+        })
 
     def test_ingredientsBuilder_withKeysAndNoForm_expectEmptyObj(self):
-        _groupedKeys = [['ingredient-1-desc', 'ingredient-1-measure', 'ingredient-1-unit']]
+        _groupedKeys = [
+            [
+                'ingredient-1-desc',
+                'ingredient-1-measure',
+                'ingredient-1-unit'
+            ]
+        ]
         _requestform = {}
         _ingredients = defs.ingredientsBuilder(_groupedKeys, _requestform)
         self.assertIsNotNone(_ingredients)
@@ -194,7 +240,11 @@ class TestApp(unittest.TestCase):
 
     def test_ingredientsBuilder_withNoKeysAndForm_expectEmptyObj(self):
         _groupedKeys = []
-        _requestform = {'ingredient-1-desc': "test_desc", 'ingredient-1-measure': 100, 'ingredient-1-unit': "g"}
+        _requestform = {
+            'ingredient-1-desc': "test_desc",
+            'ingredient-1-measure': 100,
+            'ingredient-1-unit': "g"
+        }
         _ingredients = defs.ingredientsBuilder(_groupedKeys, _requestform)
         self.assertIsNotNone(_ingredients)
         self.assertEqual(_ingredients, {})
@@ -341,4 +391,3 @@ class TestApp(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
