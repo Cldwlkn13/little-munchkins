@@ -6,38 +6,46 @@
             <div class="card-panel">
                 <h5>Profile</h5>
                 <a href="#" id="user-edit" class="black-text"><i class="material-icons">edit</i></a>
+                <!-- profile form -->
                 <form method="POST" action="/user/edit">
+                    <!-- username -->
                     <label for="username">username</label>
                     <input disabled type="text" name="username" value="{{ user.username }}" class="validate" required/>
 
-                    <input type="password" name="password" id="password" value="{{ user.password }}" style="display: none;" class="validate" required/>
-
+                    <!-- email -->
                     <label for="email">email</label>
                     <input disabled type="email" name="email" value="{{ user.email }}" class="validate" required/>
 
+                    <!-- first name -->
                     <label for="first_name">first name</label>
                     <input disabled type="text" name="first_name" value="{{ user.first_name|title }}" class="validate" required/>
 
+                    <!-- last name -->
                     <label for="last_name">last name</label>
                     <input disabled type="text" name="last_name" value="{{ user.last_name|title }}" class="validate" required/>
 
+                    <!-- dob -->
                     <label for="dob">date of birth</label>
                     <input disabled type="date" id="dob" name="dob"  class="datepicker" value="{{ user.dob }}" required>
 
+                    <!-- country -->
                     <label for="country">country</label>
                     <select class="browser-default" name="country" id="country" disabled required>
                         <option value="{{ user.country|title }}" selected>{{ user.country|title }}</option>
                     </select>
 
-                    <input disabled type="text" name="favourites" value="{{ user.favourites }}" style="display: none;"/>
-                    <input disabled type="text" name="_id" value="{{ user._id }}" style="display: none;"/>
+                    <input disabled type="hidden" name="favourites" value="{{ user.favourites }}" style="display: none;"/>
+                    <input disabled type="hidden" name="_id" value="{{ user._id }}" style="display: none;"/>
+                    <input disabled type="hidden" name="password" id="password" value="{{ user.password }}" style="display: none;" class="validate" required/>
 
+                    <!-- btns -->
                     <input type="submit" value="Submit" class="btn profile-submit-btn" id="user-edit-submit" style="display: none;" onclick="return confirm('Submit changes?');">
                     <input type="submit" value="Cancel" class="btn profile-submit-btn orange" id="user-edit-cancel" style="display: none;" formaction="/profile/{{session.user}}" onclick="return confirm('Cancel changes?');">
                     <input type="submit" value="Delete" class="btn profile-submit-btn red" id="user-edit-delete" style="display: none;" formaction="/user/delete" onclick="return confirm('Are you sure you want to delete your account?');">
                 </form>
             </div>
         </div>
+        <!-- my recipes -->
         <div class="col s12 m4" id="my-recipes">
              <div class="card-panel">
                 <h5>My Recipes</h5>
@@ -48,6 +56,7 @@
                 {% endif %}
             </div>
         </div>
+        <!-- my favourites -->
         <div class="col s12 m4" id="my-favourites">
             <div class="card-panel">
                 <h5>My Favourites</h5>

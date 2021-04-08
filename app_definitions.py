@@ -22,7 +22,7 @@ class AppDefinitions(object):
         img_name = ""
         if requestform.get('recipe_img_name'):
             img_name = requestform.get('recipe_img_name').lower()
-            
+
         recipecard = {
             "title": requestform.get("title").lower(),
             "desc": requestform.get("desc").lower(),

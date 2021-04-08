@@ -1,86 +1,13 @@
 $(document).ready(function () {
+    //materialize init
     $(".sidenav").sidenav({ edge: "right" });
     $('.modal').modal();
-
-    $('#username').change(function(){
-        loadCountryOptions($('#country'));
-    });
-
-    function loadCountryOptions(elem){
-        $.get('/static/text/countries.txt', function (data) {
-            var lines = data.split('\n');
-            $.each(lines, function (k, v) {
-                var $newOpt = $("<option>").attr("value", v).text(v)
-                elem.append($newOpt);
-             });
-        });
-    }
-
-    $('.add-favourite').click(function(event){
-        event.preventDefault();
-        var myelem = $(this)
-        var data = {'data': $(this).siblings('input[name="_id"]').attr("value") };
-        $.ajax({
-            type: "POST",
-            data: data,
-            url: "/recipe/favourite",
-            success: function(response){   
-                isFavourite = $.parseJSON(response.toLowerCase());
-                if(isFavourite){
-                    $(myelem).removeClass("purple").addClass("light-green");
-                    $(myelem).siblings('span').first().text('Remove Favourite');
-                }
-                else {
-                    $(myelem).removeClass("light-green").addClass("purple");
-                    $(myelem).siblings('span').first().text('Favourite this recipe');
-                }
-            }
-        });
-
-        if($('#profile-wrap').is(":visible")){
-            refreshProfile();
-        }
-    });
-
-    function refreshProfile() {
-        var username = $('input[name="username"]');
-        var isDisabled = username.attr('disabled') == "disabled";
-        var url = "/profile/" + username.attr("value")
-        if(isDisabled){
-            $.ajax({
-                type: "GET",
-                url: url,
-                success:function(response){ 
-                    window.location.reload();
-                }
-            });
-        }
-    }
-
     $('select').formSelect();
 
-    $('#preview-recipe-card').on("click", function(){
-        $('#preview-recipe-content').toggle();
-    });
-
-    function slideAndFadeIn(elem, animateLength, timeout) {
-        setTimeout(function() {
-            $(elem).animate({ opacity: 1 }, animateLength);
-        }, timeout);
-    }
-
-    slideAndFadeIn("#home-info-text-1", 2000, 0);
-    slideAndFadeIn("#home-info-text-2", 2000, 1500);
-    slideAndFadeIn("#home-info-text-3", 2000, 3000);
-
-    $('.ingredients-tab, .desc-tab, .method-tab').click(function(){        
-        var selector = $(this).prop('className').split(' ')[0].replace("-tab", "");
-        $(this).addClass("active grey darken-3");
-        $(this).parent().siblings(".tab").find(".tab-link").removeClass("active grey darken-3");
-        var tabs = $(this).parent().parent().parent().next();
-        var tab = tabs.children("." + selector + "-content");
-        tab.css("display", "block");
-        tab.siblings().css("display", "none");
+    //events
+    //register
+    $('#username').change(function(){
+        loadCountryOptions($('#country'));
     });
 
     $("#password_confirm").on("focusout", function () {
@@ -103,20 +30,78 @@ $(document).ready(function () {
             return true;
     });
 
-    function validatePassword() {
-        var password = $("#password").val();
-        var confirmPassword = $("#password_confirm").val();
-        if (password != confirmPassword) {
-            return false;
+    //profile
+    if($('#profile-wrap').is(":visible")){
+            refreshProfile();
         }
-        else {
-            return true;
-        }
-    }
+    });
 
-    setTimeout(function() {
-        $('.flashes').fadeOut('slow');
-    }, 2000);
+    $('#user-edit').click(function(){
+        $(this).siblings('form').first().children('input').prop("disabled", false);
+        $(this).siblings('form').first().children('select').prop("disabled", false);
+        $('.profile-submit-btn').show();
+        $(this).hide();
+        loadCountryOptions($('#country'));
+    });
+
+    $('.profile-submit-btn').click(function(){
+        $('#user-edit').show();
+        $('.profile-submit-btn').hide();
+    });
+
+    //recipe card
+    $('.add-favourite').click(function(event){
+        event.preventDefault();
+        var myelem = $(this)
+        var data = {'data': $(this).siblings('input[name="_id"]').attr("value") };
+        $.ajax({
+            type: "POST",
+            data: data,
+            url: "/recipe/favourite",
+            success: function(response){   
+                isFavourite = $.parseJSON(response.toLowerCase());
+                if(isFavourite){
+                    $(myelem).removeClass("purple").addClass("light-green");
+                    $(myelem).siblings('span').first().text('Remove Favourite');
+                }
+                else {
+                    $(myelem).removeClass("light-green").addClass("purple");
+                    $(myelem).siblings('span').first().text('Favourite this recipe');
+                }
+            }
+    });
+
+    $('.ingredients-tab, .desc-tab, .method-tab').click(function(){        
+        var selector = $(this).prop('className').split(' ')[0].replace("-tab", "");
+        $(this).addClass("active grey darken-3");
+        $(this).parent().siblings(".tab").find(".tab-link").removeClass("active grey darken-3");
+        var tabs = $(this).parent().parent().parent().next();
+        var tab = tabs.children("." + selector + "-content");
+        tab.css("display", "block");
+        tab.siblings().css("display", "none");
+    });
+
+    $('.expand-content').click(function(){
+        if($(this).hasClass('expanded')) {
+            $(this).siblings('span').first().text("Click to see more")
+            $(this).children('i').first().text("expand_more");
+            $(this).parent().parent().siblings('.card-tabs').css("display", "none");
+            $(this).parent().parent().siblings('.card-tab-content').css("display", "none");
+            $(this).removeClass('expanded');
+            return;
+        }
+        $(this).siblings('span').first().text("Click to see less");
+        $(this).children('i').first().text("expand_less");
+        $(this).parent().parent().siblings('.card-tabs').css("display", "block");
+        $(this).parent().parent().siblings('.card-tab-content').css("display", "block");
+        $(this).parent().parent().siblings('.card-tab-content').children('.desc-content').first().css("display", "block");
+        $(this).addClass('expanded');
+    });
+
+    //recipe builder
+    $('#preview-recipe-card').on("click", function(){
+        $('#preview-recipe-content').toggle();
+    });
 
     $('#builder-add-step').click(function() {      
         var countsteps = $('.steps .step').length;
@@ -188,21 +173,11 @@ $(document).ready(function () {
 
     $('.submit-builder').click(function(){
         $('#builder-form').attr("target", "");
+        $('#editor-form').attr("target", "")
     });
 
-    $('#user-edit').click(function(){
-        $(this).siblings('form').first().children('input').prop("disabled", false);
-        $(this).siblings('form').first().children('select').prop("disabled", false);
-        $('.profile-submit-btn').show();
-        $(this).hide();
-        loadCountryOptions($('#country'));
-    });
 
-    $('.profile-submit-btn').click(function(){
-        $('#user-edit').show();
-        $('.profile-submit-btn').hide();
-    });
-
+    // editor
     $(`.remove-step`).on('click',function(){
         if(confirm("Are you sure?")) {
             var i = $(this).get(0).id.split('-')[2]
@@ -232,20 +207,55 @@ $(document).ready(function () {
         $('#editor-form').attr("target", "")
     });
 
-    $('.expand-content').click(function(){
-        if($(this).hasClass('expanded')) {
-            $(this).siblings('span').first().text("Click to see more")
-            $(this).children('i').first().text("expand_more");
-            $(this).parent().parent().siblings('.card-tabs').css("display", "none");
-            $(this).parent().parent().siblings('.card-tab-content').css("display", "none");
-            $(this).removeClass('expanded');
-            return;
+    //functions
+    function loadCountryOptions(elem){
+        $.get('/static/text/countries.txt', function (data) {
+            var lines = data.split('\n');
+            $.each(lines, function (k, v) {
+                var $newOpt = $("<option>").attr("value", v).text(v)
+                elem.append($newOpt);
+             });
+        });
+    }
+
+    function slideAndFadeIn(elem, animateLength, timeout) {
+        setTimeout(function() {
+            $(elem).animate({ opacity: 1 }, animateLength);
+        }, timeout);
+    }
+
+    function validatePassword() {
+        var password = $("#password").val();
+        var confirmPassword = $("#password_confirm").val();
+        if (password != confirmPassword) {
+            return false;
         }
-        $(this).siblings('span').first().text("Click to see less");
-        $(this).children('i').first().text("expand_less");
-        $(this).parent().parent().siblings('.card-tabs').css("display", "block");
-        $(this).parent().parent().siblings('.card-tab-content').css("display", "block");
-        $(this).parent().parent().siblings('.card-tab-content').children('.desc-content').first().css("display", "block");
-        $(this).addClass('expanded');
-    });
+        else {
+            return true;
+        }
+    }
+
+    function refreshProfile() {
+        var username = $('input[name="username"]');
+        var isDisabled = username.attr('disabled') == "disabled";
+        var url = "/profile/" + username.attr("value")
+        if(isDisabled){
+            $.ajax({
+                type: "GET",
+                url: url,
+                success:function(response){ 
+                    window.location.reload();
+                }
+            });
+        }
+    }
+
+    //method calls
+    slideAndFadeIn("#home-info-text-1", 2000, 0);
+    slideAndFadeIn("#home-info-text-2", 2000, 1500);
+    slideAndFadeIn("#home-info-text-3", 2000, 3000);
+
+    setTimeout(function() {
+        $('.flashes').fadeOut('slow');
+    }, 2000);
 });

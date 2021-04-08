@@ -1,6 +1,8 @@
 {% block recipecard %}
 <div class="card recipe-card food-bg">
+    <!-- headline content -->
     <div class="row card-content lime lighten-5">
+        <!-- title -->
         <div class="col s12">
             <h5>{{ recipecard.title|title }}</h5>
             {% if (recipecard.created_by == session.user) and (recipecard.context is not defined) %}
@@ -20,10 +22,12 @@
         <div class="col s2">
             
         </div>
+        <!-- created by -->
         <div class="col s12">
             <p class="recipe-created-by"><i>by {{ recipecard.created_by }}</i></p>
         </div>
     </div>
+    <!-- preparation timings -->
     <div class="row prep-time lime lighten-5">
         <div class="col s6">
             <p class="recipe-prep-time center-align"><i class="material-icons">access_time</i> Preparation Time:
@@ -38,17 +42,20 @@
                 {% endif %}
         </div>
     </div>
+    <!-- image -->
     <div class="recipe-img-wrapper">
         {% if recipecard.recipe_img %}
             <img class="recipe-img" src="../static/images/public/{{ recipecard.recipe_img }}">
         {% endif %}
     </div>
+    <!-- expand -->
     <div class="row">
         <div class="col s6 offset-s3 tooltip center-align">
             <span class="tooltiptext center-align"> Click to see more </span>
             <a class="expand-content center-align black-text"><i class="material-icons">expand_more</i></a>
         </div>
     </div>
+    <!-- tabs -->
     <div class="card-tabs" style="display: none;">
         <ul class="tabs tabs-fixed-width">
             <li class="tab"><a class="desc-tab tab-link grey darken-3 light-green-text active"><i class="material-icons">border_color</i></a></li>
@@ -57,12 +64,14 @@
         </ul>
     </div>
     <div class="card-tab-content lime lighten-5" style="display: none;">
+        <!-- descriptive content -->
         <div class="desc-content" style="display: none;">
             <h6><i>{{ recipecard.desc }}</i></h6>
             <p><i>Portions: {{ recipecard.portions }}</i></p>
             <p><i>Suitable for: {{ recipecard.suitableForMinMnths }} - {{ recipecard.suitableForMaxMnths }} months</i>
             </p>
         </div>
+        <!-- ingredients content -->
         <div class="ingredients-content" style="display: none;">
             <h6>Ingredients</h6>
             {% if recipecard.ingredients is defined %}
@@ -73,6 +82,7 @@
                 NONE
             {% endif %}
         </div>
+        <!-- method content -->
         <div class="method-content" style="display: none;">
             {% if recipecard.steps is defined %}
                 <h6><i class="material-icons">access_time</i> Preparation:</h6>

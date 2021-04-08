@@ -1,10 +1,13 @@
 {% block header %}
+    <!-- header -->
     <header>
         <nav class="header-bg">
             <div class="header-opacity">
+                <!-- site nav -->
                 <div class="nav-wrapper">
                     <a href="/" class="brand-logo left amber-text">Little Munchkins.</a>
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
+                    <!-- nav links -->
                     <ul class="right hide-on-med-and-down">
                         {% if session.user %}
                         <li><a href="{{ url_for('profile', username=session['user'])}}" class="amber-text">My
@@ -22,6 +25,7 @@
             </div>
         </nav>
 
+        <!-- sidenav -->
         <ul class="sidenav" id="mobile-demo">
             {% if session.user %}
             <li><a href="{{ url_for('profile', username=session['user'])}}">My Profile</a></li>
