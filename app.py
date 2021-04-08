@@ -149,7 +149,7 @@ def profile(username):
     return redirect(url_for("login"))
 
 
-@app.route("/edituser", methods=['POST'])
+@app.route("/user/edit", methods=['POST'])
 def edituser():
     user = dict(request.form)
     user.pop('_id')
@@ -167,7 +167,7 @@ def edituser():
         "profile", username=session["user"]))
 
 
-@app.route("/deleteuser", methods=['POST'])
+@app.route("/user/delete", methods=['POST'])
 def deleteuser():
     session.pop('user')
     mongo.db.users.delete_one(
@@ -176,7 +176,7 @@ def deleteuser():
     return redirect(url_for("home"))
 
 
-@app.route("/search", methods=['GET', 'POST'])
+@app.route("/recipes/search", methods=['GET', 'POST'])
 def search():
     form = RecipeForm()
     user = ""
@@ -225,7 +225,7 @@ def search():
     return render_template('search.html', form=form)
 
 
-@app.route("/recipebuilder", methods=['GET', 'POST'])
+@app.route("/recipe/builder", methods=['GET', 'POST'])
 def recipebuilder():
     if session.get('user'):
         return render_template("recipe_builder.html")
@@ -234,18 +234,13 @@ def recipebuilder():
     return redirect(url_for("home"))
 
 
-@app.route("/addrecipe", methods=['POST'])
+@app.route("/recipe/add", methods=['POST'])
 def addrecipe():
     if session and session['user'] and request.form:
         recipecard = defs.recipeCardBuilder(request.form, session['user'])
+        
         if 'recipe_img' in request.files:
-            if request.form.get('recipe_img_name') != "":
-                filename = request.files['recipe_img'].filename
-                if filename != "":
-                    file_ext = os.path.splitext(filename)[1].lower()
-                    if file_ext in app.config['UPLOAD_EXTENSIONS']:
-                        path = "static/images/public/" + filename.lower()
-                        request.files['recipe_img'].save(path)
+            defs.saveImage(request, app.config['UPLOAD_EXTENSIONS'])
 
         mongo.db.recipes.insert_one(recipecard)
 
@@ -254,7 +249,7 @@ def addrecipe():
     return redirect(url_for("login"))
 
 
-@app.route("/previewrecipe", methods=['POST'])
+@app.route("/recipe/preview", methods=['POST'])
 def preview():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
     recipecard['prep_time'] = defs.calculateTiming(recipecard, "prepare")
@@ -262,17 +257,12 @@ def preview():
     recipecard['context'] = "preview"
 
     if 'recipe_img' in request.files:
-        filename = request.files['recipe_img'].filename
-        if filename != "":
-            file_ext = os.path.splitext(filename)[1]
-            if file_ext in app.config['UPLOAD_EXTENSIONS']:
-                path = "static/images/public/" + filename
-                request.files['recipe_img'].save(path)
+        defs.saveImage(request, app.config['UPLOAD_EXTENSIONS'])
 
     return render_template("preview.html", recipecard=recipecard)
 
 
-@app.route("/editrecipe", methods=['POST'])
+@app.route("/recipe/edit", methods=['POST'])
 def editrecipe():
     objId = ObjectId(str(request.form.get('_id')))
     try:
@@ -283,17 +273,21 @@ def editrecipe():
         raise
 
 
-@app.route("/updaterecipe", methods=['POST'])
+@app.route("/recipe/edit/cancel", methods=['POST'])
+def canceledit():
+    if session and session['user']:
+        return redirect(url_for(
+            "profile", username=session["user"]))
+    flash("Could not identify user")
+    return redirect(url_for('home'))
+
+
+@app.route("/recipe/update", methods=['POST'])
 def updaterecipe():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
     if 'recipe_img' in request.files:
-        filename = request.files['recipe_img'].filename
-        if filename != "":
-            file_ext = os.path.splitext(filename)[1]
-            if file_ext in app.config['UPLOAD_EXTENSIONS']:
-                path = "static/images/public/" + filename
-                request.files['recipe_img'].save(path)
+        defs.saveImage(request, app.config['UPLOAD_EXTENSIONS'])
 
     mongo.db.recipes.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
@@ -305,7 +299,7 @@ def updaterecipe():
         "profile", username=session["user"]))
 
 
-@app.route("/deleterecipe", methods=['POST'])
+@app.route("/recipe/delete", methods=['POST'])
 def deleterecipe():
     mongo.db.recipes.delete_one(
         {"_id": ObjectId(str(request.form.get("_id")))})
@@ -330,7 +324,7 @@ def deleterecipe():
         "profile", username=session["user"]))
 
 
-@app.route("/favouriterecipe", methods=['POST'])
+@app.route("/recipe/favourite", methods=['POST'])
 def addfavourite():
     user = mongo.db.users.find_one(
         {"username": session['user']})
@@ -347,15 +341,6 @@ def addfavourite():
                 {"_id": user['_id']},
                 {"$set": user}, upsert=False)
         return ("True", 200)
-    flash("Could not identify user")
-    return redirect(url_for('home'))
-
-
-@app.route("/cancelleditrecipe", methods=['POST'])
-def canceledit():
-    if session and session['user']:
-        return redirect(url_for(
-            "profile", username=session["user"]))
     flash("Could not identify user")
     return redirect(url_for('home'))
 

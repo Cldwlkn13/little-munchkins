@@ -23,7 +23,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             data: data,
-            url: "/favouriterecipe",
+            url: "/recipe/favourite",
             success: function(response){   
                 isFavourite = $.parseJSON(response.toLowerCase());
                 if(isFavourite){
@@ -187,7 +187,8 @@ $(document).ready(function () {
     });
 
     $('#submit-builder').click(function(){
-        $('#builder-form').attr("target", "")
+        $('#builder-form').attr("target", "");
+        $('#editor-form').attr("target", "");
     });
 
     $('#user-edit').click(function(){

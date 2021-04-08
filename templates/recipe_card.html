@@ -4,7 +4,7 @@
         <div class="col s12">
             <h5>{{ recipecard.title|title }}</h5>
             {% if (recipecard.created_by == session.user) and (recipecard.context is not defined) %}
-                <form action="/editrecipe" method="post">
+                <form action="/recipe/edit" method="post">
                     <input type="text" value="{{ recipecard._id }}" name="_id" style="display: none;">
                     <button type="submit" name="edit" class="recipe-edit btn waves-effect waves-light green"><i class="material-icons">edit</i></button>
                 </form>

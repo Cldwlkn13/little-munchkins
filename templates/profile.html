@@ -6,7 +6,7 @@
             <div class="card-panel">
                 <h5>Profile</h5>
                 <a href="#" id="user-edit" class="black-text"><i class="material-icons">edit</i></a>
-                <form method="POST" action="/edituser">
+                <form method="POST" action="/user/edit">
                     <label for="username">username</label>
                     <input disabled type="text" name="username" value="{{ user.username }}" class="validate" required/>
 
@@ -34,7 +34,7 @@
 
                     <input type="submit" value="Submit" class="btn profile-submit-btn" id="user-edit-submit" style="display: none;" onclick="return confirm('Submit changes?');">
                     <input type="submit" value="Cancel" class="btn profile-submit-btn orange" id="user-edit-cancel" style="display: none;" formaction="/profile/{{session.user}}" onclick="return confirm('Cancel changes?');">
-                    <input type="submit" value="Delete" class="btn profile-submit-btn red" id="user-edit-delete" style="display: none;" formaction="/deleteuser" onclick="return confirm('Are you sure you want to delete your account?');">
+                    <input type="submit" value="Delete" class="btn profile-submit-btn red" id="user-edit-delete" style="display: none;" formaction="/user/delete" onclick="return confirm('Are you sure you want to delete your account?');">
                 </form>
             </div>
         </div>

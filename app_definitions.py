@@ -1,4 +1,5 @@
 import json
+import os
 from bson import json_util
 from flask import jsonify
 
@@ -21,7 +22,7 @@ class AppDefinitions(object):
         recipecard = {
             "title": requestform.get("title").lower(),
             "desc": requestform.get("desc").lower(),
-            "recipe_img": requestform.get('recipe_img_name'),
+            "recipe_img": requestform.get('recipe_img_name').lower(),
             "created_by": user,
             "portions": int(requestform.get("portions")),
             "suitableForMinMnths": int(requestform.get("min")),
@@ -36,6 +37,14 @@ class AppDefinitions(object):
                         "step")]), requestform),
         }
         return recipecard
+
+    def saveImage(self, requestform, validExt):
+        filename = requestform.files['recipe_img'].filename.lower()
+        if filename != "":
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext in validExt:
+                path = "static/images/public/" + filename
+                requestform.files['recipe_img'].save(path)
 
     def calculateTiming(self, recipecard, src):
         t = 0
