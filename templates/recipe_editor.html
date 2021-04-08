@@ -1,7 +1,7 @@
 {% extends "base_overlay.html" %}
 {% block content %}
 <div class="container">
-    <form method="POST" enctype="multipart/form-data" id="editor-form">
+    <form method="POST" enctype="multipart/form-data" id="builder-form">
         <div class="card-panel">
             <!-- header -->
             <div class="row form-header">
@@ -174,7 +174,7 @@
                 <!-------update btn------->
                 <div class="col s12">
                     <div class="input-field col s12 center">
-                        <button class="btn waves-effect waves-light orange" type="submit" id="submit-builder"
+                        <button class="btn waves-effect waves-light orange submit-builder" type="submit"
                             name="submit" formaction="/recipe/update">Update</button>
                     </div>
                 </div>

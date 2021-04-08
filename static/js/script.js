@@ -186,9 +186,8 @@ $(document).ready(function () {
         $('#builder-form').attr("target", "_blank")
     });
 
-    $('#submit-builder').click(function(){
+    $('.submit-builder').click(function(){
         $('#builder-form').attr("target", "");
-        $('#editor-form').attr("target", "");
     });
 
     $('#user-edit').click(function(){

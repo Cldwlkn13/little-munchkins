@@ -238,7 +238,7 @@ def recipebuilder():
 def addrecipe():
     if session and session['user'] and request.form:
         recipecard = defs.recipeCardBuilder(request.form, session['user'])
-        
+
         if 'recipe_img' in request.files:
             defs.saveImage(request, app.config['UPLOAD_EXTENSIONS'])
 
