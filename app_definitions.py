@@ -19,10 +19,14 @@ class AppDefinitions(object):
         return jsonify(json_docs)
 
     def recipeCardBuilder(self, requestform, user):
+        img_name = ""
+        if requestform.get('recipe_img_name'):
+            img_name = requestform.get('recipe_img_name').lower()
+            
         recipecard = {
             "title": requestform.get("title").lower(),
             "desc": requestform.get("desc").lower(),
-            "recipe_img": requestform.get('recipe_img_name').lower(),
+            "recipe_img": img_name,
             "created_by": user,
             "portions": int(requestform.get("portions")),
             "suitableForMinMnths": int(requestform.get("min")),

@@ -150,7 +150,7 @@ def profile(username):
 
 
 @app.route("/user/edit", methods=['POST'])
-def edituser():
+def useredit():
     user = dict(request.form)
     user.pop('_id')
     if len(user['favourites']) == 2:
@@ -168,7 +168,7 @@ def edituser():
 
 
 @app.route("/user/delete", methods=['POST'])
-def deleteuser():
+def userdelete():
     session.pop('user')
     mongo.db.users.delete_one(
         {"_id": ObjectId(str(request.form.get("_id")))})
@@ -177,7 +177,7 @@ def deleteuser():
 
 
 @app.route("/recipes/search", methods=['GET', 'POST'])
-def search():
+def recipesearch():
     form = RecipeForm()
     user = ""
     if request.method == 'POST':
@@ -235,7 +235,7 @@ def recipebuilder():
 
 
 @app.route("/recipe/add", methods=['POST'])
-def addrecipe():
+def recipeadd():
     if session and session['user'] and request.form:
         recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
@@ -250,7 +250,7 @@ def addrecipe():
 
 
 @app.route("/recipe/preview", methods=['POST'])
-def preview():
+def recipepreview():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
     recipecard['prep_time'] = defs.calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
@@ -263,7 +263,7 @@ def preview():
 
 
 @app.route("/recipe/edit", methods=['POST'])
-def editrecipe():
+def recipeedit():
     objId = ObjectId(str(request.form.get('_id')))
     try:
         recipecard = list(mongo.db.recipes.find(
@@ -274,7 +274,7 @@ def editrecipe():
 
 
 @app.route("/recipe/edit/cancel", methods=['POST'])
-def canceledit():
+def recipecanceledit():
     if session and session['user']:
         return redirect(url_for(
             "profile", username=session["user"]))
@@ -283,7 +283,7 @@ def canceledit():
 
 
 @app.route("/recipe/update", methods=['POST'])
-def updaterecipe():
+def recipeupdate():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
     if 'recipe_img' in request.files:
@@ -300,7 +300,7 @@ def updaterecipe():
 
 
 @app.route("/recipe/delete", methods=['POST'])
-def deleterecipe():
+def recipedelete():
     mongo.db.recipes.delete_one(
         {"_id": ObjectId(str(request.form.get("_id")))})
 
@@ -325,7 +325,7 @@ def deleterecipe():
 
 
 @app.route("/recipe/favourite", methods=['POST'])
-def addfavourite():
+def recipefavourite():
     user = mongo.db.users.find_one(
         {"username": session['user']})
     if user:

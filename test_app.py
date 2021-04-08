@@ -239,9 +239,14 @@ class TestApp(unittest.TestCase):
         self.assertEqual(t, 17)
 
     # Testing http endpoints
-    def test_callHome_expect200(self):
+    def test_callRoot_expect200(self):
         self.app = app.test_client()
         response = self.app.get("/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_callHome_expect200(self):
+        self.app = app.test_client()
+        response = self.app.get("/home")
         self.assertEqual(response.status_code, 200)
 
     def test_callRegister_expect200(self):
@@ -273,12 +278,12 @@ class TestApp(unittest.TestCase):
 
     def test_callSearch_expect200(self):
         self.app = app.test_client()
-        response = self.app.get("/search")
+        response = self.app.get("recipes/search")
         self.assertEqual(response.status_code, 200)
 
     def test_callRecipeBuilder_expect302(self):
         self.app = app.test_client()
-        response = self.app.get("/recipebuilder")
+        response = self.app.get("/recipe/builder")
         self.assertEqual(response.status_code, 302)
 
     def test_callAddRecipe_expect302(self):
@@ -286,7 +291,7 @@ class TestApp(unittest.TestCase):
             with c.session_transaction() as sess:
                 sess['user'] = 'test_user'
                 sess['_fresh'] = True
-            resp = c.post("/addrecipe", data={})
+            resp = c.post("/recipe/add", data={})
             self.assertEqual(resp.status_code, 302)
 
     def test_callPreviewRecipe_expect200(self):
@@ -304,7 +309,7 @@ class TestApp(unittest.TestCase):
             with c.session_transaction() as sess:
                 sess['user'] = 'test_user'
                 sess['_fresh'] = True
-            resp = c.post("/previewrecipe", data=requestform)
+            resp = c.post("/recipe/preview", data=requestform)
             self.assertEqual(resp.status_code, 200)
 
     def test_callEditRecipe_expect500(self):
@@ -313,7 +318,7 @@ class TestApp(unittest.TestCase):
                 sess['user'] = 'test_user'
                 sess['_fresh'] = True
             resp = c.post(
-                "/editrecipe", data={"_id": "111"})
+                "/recipe/edit", data={"_id": "111"})
             self.assertEqual(resp.status_code, 500)
 
     def test_callFavouriteRecipe_expect302(self):
@@ -322,7 +327,7 @@ class TestApp(unittest.TestCase):
                 sess['user'] = 'some_fake_user'
                 sess['_fresh'] = True
             resp = c.post(
-                "/favouriterecipe", data={})
+                "/recipe/favourite", data={})
             self.assertEqual(resp.status_code, 302)
 
     def test_callLogout_expect302(self):
