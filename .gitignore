@@ -5,4 +5,4 @@ env.py
 __pycache__/
 *.py[cod]
 static/images/public/*
-!!static/images/public//.gitkeep 
+!static/images/public/.gitkeep 
