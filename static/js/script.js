@@ -30,11 +30,6 @@ $(document).ready(function () {
             return true;
     });
 
-    //profile
-    if($('#profile-wrap').is(":visible")){
-            refreshProfile();
-        }
-    });
 
     $('#user-edit').click(function(){
         $(this).siblings('form').first().children('input').prop("disabled", false);
@@ -69,6 +64,11 @@ $(document).ready(function () {
                     $(myelem).siblings('span').first().text('Favourite this recipe');
                 }
             }
+        });
+
+        if($('#profile-wrap').is(":visible")){
+            refreshProfile();
+        }
     });
 
     $('.ingredients-tab, .desc-tab, .method-tab').click(function(){        
@@ -218,12 +218,6 @@ $(document).ready(function () {
         });
     }
 
-    function slideAndFadeIn(elem, animateLength, timeout) {
-        setTimeout(function() {
-            $(elem).animate({ opacity: 1 }, animateLength);
-        }, timeout);
-    }
-
     function validatePassword() {
         var password = $("#password").val();
         var confirmPassword = $("#password_confirm").val();
@@ -248,6 +242,12 @@ $(document).ready(function () {
                 }
             });
         }
+    }
+
+    function slideAndFadeIn(elem, animateLength, timeout) {
+        setTimeout(function() {
+            $(elem).animate({ opacity: 1 }, animateLength);
+        }, timeout);
     }
 
     //method calls
