@@ -211,3 +211,49 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |[]()|
 |[]()|
 |[]()|
+
+## Features
+**Home**
+- Contains a large title tagline and full width/height background. 
+- Contains large buttons for login/register.
+- Contains some concise information about why a user should sign up.
+- Contains a sample recipe card for potential users to view. 
+
+**Header**
+- Brand logo, which links to the home page
+- Navigation bar with links
+	
+**Flash Messages**
+- Operational messages displayed to the user, which then fade away after a few seconds as to not clutter view
+
+**Footer**
+- Contact email address (for demo purposes only)
+- Site copyright
+
+**Login**
+- Simple validated form with username and password inputs
+
+**Register**
+- Validated registration form with fields pertaining to user information
+
+**Profile**
+- Profile information, and this is where users can edit this information too. 
+- My Recipes: Where users can see the recipes they've created. 
+- My Favourites: Where users can see the recipes they've favourited. 
+
+**Search**
+- Search form with two search parameters: By name, By months of child, for suitable recipes (neither are required). 
+
+**Recipe Builder**
+- Validated form where users can compile a recipe card. 
+- Users are able to upload an image for the recipe here. 
+- Feature to add and remove steps as desired.
+- Feature to add and remove ingredients as desired.
+- Button to preview the card before submission.
+
+**Recipe Editor**
+- Validated form where users can edit an already created recipe card. 
+- Users are able to edit all components of the recipe card.
+- Button to preview the card before submission.
+- Button to cancel changes.
+- Button to delete the recipe.
