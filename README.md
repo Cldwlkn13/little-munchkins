@@ -257,3 +257,29 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 - Button to preview the card before submission.
 - Button to cancel changes.
 - Button to delete the recipe.
+
+## Technologies
+
+#### Development:
+- [GitHub](https://github.com/) - site host.
+- [Gitpod](https://gitpod.io/) - dev IDE.
+
+#### content, styling & client logic:
+- [HTML5](https://en.wikipedia.org/wiki/HTML5) - site content
+- [CSS3](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) - site styling
+- [Materialize](https://materializecss.com/about.html) - project layout & additional styling
+- [Javascript](https://en.wikipedia.org/wiki/JavaScript) - functional logic
+
+#### Server side
+- [Python](https://www.python.org/) 
+- [Flask](https://flask.palletsprojects.com/en/1.1.x/) - python mirco framework for web app development
+- [Jinja](https://jinja.palletsprojects.com/en/2.11.x/) - temlating language for flask
+- [Werkzeug](https://werkzeug.palletsprojects.com/en/1.0.x/) - application tooling for flask
+- [wtforms](https://wtforms.readthedocs.io/en/2.3.x/) - forms library for python
+- [unittest](https://docs.python.org/3/library/unittest.html) - unit testing library for python
+
+#### Other Technologies
+- [JustInMind](https://www.justinmind.com/) - wireframes and site prototype
+- [GoogleFonts](https://fonts.google.com/) - font faces
+
+
