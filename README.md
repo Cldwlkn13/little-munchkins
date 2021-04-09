@@ -304,9 +304,12 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
  - **Opera** No issues identified;
 
 #### Responsiveness Quality Testing  
-Testing conducted on [Responsive Design Checker](https://responsivedesignchecker.com/)
 
 -   [Mobile]() - 0 issues
+|     iPhone 5    |   
+|      :----:     |
+|      [home](readmefiles/mobile-home.JPG)    |
+	
 -   [Tablet]() - 0 issues
 -   [Desktop]() - 0 issues
 
