@@ -328,7 +328,7 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |     1920x1200    |   
 |      :----:    |
 |[home](readmefiles/desktop/d-home.JPG)|
-|[register](readmefiles/desktop/d-builder.JPG)|
+|[builder](readmefiles/desktop/d-builder.JPG)|
 |[profile](readmefiles/desktop/d-profile.JPG)|
 |[search](readmefiles/desktop/d-search.JPG)|
 
