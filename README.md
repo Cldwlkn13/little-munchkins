@@ -3,8 +3,10 @@
 
 Little Munchkins is a website designed for parents to create and share their favourite weaning recipes. Furthermore, users are able to search and bookmark their favourite recipes provided by other users as well!
 
+- Am I Responsive?
 ![](/readmefiles/am-i-responsive.JPG)
 
+- Sample recipe content
 ![](/readmefiles/sample-recipe.JPG)
 
 ## UX
