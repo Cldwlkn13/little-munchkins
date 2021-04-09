@@ -194,7 +194,7 @@
             if (mutation.type == "attributes") {
                 var value =  document.getElementById("file-path").getAttribute("value");
                 if(value != ""){
-                    document.getElementById("builder-preview-img").setAttribute("src", "../static/images/public/" + value);
+                    document.getElementById("builder-preview-img").setAttribute("src", "uploads/" + value);
                     document.getElementById('clear-preview').style.display = "block";
                 }
             }

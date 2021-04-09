@@ -1,7 +1,7 @@
 import os
 from flask import (
     Flask, flash, render_template,
-    redirect, request, session, url_for)
+    redirect, request, session, url_for, send_from_directory)
 from flask_bootstrap import Bootstrap
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -20,6 +20,7 @@ app.config["MONGO_DB"] = os.environ.get("MONGO_DB")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+app.config['UPLOAD_PATH'] = "uploads"
 app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
@@ -232,6 +233,11 @@ def recipebuilder():
 
     flash("Could not identify user")
     return redirect(url_for("home"))
+
+
+@app.route('/uploads/<filename>')
+def upload(filename):
+    return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
 
 @app.route("/recipe/add", methods=['POST'])
