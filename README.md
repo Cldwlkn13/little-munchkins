@@ -306,9 +306,10 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 #### Responsiveness Quality Testing  
 
 -   [Mobile]() - 0 issues
-|     iPhone 5    |   
-|      :----:     |
-|      [home](readmefiles/mobile-home.JPG)    |
+-   
+|     iPhone5    |   
+|      :----:    |
+|[home](readmefiles/mobile-home.JPG)    |
 	
 -   [Tablet]() - 0 issues
 -   [Desktop]() - 0 issues
