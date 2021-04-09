@@ -15,6 +15,7 @@ Sample recipe content
 
 ### User Stories
 
+- Site Owner perspective
 ##### US001 As the product owner I want prospective users/providers to be greeted with an attractive Home Page, that has a simple, intuitive layout.
 	- Given a user has navigated to the home page
 	- When the page loads
@@ -54,6 +55,7 @@ Sample recipe content
 	- Then the user is given information pertaining to that failure
 
 
+- Unregistered user perspective
 ##### US101 As the product owner I want users/providers to be able to register, if they are not already.
 	- Given a user has navigated to the home page, and is not registered
 	- When they would like to register
@@ -67,6 +69,7 @@ Sample recipe content
 	- When they fill in the form incorrectly 
 	- Then they are given enough relevant information on their errors
 
+- Registered user perspective
 ##### US201 As a user I want to be able to login to my profile.
 	- Given I have navigated to the site 
 	- When I want to log in
@@ -80,6 +83,7 @@ Sample recipe content
 	- When I fill in the form incorrectly
 	- Then I can see what I have done wrong
 
+- Logged in user perspective
 ##### US301 As a logged-in user I want to be able to edit my personal information.
 	- Given I have succesfully logged in
 	- When I am on my profile page
