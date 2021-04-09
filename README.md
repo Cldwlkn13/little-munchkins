@@ -201,3 +201,13 @@ Little Munchkins is a website designed for parents to create and share their fav
 	- Given I am editing my profile information
 	- When I decide I wish to delete my profile
 	- Then I am able to delete my profile and all my personal information
+
+### Wireframes
+
+Wireframes were designed using JustInMind and images of the slides can be viewed in the following table:
+
+|    Wireframes   |   
+|      :----:     |    
+|[]()|
+|[]()|
+|[]()|
