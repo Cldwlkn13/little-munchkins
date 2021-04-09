@@ -249,8 +249,7 @@ def recipeadd():
             defs.saveImage(
                 request,
                 app.config['UPLOAD_EXTENSIONS'],
-                app.config['UPLOAD_PATH']
-        )
+                app.config['UPLOAD_PATH'])
 
         mongo.db.recipes.insert_one(recipecard)
 

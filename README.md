@@ -3,6 +3,8 @@
 
 Little Munchkins is a website designed for parents to create and share their favourite weaning recipes. Furthermore, users are able to search and bookmark their favourite recipes provided by other users as well!
 
+[](/readmefiles/am-i-responsive.JPG)
+
 ## UX
 
 ### User Stories
@@ -296,9 +298,14 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 [Builder](https://validator.w3.org/nu/?doc=http%3A%2F%2Fflask-munchkins-app.herokuapp.com%2Frecipe%2Fbuilder)
 [Search](https://validator.w3.org/nu/?doc=http%3A%2F%2Fflask-munchkins-app.herokuapp.com%2Frecipes%2Fsearch)
 
-- [CSS]()
-- [Javascript]()
-- [Python]()
+- [CSS](readmefiles/css-validation.JPG)
+
+- [Javascript](readmefiles/js-validation.JPG) (JSHint)
+
+- Python
+[app.py](readmefiles/app-python-validation.JPG)
+[app_definitions.py](readmefiles/appdefs-python-validation.JPG)
+[app_test.py](readmefiles/apptest-python-validation.JPG)
 
 #### Browser Compatibility
 - **Google Chrome** No issues identified;

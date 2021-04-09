@@ -162,5 +162,3 @@ class AppDefinitions(object):
             ingredientsdict.update({str(i): s})
             i = i + 1
         return ingredientsdict
-
-

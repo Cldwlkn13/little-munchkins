@@ -13,10 +13,10 @@ $(document).ready(function () {
     $("#password_confirm").on("focusout", function () {
         if (!validatePassword()) {
             $(this).removeClass("valid").addClass("invalid");
-            $("#lbl_password_confirm").text("Passwords do not match")
+            $("#lbl_password_confirm").text("Passwords do not match");
         } else {
             $(this).removeClass("invalid").addClass("valid");
-            $("#lbl_password_confirm").text("Passwords match")
+            $("#lbl_password_confirm").text("Passwords match");
         }
     });
 
@@ -47,7 +47,7 @@ $(document).ready(function () {
     //recipe card
     $('.add-favourite').click(function(event){
         event.preventDefault();
-        var myelem = $(this)
+        var myelem = $(this);
         var data = {'data': $(this).siblings('input[name="_id"]').attr("value") };
         $.ajax({
             type: "POST",
@@ -83,7 +83,7 @@ $(document).ready(function () {
 
     $('.expand-content').click(function(){
         if($(this).hasClass('expanded')) {
-            $(this).siblings('span').first().text("Click to see more")
+            $(this).siblings('span').first().text("Click to see more");
             $(this).children('i').first().text("expand_more");
             $(this).parent().parent().siblings('.card-tabs').css("display", "none");
             $(this).parent().parent().siblings('.card-tab-content').css("display", "none");
@@ -125,7 +125,7 @@ $(document).ready(function () {
                         "<div class='input-field col m1'>" +
                             `<a href="#" id='remove-step-${i}'><i class="material-icons black-text">delete</i></a>` + 
                         "</div>" +
-                    "</div>"    
+                    "</div>";
       
         $('.steps').append(step); 
         $(`#step-${i}-type`).formSelect();
@@ -156,7 +156,7 @@ $(document).ready(function () {
                             "<div class='input-field col m1'>" +
                                 `<a href="#" id='remove-ingredient-${i}'><i class="material-icons black-text">delete</i></a>` + 
                             "</div>" +
-                        "</div>"    
+                        "</div>";    
       
         $('.ingredients').append(ingredient); 
         $(`#remove-ingredient-${i}`).on('click',function(){
@@ -168,19 +168,19 @@ $(document).ready(function () {
     });
 
     $('#preview-recipe').click(function(){
-        $('#builder-form').attr("target", "_blank")
+        $('#builder-form').attr("target", "_blank");
     });
 
     $('.submit-builder').click(function(){
         $('#builder-form').attr("target", "");
-        $('#editor-form').attr("target", "")
+        $('#editor-form').attr("target", "");
     });
 
 
     // editor
     $(`.remove-step`).on('click',function(){
         if(confirm("Are you sure?")) {
-            var i = $(this).get(0).id.split('-')[2]
+            var i = $(this).get(0).id.split('-')[2];
             $(`#step-${i}`).hide();
             $(`#step-${i}`).children().find('input').attr("disabled", true);
             $(`#step-${i}`).children().find('select').attr("disabled", true);
@@ -189,22 +189,22 @@ $(document).ready(function () {
 
     $(`.remove-ingredient`).on('click',function(){
         if(confirm("Are you sure?")) {
-            var i = $(this).get(0).id.split('-')[2]
+            var i = $(this).get(0).id.split('-')[2];
             $(`#ingredient-${i}`).hide();
             $(`#ingredient-${i}`).children().find('input').attr("disabled", true);
         }
     });
 
     $('#preview-recipe').click(function(){
-        $('#editor-form').attr("target", "_blank")
+        $('#editor-form').attr("target", "_blank");
     });
 
     $('#delete-recipe').click(function(){
-        $('#editor-form').attr("target", "")
+        $('#editor-form').attr("target", "");
     });
 
     $('#cancel-changes').click(function(){
-        $('#editor-form').attr("target", "")
+        $('#editor-form').attr("target", "");
     });
 
     //functions
@@ -212,7 +212,7 @@ $(document).ready(function () {
         $.get('/static/text/countries.txt', function (data) {
             var lines = data.split('\n');
             $.each(lines, function (k, v) {
-                var $newOpt = $("<option>").attr("value", v).text(v)
+                var $newOpt = $("<option>").attr("value", v).text(v);
                 elem.append($newOpt);
              });
         });
@@ -232,7 +232,7 @@ $(document).ready(function () {
     function refreshProfile() {
         var username = $('input[name="username"]');
         var isDisabled = username.attr('disabled') == "disabled";
-        var url = "/profile/" + username.attr("value")
+        var url = "/profile/" + username.attr("value");
         if(isDisabled){
             $.ajax({
                 type: "GET",
