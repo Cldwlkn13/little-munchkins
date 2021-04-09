@@ -310,7 +310,7 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |     iPhone5    |   
 |      :----:    |
 |[home](readmefiles/mobile/m-home.JPG)|
-|[register](readmefiles/mobile/m-register.JPG)|
+|[builder](readmefiles/mobile/m-builder.JPG)|
 |[profile](readmefiles/mobile/m-profile.JPG)|
 |[search](readmefiles/mobile/m-search.JPG)|
 	
@@ -319,7 +319,7 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |     iPad    |   
 |      :----:    |
 |[home](readmefiles/tablet/t-home.JPG)|
-|[register](readmefiles/tablet/t-register.JPG)|
+|[builder](readmefiles/tablet/t-builder.JPG)|
 |[profile](readmefiles/tablet/t-profile.JPG)|
 |[search](readmefiles/tablet/t-search.JPG)|
 
@@ -328,7 +328,7 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |     1920x1200    |   
 |      :----:    |
 |[home](readmefiles/desktop/d-home.JPG)|
-|[register](readmefiles/desktop/d-register.JPG)|
+|[register](readmefiles/desktop/d-builder.JPG)|
 |[profile](readmefiles/desktop/d-profile.JPG)|
 |[search](readmefiles/desktop/d-search.JPG)|
 
