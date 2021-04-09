@@ -45,7 +45,7 @@
     <!-- image -->
     <div class="recipe-img-wrapper">
         {% if recipecard.recipe_img %}
-            <img class="recipe-img" src="{{url_for('upload', filename=recipecard.recipe_img) }}">
+            <img class="recipe-img" src="{{url_for('upload', filename=recipecard.recipe_img) }}" alt="{{ recipecard.recipe_img }}">
         {% endif %}
     </div>
     <!-- expand -->
