@@ -340,6 +340,7 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 #### User Story Testing
 
 **Common Bugs**
+- Images do not persist on the server, or are removed periodically due to the heroku dynos undergoing ["cycling"](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted)
 
 ## Deployment
 
