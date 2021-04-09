@@ -278,8 +278,72 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 - [wtforms](https://wtforms.readthedocs.io/en/2.3.x/) - forms library for python
 - [unittest](https://docs.python.org/3/library/unittest.html) - unit testing library for python
 
+#### Persistence
+- [MongoDb](https://www.mongodb.com/cloud/atlas/) - no sql cloud database infrastructure
+
 #### Other Technologies
 - [JustInMind](https://www.justinmind.com/) - wireframes and site prototype
 - [GoogleFonts](https://fonts.google.com/) - font faces
 
+## Testing
+
+#### Code Validation
+
+- [HTML]()
+- [CSS]()
+- [Javascript]()
+- [Python]()
+
+#### Browser Compatibility
+- **Google Chrome** No issues identified;
+ 
+ - **Microsoft Edge** No issues identified;
+   
+ - **Mozilla Firefox** No issues identified;
+    
+ - **Opera** No issues identified;
+
+#### Responsiveness Quality Testing  
+Testing conducted on [Responsive Design Checker](https://responsivedesignchecker.com/)
+
+-   [Mobile]() - 0 issues
+-   [Tablet]() - 0 issues
+-   [Desktop]() - 0 issues
+
+#### Automated Testing - Python unittest
+
+#### User Story Testing
+
+**Common Bugs**
+
+## Deployment
+
+This site has been deployed onto the [heroku](https://www.heroku.com/) cloud infrastructure. 
+
+#### To Deploy
+- [heroku dashboard](https://dashboard.heroku.com/apps/flask-munchkins-app/) provides an overview of the deployment. 
+- Ensure the master branch is up to date. 
+- Navigate to the dashboard, then deploy tab. 
+- Hit deploy branch. 
+
+#### To clone from Github
+
+1. In the Github repository click the green **Code** button.
+2. Select clone protocol of your choice (SSL/HTTP/CLI)
+3. Go to your IDE.
+3. Open **Git Bash**.
+4. Change the current working directory to the location where you want the cloned directory to be made.
+5. Type **git clone**, and then paste the URL copied from GitHub.
+6. Press **enter** and the local clone will be created.
+
+## Credits
+- First and foremost the excellent guidance from the Task Manager walkthrough by [Tim Nelson](https://github.com/TravelTimN)
+- Plugin acquired from https://github.com/yckart/jquery-custom-animations for some funky custom animations.  
+- coding tips from [W3Schools](https://www.w3schools.com/) & [freecodecamp](https://www.freecodecamp.org/news/) 
+- image uploading guidance in flask from [miguel grinberg](https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask)
+
+## Acknowledgments
+[Precious Ijege](https://www.linkedin.com/in/precious-ijege-908a00168/?originalSubdomain=ng) for all his support and guidance.
+
+I would also like to thank Susan for their feedback and support through this process!
 
