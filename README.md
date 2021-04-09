@@ -289,7 +289,13 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 
 #### Code Validation
 
-- [HTML]()
+- HTML
+[Home](https://validator.w3.org/nu/?doc=http%3A%2F%2Fflask-munchkins-app.herokuapp.com%2Fhome)
+[Login](https://validator.w3.org/nu/?doc=http%3A%2F%2Fflask-munchkins-app.herokuapp.com%2Flogin)
+[Register](https://validator.w3.org/nu/?doc=http%3A%2F%2Fflask-munchkins-app.herokuapp.com%2Fregister)
+[Builder](https://validator.w3.org/nu/?doc=http%3A%2F%2Fflask-munchkins-app.herokuapp.com%2Frecipe%2Fbuilder)
+[Search](https://validator.w3.org/nu/?doc=http%3A%2F%2Fflask-munchkins-app.herokuapp.com%2Frecipes%2Fsearch)
+
 - [CSS]()
 - [Javascript]()
 - [Python]()
