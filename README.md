@@ -305,14 +305,32 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 
 #### Responsiveness Quality Testing  
 
--   [Mobile]() - 0 issues
--   
+-   Mobile - 0 issues
+
 |     iPhone5    |   
 |      :----:    |
-|[home](readmefiles/mobile-home.JPG)    |
+|[home](readmefiles/mobile/m-home.JPG)|
+|[register](readmefiles/mobile/m-register.JPG)|
+|[profile](readmefiles/mobile/m-profile.JPG)|
+|[search](readmefiles/mobile/m-search.JPG)|
 	
--   [Tablet]() - 0 issues
--   [Desktop]() - 0 issues
+-   Tablet - 0 issues
+
+|     iPad    |   
+|      :----:    |
+|[home](readmefiles/tablet/t-home.JPG)|
+|[register](readmefiles/tablet/t-register.JPG)|
+|[profile](readmefiles/tablet/t-profile.JPG)|
+|[search](readmefiles/tablet/t-search.JPG)|
+
+-   Desktop - 0 issues
+
+|     1920x1200    |   
+|      :----:    |
+|[home](readmefiles/desktop/d-home.JPG)|
+|[register](readmefiles/desktop/d-register.JPG)|
+|[profile](readmefiles/desktop/d-profile.JPG)|
+|[search](readmefiles/desktop/d-search.JPG)|
 
 #### Automated Testing - Python unittest
 
