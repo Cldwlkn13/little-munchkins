@@ -4,7 +4,6 @@ import imghdr
 from bson import json_util
 from flask import jsonify, abort
 from werkzeug.utils import secure_filename
-from datetime import datetime
 
 
 class AppDefinitions(object):
@@ -25,7 +24,7 @@ class AppDefinitions(object):
         img_name = ""
         if requestform.get('recipe_img_name'):
             img_name = secure_filename(
-                requestform.get('recipe_img_name').lower())
+                requestform.get('recipe_img_name')).lower()
 
         recipecard = {
             "title": requestform.get("title").lower(),
@@ -46,17 +45,17 @@ class AppDefinitions(object):
         }
         return recipecard
 
-    def saveImage(self, requestform, validExt):
+    def saveImage(self, requestform, validExt, uploadPath):
         uploaded_file = requestform.files['recipe_img']
-        filename = secure_filename(uploaded_file.lower())
+        filename = secure_filename(uploaded_file.filename)
         if filename != "":
-            file_ext = os.path.splitext(filename)[1]
+            file_ext = os.path.splitext(filename)[1].lower()
             if file_ext not in validExt or \
                     file_ext != self.validate_image(
                         uploaded_file.stream):
                 abort(400)
-                path = os.path.join("static/images/public/",  filename)
-                uploaded_file.save(path)
+            path = os.path.join(uploadPath,  filename).lower()
+            uploaded_file.save(path)
 
     def validate_image(self, stream):
         header = stream.read(512)

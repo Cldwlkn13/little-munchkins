@@ -246,7 +246,11 @@ def recipeadd():
         recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
         if 'recipe_img' in request.files:
-            defs.saveImage(request, app.config['UPLOAD_EXTENSIONS'])
+            defs.saveImage(
+                request,
+                app.config['UPLOAD_EXTENSIONS'],
+                app.config['UPLOAD_PATH']
+        )
 
         mongo.db.recipes.insert_one(recipecard)
 
@@ -258,12 +262,17 @@ def recipeadd():
 @app.route("/recipe/preview", methods=['POST'])
 def recipepreview():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
+
     recipecard['prep_time'] = defs.calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
     recipecard['context'] = "preview"
 
     if 'recipe_img' in request.files:
-        defs.saveImage(request, app.config['UPLOAD_EXTENSIONS'])
+        defs.saveImage(
+            request,
+            app.config['UPLOAD_EXTENSIONS'],
+            app.config['UPLOAD_PATH']
+        )
 
     return render_template("preview.html", recipecard=recipecard)
 
@@ -293,7 +302,11 @@ def recipeupdate():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
     if 'recipe_img' in request.files:
-        defs.saveImage(request, app.config['UPLOAD_EXTENSIONS'])
+        defs.saveImage(
+            request,
+            app.config['UPLOAD_EXTENSIONS'],
+            app.config['UPLOAD_PATH']
+        )
 
     mongo.db.recipes.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},

@@ -206,12 +206,14 @@
         attributeFilter: ['value']
     });
 
-    document
-        .getElementById("file-path")
-        .setAttribute("value", document
-            .getElementById("file-path")
-            .getAttribute("value").replace("$","")
-    );
+    //document
+        //.getElementById("file-path")
+        //.setAttribute("value", document
+            //.getElementById("file-path")
+            //.getAttribute("value")
+    console.log(document
+    .getElementById("file-path")
+            .getAttribute("value"));
 
     var loadPreviewFile = function(event){ 
         if(event.target.files[0].size > (1024 * 1024)){
