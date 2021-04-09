@@ -1,45 +1,352 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Little Munchkins 
+[site published here](http://flask-munchkins-app.herokuapp.com/)
 
-Welcome Cldwlkn13,
+Little Munchkins is a website designed for parents to create and share their favourite weaning recipes. Furthermore, users are able to search and bookmark their favourite recipes provided by other users as well!
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use.
+## UX
 
-## Gitpod Reminders
+### User Stories
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+##### US001 As the product owner I want prospective users/providers to be greeted with an attractive Home Page, that has a simple, intuitive layout.
+	- Given a user has navigated to the home page
+	- When the page loads
+	- Then they are met with an attractive and simple layout with relevant information
 
-`python3 -m http.server`
+##### US002 As the product owner I want users/providers to have the ability to sign into their profile.
+	- Given a user has navigated to the home page
+	- When they would like to log in
+	- Then they are able to navigate to the login page
 
-A blue button should appear to click: *Make Public*,
+	- Given the user has navigated to the login page 
+	- When they fill in the form correctly 
+	- Then they are redirected to their profile url.
 
-Another blue button should appear to click: *Open Browser*.
+	- Given the user has navigated to the login page 
+	- When they fill in the form incorrectly 
+	- Then they are given enough relevant information on their errors
+ 
+##### US003 As the product owner I want users to be able to navigate to the different elements of the site (where their profile type allows)
+	- Given the user has successfully logged in
+	- When they are in any part of the site
+	- Then they are able to navigate to another part easily
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+##### US004 As the product owner I want users to be able to contact us when necessary.
+	- Given a user has navigated to the site (not necessarily logged in)
+	- When they search for contact details
+	- Then they are easily available 
 
-A blue button should appear to click: *Make Public*,
+##### US005 As the product owner I want to protect my site from malicious attempts to upload large image files.
+	- Given a user is somewhere they can upload images
+	- When they attempt to upload an image above a certain size
+	- Then that file is rejected and they are given a dialog warning
 
-Another blue button should appear to click: *Open Browser*.
+##### US006 As the product owner I want to ensure users are given relevant and accurate informations about site operational or user errors
+	- Given an operation within the application is triggered
+	- When that operation fails
+	- Then the user is given information pertaining to that failure
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
 
-## Updates Since The Instructional Video
+##### US101 As the product owner I want users/providers to be able to register, if they are not already.
+	- Given a user has navigated to the home page, and is not registered
+	- When they would like to register
+	- Then they are able to navigate to the register page
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+	- Given the user has navigated to the register page 
+	- When they fill in the form correctly 
+	- Then a profile is created for them and they are redirected to its url.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+	- Given the user has navigated to the register page 
+	- When they fill in the form incorrectly 
+	- Then they are given enough relevant information on their errors
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+##### US201 As a user I want to be able to login to my profile.
+	- Given I have navigated to the site 
+	- When I want to log in
+	- Then I can easily do so
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+	- Given I have navigated to the login page
+	- When I fill in the form correctly
+	- Then I am redirected to my profile
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+	- Given I have navigated to the login page
+	- When I fill in the form incorrectly
+	- Then I can see what I have done wrong
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+##### US301 As a logged-in user I want to be able to edit my personal information.
+	- Given I have succesfully logged in
+	- When I am on my profile page
+	- Then I can click to edit my profile information
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+	- Given I am editing my profile information
+	- When I make the necessary changes
+	- Then I am able to submit those changes
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+	- Given I am editing my profile information
+	- When I decide I no longer wish to make the changes
+	- Then I am able to cancel those changes
 
---------
 
-Happy coding!
+##### US302 As a logged-in user I want to be able to create new recipes for the site.
+	- Given I have successfully logged in
+	- When I navigate to the recipe builder	page
+	- Then I am able to compile the recipe I want to add
+
+	- Given I have entered data into the recipe builder
+	- When I want to preview my recipe
+	- Then I am directed to a page where I can see it
+
+	- Given I am entering data into the recipe builder
+	- When I want to add a new method step to the recipe
+	- Then I can click somewhere to create an extension to the form
+
+	- Given I am entering data into the recipe builder
+	- When I want to add a new ingredient to the recipe
+	- Then I can click somewhere to create an extension to the form
+
+	- Given I am entering data into the recipe builder
+	- When I want to delete a method step to the recipe
+	- Then I can click somewhere to remove it from the form
+
+	- Given I am entering data into the recipe builder
+	- When I want to delete an ingredient to the recipe
+	- Then I can click somewhere to remove it from the form
+
+	- Given I am entering data into the recipe builder
+	- When I want to add an image to the recipe
+	- Then I can click somewhere to upload an image
+
+	- Given I am entering data into the recipe builder
+	- When I want to submit my recipe and the form has been compiled to mimimum validation standards
+	- Then that recipe is saved and I am redirected to my profile page where it is visible in "my recipes"
+
+	- Given I am entering data into the recipe builder
+	- When I want to submit my recipe and the form has NOT been compiled to mimimum validation standards
+	- Then I am prompted to the what the extra information required is
+
+	- Given I am entering data into the recipe builder
+	- When I want to reset the form
+	- Then I am able to click somewhere and the form is reset to default state
+
+
+##### US303 As a logged-in user I want to be able to view the recipes I have created.
+	- Given I have successfully logged in
+	- When I have navigated to my profile page
+	- Then I can asily view the recipes I have created
+
+##### US304 As a logged-in user I want to be able to edit the recipes I have created.
+	- Given I have clicked on a recipe for editing
+	- When the editor form loads
+	- Then the data present there correctly refers to the recipe I wish to edit
+
+	- Given I am editing a recipe
+	- When I decide I would like to submit the changes
+	- Then the recipe is saved and I am redirected to my profile page
+
+	- Given I am editing a recipe
+	- When I decide I would like to cancel the changes
+	- Then no changes are saved and I am redirected to my profile page
+
+##### US305 As a logged-in user I want to be able to delete the recipes I have created.
+	- Given I have successfully logged in
+	- When I click on a recipe to edit
+	- Then I have somewhere to click to delete the recipe
+
+	- Given I have deleted a recipe
+	- When another user who has favourited the recipe logs in
+	- Then that recipe is no longer available in their "my favourites" section
+
+##### US306 As a logged-in user I want to be able to search for recipes provided by other users.
+	- Given I have successfully logged in
+	- When I navigate to the search page
+	- Then I can see a search form with inputs 
+
+	- Given I have navigated to the search page
+	- When I hit submit with no search parameters
+	- Then I am returned all the recipes in the database 
+
+	- Given I have navigated to the search page
+	- When I hit submit with a partial word in the name field
+	- Then I am returned all the recipes that the database deems relevant to that partial word 
+
+	- Given I have navigated to the search page
+	- When I hit submit with a value in the month field
+	- Then I am returned all the recipes that the database deems relevant 
+
+ 
+##### US307 As a logged-in user I want to be able to favourite recipes provided by other users. 
+	- Given I have searched for a recipe from another user than myself
+	- When I decide I would like to save that recipe
+	- Then I have somewhere to click where that recipe is added to "my favourites"
+
+	- Given I have searched for a recipe from another user than myself
+	- When I look at the recipe card
+	- Then I can see if Ihave already favourited it
+
+##### US308 As a logged-in user I want to be able to see the recipes I have favourited.
+	- Given I have successfully logged in
+	- When I have navigated to my profile page
+	- Then I can see all the recipes I have faavourited in "my favourites" section 
+
+##### US309 As a logged-in user I want to be able to un-favourite the recipes I have favourited.
+	- Given I can see a recipe I have favourited 
+	- When I decide I no longer wish it to be saved as a favourite
+	- Then I have somewhere to click to remove it
+
+##### US310 As a logged-in user I want to be able to log out.
+	- Given I have successfully logged in
+	- When I decide I wish to log out
+	- Then I have somewhere to click where I can log out 
+
+##### US311 As a logged-in user I want to be able to delete my profile.
+	- Given I am editing my profile information
+	- When I decide I wish to delete my profile
+	- Then I am able to delete my profile and all my personal information
+
+### Wireframes
+
+Wireframes were designed using JustInMind and images of the slides can be viewed in the following table:
+
+|    Wireframes   |   
+|      :----:     |    
+|[]()|
+|[]()|
+|[]()|
+
+## Features
+**Home**
+- Contains a large title tagline and full width/height background. 
+- Contains large buttons for login/register.
+- Contains some concise information about why a user should sign up.
+- Contains a sample recipe card for potential users to view. 
+
+**Header**
+- Brand logo, which links to the home page
+- Navigation bar with links
+	
+**Flash Messages**
+- Operational messages displayed to the user, which then fade away after a few seconds as to not clutter view
+
+**Footer**
+- Contact email address (for demo purposes only)
+- Site copyright
+
+**Login**
+- Simple validated form with username and password inputs
+
+**Register**
+- Validated registration form with fields pertaining to user information
+
+**Profile**
+- Profile information, and this is where users can edit this information too. 
+- My Recipes: Where users can see the recipes they've created. 
+- My Favourites: Where users can see the recipes they've favourited. 
+
+**Search**
+- Search form with two search parameters: By name, By months of child, for suitable recipes (neither are required). 
+
+**Recipe Builder**
+- Validated form where users can compile a recipe card. 
+- Users are able to upload an image for the recipe here. 
+- Feature to add and remove steps as desired.
+- Feature to add and remove ingredients as desired.
+- Button to preview the card before submission.
+
+**Recipe Editor**
+- Validated form where users can edit an already created recipe card. 
+- Users are able to edit all components of the recipe card.
+- Button to preview the card before submission.
+- Button to cancel changes.
+- Button to delete the recipe.
+
+## Technologies
+
+#### Development:
+- [GitHub](https://github.com/) - site host.
+- [Gitpod](https://gitpod.io/) - dev IDE.
+
+#### content, styling & client logic:
+- [HTML5](https://en.wikipedia.org/wiki/HTML5) - site content
+- [CSS3](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) - site styling
+- [Materialize](https://materializecss.com/about.html) - project layout & additional styling
+- [Javascript](https://en.wikipedia.org/wiki/JavaScript) - functional logic
+
+#### Server side
+- [Python](https://www.python.org/) 
+- [Flask](https://flask.palletsprojects.com/en/1.1.x/) - python mirco framework for web app development
+- [Jinja](https://jinja.palletsprojects.com/en/2.11.x/) - temlating language for flask
+- [Werkzeug](https://werkzeug.palletsprojects.com/en/1.0.x/) - application tooling for flask
+- [wtforms](https://wtforms.readthedocs.io/en/2.3.x/) - forms library for python
+- [unittest](https://docs.python.org/3/library/unittest.html) - unit testing library for python
+
+#### Persistence
+- [MongoDb](https://www.mongodb.com/cloud/atlas/) - no sql cloud database infrastructure
+
+#### Other Technologies
+- [JustInMind](https://www.justinmind.com/) - wireframes and site prototype
+- [GoogleFonts](https://fonts.google.com/) - font faces
+
+## Testing
+
+#### Code Validation
+
+- [HTML]()
+- [CSS]()
+- [Javascript]()
+- [Python]()
+
+#### Browser Compatibility
+- **Google Chrome** No issues identified;
+ 
+ - **Microsoft Edge** No issues identified;
+   
+ - **Mozilla Firefox** No issues identified;
+    
+ - **Opera** No issues identified;
+
+#### Responsiveness Quality Testing  
+Testing conducted on [Responsive Design Checker](https://responsivedesignchecker.com/)
+
+-   [Mobile]() - 0 issues
+-   [Tablet]() - 0 issues
+-   [Desktop]() - 0 issues
+
+#### Automated Testing - Python unittest
+
+- In the root of this project you will find the [test_app.py](test_app.py) file. 
+- This contains [31 unit tests](/readmefiles/unittest) for the app.py and app_definitions.py files. 
+
+#### User Story Testing
+
+**Common Bugs**
+
+## Deployment
+
+This site has been deployed onto the [heroku](https://www.heroku.com/) cloud infrastructure. 
+
+#### To Deploy
+- [heroku dashboard](https://dashboard.heroku.com/apps/flask-munchkins-app/) provides an overview of the deployment. 
+- Ensure the master branch is up to date. 
+- Navigate to the dashboard, then deploy tab. 
+- Hit deploy branch. 
+
+#### To clone from Github
+
+1. In the Github repository click the green **Code** button.
+2. Select clone protocol of your choice (SSL/HTTP/CLI)
+3. Go to your IDE.
+3. Open **Git Bash**.
+4. Change the current working directory to the location where you want the cloned directory to be made.
+5. Type **git clone**, and then paste the URL copied from GitHub.
+6. Press **enter** and the local clone will be created.
+
+## Credits
+- First and foremost the excellent guidance from the Task Manager walkthrough by [Tim Nelson](https://github.com/TravelTimN)
+- Plugin acquired from https://github.com/yckart/jquery-custom-animations for some funky custom animations.  
+- coding tips from [W3Schools](https://www.w3schools.com/) & [freecodecamp](https://www.freecodecamp.org/news/) 
+- image uploading guidance in flask from [miguel grinberg](https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask)
+
+## Acknowledgments
+[Precious Ijege](https://www.linkedin.com/in/precious-ijege-908a00168/?originalSubdomain=ng) for all his support and guidance.
+
+I would also like to thank Susan for their feedback and support through this process!
+
