@@ -358,25 +358,25 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 
 #### User Story Testing
 
-##### US001 As the product owner I want prospective users/providers to be greeted with an attractive Home Page, that has a simple, intuitive layout. &check
-##### US002 As the product owner I want users/providers to have the ability to sign into their profile. &check
-##### US003 As the product owner I want users to be able to navigate to the different elements of the site (where their profile type allows) &check
-##### US004 As the product owner I want users to be able to contact us when necessary. &check
-##### US005 As the product owner I want to protect my site from malicious attempts to upload large image files. &check
-##### US006 As the product owner I want to ensure users are given relevant and accurate informations about site operational or user errors &check
-##### US101 As the product owner I want users/providers to be able to register, if they are not already. &check
-##### US201 As a user I want to be able to login to my profile. &check
-##### US301 As a logged-in user I want to be able to edit my personal information. &check
-##### US302 As a logged-in user I want to be able to create new recipes for the site. &check
-##### US303 As a logged-in user I want to be able to view the recipes I have created. &check
-##### US304 As a logged-in user I want to be able to edit the recipes I have created. &check
+##### US001 As the product owner I want prospective users/providers to be greeted with an attractive Home Page, that has a simple, intuitive layout. &check;
+##### US002 As the product owner I want users/providers to have the ability to sign into their profile. &check;
+##### US003 As the product owner I want users to be able to navigate to the different elements of the site (where their profile type allows) &check;
+##### US004 As the product owner I want users to be able to contact us when necessary. &check;
+##### US005 As the product owner I want to protect my site from malicious attempts to upload large image files. &check;
+##### US006 As the product owner I want to ensure users are given relevant and accurate informations about site operational or user errors &check;
+##### US101 As the product owner I want users/providers to be able to register, if they are not already. &check;
+##### US201 As a user I want to be able to login to my profile. &check;
+##### US301 As a logged-in user I want to be able to edit my personal information. &check;
+##### US302 As a logged-in user I want to be able to create new recipes for the site. &check;
+##### US303 As a logged-in user I want to be able to view the recipes I have created. &check;
+##### US304 As a logged-in user I want to be able to edit the recipes I have created. &check;
 ##### US305 As a logged-in user I want to be able to delete the recipes I have created. &check
-##### US306 As a logged-in user I want to be able to search for recipes provided by other users. &check
-##### US307 As a logged-in user I want to be able to favourite recipes provided by other users. &check
-##### US308 As a logged-in user I want to be able to see the recipes I have favourited. &check
-##### US309 As a logged-in user I want to be able to un-favourite the recipes I have favourited. &check
-##### US310 As a logged-in user I want to be able to log out. &check
-##### US311 As a logged-in user I want to be able to delete my profile. &check
+##### US306 As a logged-in user I want to be able to search for recipes provided by other users. &check;
+##### US307 As a logged-in user I want to be able to favourite recipes provided by other users. &check;
+##### US308 As a logged-in user I want to be able to see the recipes I have favourited. &check;
+##### US309 As a logged-in user I want to be able to un-favourite the recipes I have favourited. &check;
+##### US310 As a logged-in user I want to be able to log out. &check;
+##### US311 As a logged-in user I want to be able to delete my profile. &check;
 
 **Common Bugs**
 - Images do not persist on the server, or are removed periodically due to the heroku dynos undergoing ["cycling"](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted)
