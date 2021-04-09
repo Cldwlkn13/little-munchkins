@@ -1,7 +1,10 @@
 import json
 import os
+import imghdr
 from bson import json_util
-from flask import jsonify
+from flask import jsonify, abort
+from werkzeug.utils import secure_filename
+from datetime import datetime
 
 
 class AppDefinitions(object):
@@ -21,7 +24,8 @@ class AppDefinitions(object):
     def recipeCardBuilder(self, requestform, user):
         img_name = ""
         if requestform.get('recipe_img_name'):
-            img_name = requestform.get('recipe_img_name').lower()
+            img_name = secure_filename(
+                requestform.get('recipe_img_name').lower())
 
         recipecard = {
             "title": requestform.get("title").lower(),
@@ -43,12 +47,24 @@ class AppDefinitions(object):
         return recipecard
 
     def saveImage(self, requestform, validExt):
-        filename = requestform.files['recipe_img'].filename.lower()
+        uploaded_file = requestform.files['recipe_img']
+        filename = secure_filename(uploaded_file.lower())
         if filename != "":
             file_ext = os.path.splitext(filename)[1]
-            if file_ext in validExt:
-                path = "static/images/public/" + filename
-                requestform.files['recipe_img'].save(path)
+            if file_ext not in validExt or \
+                    file_ext != self.validate_image(
+                        uploaded_file.stream):
+                abort(400)
+                path = os.path.join("static/images/public/",  filename)
+                uploaded_file.save(path)
+
+    def validate_image(self, stream):
+        header = stream.read(512)
+        stream.seek(0)
+        format = imghdr.what(None, header)
+        if not format:
+            return None
+        return '.' + (format if format != 'jpeg' else 'jpg')
 
     def calculateTiming(self, recipecard, src):
         t = 0
@@ -147,3 +163,5 @@ class AppDefinitions(object):
             ingredientsdict.update({str(i): s})
             i = i + 1
         return ingredientsdict
+
+
