@@ -2,7 +2,7 @@
 {% block content %}
 <div class="profile-wrapper" id="profile-wrap">
     <div class="row">
-        <div class="col s12 m4" id="profile">
+        <div class="col s12 m8 offset-m2 l4" id="profile">
             <div class="card-panel">
                 <h5>Profile</h5>
                 <a href="#" id="user-edit" class="black-text"><i class="material-icons">edit</i></a>
@@ -46,25 +46,37 @@
             </div>
         </div>
         <!-- my recipes -->
-        <div class="col s12 m4" id="my-recipes">
+        <div class="col s12 m8 offset-m2 l4" id="my-recipes">
              <div class="card-panel">
-                <h5>My Recipes</h5>
-                {% if (myrecipes is not defined) or (myrecipes|length == 0) %}
-                    <p>You have not created any recipes yet.</p>
-                {% else %}
-                    {% include "my_recipes.html" %}
-                {% endif %}
+                <ul class="collapsible">
+                    <li>
+                        <h5 class="collapsible-header">My Recipes</h5>
+                        <div class="collapsible-body">
+                            {% if (myrecipes is not defined) or (myrecipes|length == 0) %}
+                                <p>You have not created any recipes yet.</p>
+                            {% else %}
+                                {% include "my_recipes.html" %}
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
         <!-- my favourites -->
-        <div class="col s12 m4" id="my-favourites">
+        <div class="col s12 m8 offset-m2 l4" id="my-favourites">
             <div class="card-panel">
-                <h5>My Favourites</h5>
-                {% if (myfavourites is not defined) or (myfavourites|length == 0) %}
-                    <p>You have no favourites yet.</p>
-                {% else %}
-                    {% include "my_favourites.html" %}
-                {% endif %}
+                <ul class="collapsible">
+                    <li>
+                        <h5 class="collapsible-header">My Favourites</h5>
+                        <div class="collapsible-body">
+                            {% if (myfavourites is not defined) or (myfavourites|length == 0) %}
+                                <p>You have no favourites yet.</p>
+                            {% else %}
+                                {% include "my_favourites.html" %}
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

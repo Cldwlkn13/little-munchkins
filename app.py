@@ -224,7 +224,7 @@ def recipesearch():
                 result['cook_time'] = defs.calculateTiming(result, "cook")
 
             if results:
-                _nparr = np.array_split(results, 2)
+                _nparr = np.array_split(results, 3)
                 if len(results) == 1:
                     return render_template(
                         'search.html', form=form, results_one=_nparr[0])

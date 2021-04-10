@@ -281,6 +281,10 @@ a.disabled {
     margin-bottom: 25px;
 }
 
+.collapsible-body {
+    padding: 10px;
+}
+
 /* tooltip*/
 .tooltip {
   position: relative;
