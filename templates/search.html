@@ -17,7 +17,7 @@
             <div class="card-panel">
             <div class="row">
                 {% if results_one|length %}
-                <div class="col s12 m4">
+                <div class="col s12 m6 l4">
                         {% for recipecard in results_one %}
                         {% include "recipe_card.html" %}
                         {% endfor %}
@@ -26,8 +26,7 @@
                 <p>no results found</p>
                 {% endif %}
                 {% if results_two|length %}
-                <div class="col s12 m4">
-                    
+                <div class="col s12 m6 l4">
                         {% for recipecard in results_two %}
                         {% include "recipe_card.html" %}
                         {% endfor %}
@@ -35,7 +34,7 @@
                 </div>
                 {% endif %}
                 {% if results_thr|length %}
-                <div class="col s12 m4">
+                <div class="col s12 m6 l4">
                         {% for recipecard in results_thr %}
                         {% include "recipe_card.html" %}
                         {% endfor %}
