@@ -27,8 +27,15 @@
             <p class="recipe-created-by"><i>by {{ recipecard.created_by }}</i></p>
         </div>
     </div>
+    <!-- expand -->
+    <div class="row">
+        <div class="col s6 offset-s3 tooltip center-align">
+            <span class="tooltiptext center-align"> Click to see more </span>
+            <a class="expand-content center-align black-text"><i class="material-icons">expand_more</i></a>
+        </div>
+    </div>
     <!-- preparation timings -->
-    <div class="row prep-time lime lighten-5">
+    <div class="row prep-time lime lighten-5" style="display: none;">
         <div class="col s6">
             <p class="recipe-prep-time center-align"><i class="material-icons">access_time</i> Preparation Time:
                 {% if recipecard.prep_time is defined %}
@@ -43,17 +50,10 @@
         </div>
     </div>
     <!-- image -->
-    <div class="recipe-img-wrapper">
+    <div class="recipe-img-wrapper" style="display: none;">
         {% if recipecard.recipe_img %}
             <img class="recipe-img" src="{{url_for('upload', filename=recipecard.recipe_img) }}" alt="{{ recipecard.recipe_img }}">
         {% endif %}
-    </div>
-    <!-- expand -->
-    <div class="row">
-        <div class="col s6 offset-s3 tooltip center-align">
-            <span class="tooltiptext center-align"> Click to see more </span>
-            <a class="expand-content center-align black-text"><i class="material-icons">expand_more</i></a>
-        </div>
     </div>
     <!-- tabs -->
     <div class="card-tabs" style="display: none;">
@@ -105,3 +105,27 @@
     </div>
 </div>
 {% endblock %}
+
+<script>
+    var img = document.querySelector('img')
+
+    function get(img, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4){
+                if (typeof callback === "function") {
+                    callback.apply(xhr);
+                }
+            }
+        };
+        xhr.open('GET', 'uploads/' + img.getAttribute('alt'));
+        xhr.send();
+    }
+
+    get(img, function(){
+        if(this.status != 200){
+            img.style.display = "none";
+        }
+    });
+
+</script>
