@@ -342,7 +342,7 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |[search](readmefiles/mobile/m-search.JPG)|
 	
 -   Tablet - 0 issues
-![](/readmefiles/mobile/t-testing.JPG)
+![](/readmefiles/tablet/t-testing.JPG)
 
 |     iPad    |   
 |      :----:    |
@@ -352,7 +352,7 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |[search](readmefiles/tablet/t-search.JPG)|
 
 -   Desktop - 0 issues
-![](/readmefiles/mobile/d-testing.JPG)
+![](/readmefiles/desktop/d-testing.JPG)
 
 |     1920x1200    |   
 |      :----:    |
