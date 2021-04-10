@@ -165,6 +165,8 @@ def useredit():
         {"_id": ObjectId(str(request.form.get("_id")))},
         {"$set": user}, upsert=False)
     session["user"] = request.form.get("username").lower()
+
+    flash(f'{session["user"]}, your profile has been updated')
     return redirect(url_for(
         "profile", username=session["user"]))
 
