@@ -369,24 +369,57 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 #### User Story Testing
 
 ##### US001 As the product owner I want prospective users/providers to be greeted with an attractive Home Page, that has a simple, intuitive layout. &check;
+- Home page has an attractive opaque image. 
+- Buttons are positioned centrally and their purpose is obvious.
+- Additional imformation is displayed about the sie purpose and content. 
 ##### US002 As the product owner I want users/providers to have the ability to sign into their profile. &check;
+- Login page works efficiently, displaying necessary validation errors and redirection. 
 ##### US003 As the product owner I want users to be able to navigate to the different elements of the site (where their profile type allows) &check;
+- Navbar at the top of the page has the relevant links for users, when logged in or out. On mobile this is available on a sidebar, from a "hamburger" icon.
 ##### US004 As the product owner I want users to be able to contact us when necessary. &check;
+- Email contact details are available in the footer of each page (excluding homepage, that has no footer)
 ##### US005 As the product owner I want to protect my site from malicious attempts to upload large image files. &check;
+- Users are forbidden to upload image files larger than 1MB. 
+- If this is attempted the file is rejested and a dialog is presented to the user.
 ##### US006 As the product owner I want to ensure users are given relevant and accurate informations about site operational or user errors &check;
+- The site has two error views for 4XX and 5XX errors that render when an exception is thrown. 
 ##### US101 As the product owner I want users/providers to be able to register, if they are not already. &check;
+- Register form is clear and well validated for the inputs required. 
+- Passwords are secured with a secure hash from werkzeug. 
 ##### US201 As a user I want to be able to login to my profile. &check;
+- Login page works efficiently, displaying necessary validation errors and redirection. 
 ##### US301 As a logged-in user I want to be able to edit my personal information. &check;
+- Users are able to edit their personal information on the profile tab by clicking the dit icon. 
+- The form is well validated with the necessary redirect on operations. 
 ##### US302 As a logged-in user I want to be able to create new recipes for the site. &check;
+- Users can create new recipes on the "My Recipe Builder" page. 
+- The form is well validated on inputs and while all fields are not necessary, there is a minimum content threshold that must be fulfilled. 
+- Users can add/remove ingredients and steps for their method. 
+- Users can preview their recipe card before submission. 
 ##### US303 As a logged-in user I want to be able to view the recipes I have created. &check;
+- Users can view the recipes they have created on their profile page, under the "My Recipes" section. 
 ##### US304 As a logged-in user I want to be able to edit the recipes I have created. &check;
-##### US305 As a logged-in user I want to be able to delete the recipes I have created. &check
+- If a recipe was created by the user, then on the recipe card they are given the option to edit. Once clicked this directs them to the "Recipe Editor".
+- Users can add/remove content from their recipe as desired. 
+##### US305 As a logged-in user I want to be able to delete the recipes I have created. &check;
+- Users are able to delete their recipes by clicking edit, then from the recipe editor, clicking delete.
+- Upon deletion, the recipe id is removed from the "favourites" array for all users who had favourited it. 
 ##### US306 As a logged-in user I want to be able to search for recipes provided by other users. &check;
+- Users are able to search for other recipes by navigating to the search page. 
+- Clicking on submit with no parameters will return all recipes. 
+- Users can search by recipe name, which matches on partial strings. (field not required)
+- Users can search by age in months for the suitablilty of the recipe (field not required)
 ##### US307 As a logged-in user I want to be able to favourite recipes provided by other users. &check;
+- Upon finding a recipe they like, users are abel to "faviourite" recipe n the recipe card.
+- Upon selection, the icon turns green.  
 ##### US308 As a logged-in user I want to be able to see the recipes I have favourited. &check;
+- Favourited recipes are available to the user on the "My Favourites" section of their profile page. 
 ##### US309 As a logged-in user I want to be able to un-favourite the recipes I have favourited. &check;
+- Upon deciding they wish to remove a recipe from their favourites, a user can click the icon to remove it. (turns icon purple)
 ##### US310 As a logged-in user I want to be able to log out. &check;
+- Log out link is available in the navbar. 
 ##### US311 As a logged-in user I want to be able to delete my profile. &check;
+- Users are able to delete their profile by clicking edit profile, then delete. 
 
 **Common Bugs**
 - Images do not persist on the server, or are removed periodically due to the heroku dynos undergoing ["cycling"](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted)
@@ -396,7 +429,10 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 This site has been deployed onto the [heroku](https://www.heroku.com/) cloud infrastructure. 
 
 #### To Deploy
-- [heroku dashboard](https://dashboard.heroku.com/apps/flask-munchkins-app/) provides an overview of the deployment. 
+- 
+- [heroku dashboard](https://dashboard.heroku.com/apps/flask-munchkins-app/) provides an overview of the deployment.
+- In the settings tab, navigate to settings, then reveal config vars
+- Add the environment vairables as prescribed in the env.py file.
 - Ensure the master branch is up to date. 
 - Navigate to the dashboard, then deploy tab. 
 - Hit deploy branch. 
