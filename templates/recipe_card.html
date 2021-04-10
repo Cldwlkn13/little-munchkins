@@ -19,8 +19,10 @@
                 </form>
             {% endif %}
         </div>
-        <div class="col s2">
-            
+        <div class="col s5 recipe-img-header" >
+            {% if recipecard.recipe_img %}
+            <img class="recipe-img-header-preview" alt="{{ recipecard.recipe_img }}" width="100%">
+        {% endif %}
         </div>
         <!-- created by -->
         <div class="col s12">
@@ -52,7 +54,7 @@
     <!-- image -->
     <div class="recipe-img-wrapper" style="display: none;">
         {% if recipecard.recipe_img %}
-            <img class="recipe-img" src="{{url_for('upload', filename=recipecard.recipe_img) }}" alt="{{ recipecard.recipe_img }}">
+            <img class="recipe-img" alt="{{ recipecard.recipe_img }}">
         {% endif %}
     </div>
     <!-- tabs -->
@@ -105,27 +107,3 @@
     </div>
 </div>
 {% endblock %}
-
-<script>
-    var img = document.querySelector('img')
-
-    function get(img, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4){
-                if (typeof callback === "function") {
-                    callback.apply(xhr);
-                }
-            }
-        };
-        xhr.open('GET', 'uploads/' + img.getAttribute('alt'));
-        xhr.send();
-    }
-
-    get(img, function(){
-        if(this.status != 200){
-            img.style.display = "none";
-        }
-    });
-
-</script>

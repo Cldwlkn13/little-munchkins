@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for, send_from_directory)
@@ -222,7 +223,20 @@ def recipesearch():
                 result['prep_time'] = defs.calculateTiming(result, "prepare")
                 result['cook_time'] = defs.calculateTiming(result, "cook")
 
-        return render_template('search.html', form=form, results=results)
+            if results:
+                _nparr = np.array_split(results, 2)
+                if len(results) == 1:
+                    return render_template(
+                        'search.html', form=form, results_one=_nparr[0])
+                elif len(results) == 2:
+                    return render_template(
+                        'search.html', form=form, results_one=_nparr[0],
+                        results_two=_nparr[1])
+                else:
+                    return render_template(
+                        'search.html', form=form, results_one=_nparr[0],
+                        results_two=_nparr[1], results_thr=_nparr[2])
+
     return render_template('search.html', form=form)
 
 

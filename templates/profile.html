@@ -69,4 +69,13 @@
         </div>
     </div>
 </div>
+<script src="{{ url_for('static', filename='js/image-render.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var imgs = document.getElementsByClassName('recipe-img');
+        handle(imgs);
+    });
+</script>
 {% endblock %}
+
+

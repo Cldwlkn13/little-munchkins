@@ -1,43 +1,56 @@
 {% extends "base_overlay.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-    <div class="search-wrapper">
-        <!-- search bar-->
-        <section class="search-form">
-            <div class="container">
-                <div class="card-panel">
-                    {{ wtf.quick_form(form) }}
+<div class="search-wrapper">
+    <!-- search bar-->
+    <section class="search-form">
+        <div class="container">
+            <div class="card-panel">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    </section>
+
+    <!-- search results-->
+    <section class="search-results">
+        <div class="container">
+            <div class="card-panel">
+            <div class="row">
+                {% if results_one|length %}
+                <div class="col s12 m4">
+                        {% for recipecard in results_one %}
+                        {% include "recipe_card.html" %}
+                        {% endfor %}
+                </div>
+                {% else %}
+                <p>no results found</p>
+                {% endif %}
+                {% if results_two|length %}
+                <div class="col s12 m4">
+                    
+                        {% for recipecard in results_two %}
+                        {% include "recipe_card.html" %}
+                        {% endfor %}
+                    
+                </div>
+                {% endif %}
+                {% if results_thr|length %}
+                <div class="col s12 m4">
+                        {% for recipecard in results_thr %}
+                        {% include "recipe_card.html" %}
+                        {% endfor %}
+                </div>
+                {% endif %}
                 </div>
             </div>
-        </section>
-
-        <!-- search results-->
-        <section class="search-results">
-            <div class="container">
-                <div class="card-panel">
-                        {% if results|length %}
-                            {% for recipecard in results %}
-                                {% if loop.index is not divisibleby 2 %}
-                                        <div class="row">
-                                            <div class="col s12 m6">
-                                                {% include "recipe_card.html" %}
-                                            </div>
-                                        {% if loop.index == results|length %}
-                                        </div>
-                                        {% endif %}
-                                    {% else %}
-                                        <div class="col s12 m6">
-                                        {% include "recipe_card.html" %}
-                                        </div>
-                                    </div>
-                                {% endif %}
-
-                            {% endfor %}
-                        {% else %}
-                            <p>no results found</p>
-                        {% endif %}
-                </div>
-            </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
+<script src="{{ url_for('static', filename='js/image-render.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var imgs = document.getElementsByClassName('recipe-img');
+        handle(imgs);
+    });
+</script>
 {% endblock %}

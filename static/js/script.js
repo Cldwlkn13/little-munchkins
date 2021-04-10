@@ -91,6 +91,7 @@ $(document).ready(function () {
         if($(this).hasClass('expanded')) {
             $(this).siblings('span').first().text("Click to see more");
             $(this).children('i').first().text("expand_more");
+            $(this).parent().parent().siblings('.card-content').children(".recipe-img-header").css("display", "block");
             $(this).parent().parent().siblings('.prep-time').css("display", "none");
             $(this).parent().parent().siblings('.recipe-img-wrapper').css("display", "none");
             $(this).parent().parent().siblings('.card-tabs').css("display", "none");
@@ -100,6 +101,7 @@ $(document).ready(function () {
         }
         $(this).siblings('span').first().text("Click to see less");
         $(this).children('i').first().text("expand_less");
+        $(this).parent().parent().siblings('.card-content').children(".recipe-img-header").css("display", "none");
         $(this).parent().parent().siblings('.prep-time').css("display", "block");
         $(this).parent().parent().siblings('.recipe-img-wrapper').css("display", "block");
         $(this).parent().parent().siblings('.card-tabs').css("display", "block");
