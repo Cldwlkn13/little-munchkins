@@ -10,19 +10,19 @@
                 <form method="POST" action="/user/edit">
                     <!-- username -->
                     <label for="username">username</label>
-                    <input disabled type="text" name="username" value="{{ user.username }}" class="validate" required/>
+                    <input disabled type="text" name="username" value="{{ user.username }}" minlength="1" maxlength="20" pattern="^(?!.* {1})[a-zA-z0-9-_]{1,20}$" class="validate" required/>
 
                     <!-- email -->
                     <label for="email">email</label>
-                    <input disabled type="email" name="email" value="{{ user.email }}" class="validate" required/>
+                    <input disabled type="email" name="email" value="{{ user.email }}" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="validate" required/>
 
                     <!-- first name -->
                     <label for="first_name">first name</label>
-                    <input disabled type="text" name="first_name" value="{{ user.first_name|title }}" class="validate" required/>
+                    <input disabled type="text" name="first_name" value="{{ user.first_name|title }}" minlength="1" maxlength="20" pattern="^(?!.* {2})[a-zA-z0-9-_]{1,20}$" class="validate" required/>
 
                     <!-- last name -->
                     <label for="last_name">last name</label>
-                    <input disabled type="text" name="last_name" value="{{ user.last_name|title }}" class="validate" required/>
+                    <input disabled type="text" name="last_name" value="{{ user.last_name|title }}" minlength="1" maxlength="20" pattern="^(?!.* {2})[a-zA-z0-9-_]{1,20}$" class="validate" required/>
 
                     <!-- dob -->
                     <label for="dob">date of birth</label>
@@ -35,13 +35,13 @@
                     </select>
 
                     <input disabled type="hidden" name="favourites" value="{{ user.favourites }}" style="display: none;"/>
-                    <input disabled type="hidden" name="_id" value="{{ user._id }}" style="display: none;"/>
+                    <input disabled type="hidden" name="_id" value="{{ user._id }}" style="display: none;" required/>
                     <input disabled type="hidden" name="password" id="password" value="{{ user.password }}" style="display: none;" class="validate" required/>
 
                     <!-- btns -->
-                    <input type="submit" value="Submit" class="btn profile-submit-btn" id="user-edit-submit" style="display: none;" onclick="return confirm('Submit changes?');">
-                    <input type="submit" value="Cancel" class="btn profile-submit-btn orange" id="user-edit-cancel" style="display: none;" formaction="/profile/{{session.user}}" onclick="return confirm('Cancel changes?');">
-                    <input type="submit" value="Delete" class="btn profile-submit-btn red" id="user-edit-delete" style="display: none;" formaction="/user/delete" onclick="return confirm('Are you sure you want to delete your account?');">
+                    <input disabled type="submit" value="Submit" class="btn profile-submit-btn" id="user-edit-submit">
+                    <input disabled type="submit" value="Cancel" class="btn profile-submit-btn orange" id="user-edit-cancel" formaction="/profile/{{session.user}}">
+                    <input disabled type="submit" value="Delete" class="btn profile-submit-btn red" id="user-edit-delete" formaction="/user/delete" onclick="return confirm('Are you sure you want to delete your account?');">
                 </form>
             </div>
         </div>

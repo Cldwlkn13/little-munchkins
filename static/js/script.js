@@ -40,8 +40,14 @@ $(document).ready(function () {
     });
 
     $('.profile-submit-btn').click(function(){
-        $('#user-edit').show();
-        $('.profile-submit-btn').hide();
+        var usernametest = testRegex($('.profile-submit-btn').siblings('input[name="username"]'));
+        var emailtest = testRegex($('.profile-submit-btn').siblings('input[name="email"]'));
+        var fnametest = testRegex($('.profile-submit-btn').siblings('input[name="first_name"]'));
+        var lnametest = testRegex($('.profile-submit-btn').siblings('input[name="first_name"]'));
+
+        if(usernametest && emailtest && fnametest && lnametest){
+            $('#user-edit').show();
+        }
     });
 
     //recipe card
@@ -248,6 +254,11 @@ $(document).ready(function () {
         setTimeout(function() {
             $(elem).animate({ opacity: 1 }, animateLength);
         }, timeout);
+    }
+
+    function testRegex(elem){
+        var regex = new RegExp(elem.attr("pattern"), 'g');
+        return regex.test(elem.val())
     }
 
     //method calls

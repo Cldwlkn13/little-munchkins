@@ -11,9 +11,9 @@
                 <!-------username------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="username" name="username" type="text" class="validate" minlength="1" maxlength="20" pattern="^[a-zA-z0-9-_]{1,20}$" required>
+                        <input id="username" name="username" type="text" class="validate" minlength="1" maxlength="20" pattern="^(?!.* {1})[a-zA-z0-9-_]{1,20}$" required>
                         <label for="username">Choose a username</label>
-                    </div>
+                    </div> 
                 </div>
                 <!-------password------->
                 <div class="row">
@@ -32,21 +32,21 @@
                 <!-------email------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="email" name="email" type="email" class="validate" required>
+                        <input id="email" name="email" type="email" class="validate" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                         <label for="email">Email</label>
                     </div>
                 </div>
                 <!-------first name------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="first_name" name="first_name" type="text" class="validate" required>
+                        <input id="first_name" name="first_name" type="text" class="validate" minlength="1" maxlength="20" pattern="^(?!.* {2})[a-zA-z]{1,20}$" required>
                         <label for="first_name">First Name</label>
                     </div>
                 </div>
                 <!-------last name------->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="last_name" name="last_name" type="text" class="validate" required>
+                        <input id="last_name" name="last_name" type="text" class="validate" minlength="1" maxlength="20" pattern="^(?!.* {2})[a-zA-z]{1,20}$" required>
                         <label for="last_name">Last Name</label>
                     </div>
                 </div>
