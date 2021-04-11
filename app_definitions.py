@@ -1,9 +1,6 @@
 import json
-import os
-import imghdr
 from bson import json_util
-from flask import jsonify, abort
-from werkzeug.utils import secure_filename
+from flask import jsonify
 
 
 class AppDefinitions(object):
@@ -118,7 +115,7 @@ class AppDefinitions(object):
                 desc = requestform.get("ingredient-" + str(i) + "-desc")
 
             if "ingredient-" + str(i) + "-measure" in requestform:
-                measure = int(requestform.get(
+                measure = float(requestform.get(
                         "ingredient-" + str(i) + "-measure"))
 
             if "ingredient-" + str(i) + "-unit" in requestform:
