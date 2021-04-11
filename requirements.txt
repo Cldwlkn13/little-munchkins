@@ -10,7 +10,7 @@ Flask-PyMongo==2.3.0
 Flask-WTF==0.14.3
 itsdangerous==1.1.0
 jmespath==0.10.0
-numpy==1.20.2
+numpy==1.19.5
 pymongo==3.11.3
 pyOpenSSL==20.0.1
 s3transfer==0.3.6
