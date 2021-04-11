@@ -19,7 +19,7 @@
                 </div>
                 <div class="input-field col s12 center">
                     <button class="btn waves-effect waves-light green" type="submit" id="cancel-changes" name="cancel"
-                        formaction="/recipe/edit/cancel" onclick="return confirm('Are you sure you want to cancel changes?');">Cancel Changes</button>
+                        formaction="/recipe/edit/cancel" onclick="return this.form.reset();">Cancel Changes</button>
                 </div>
             </div>
             <!-------recipe id placeholer------->
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="input-field col s12">
                     <input id="title" name="title" type="text" class="validate" minlength="1" maxlength="100"
-                        pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,100}$" value="{{ recipecard['title']|title }}" required>
+                        pattern="^(?!.*  )[a-zA-z0-9-_,&'’ ]{1,100}$" value="{{ recipecard['title']|title }}" required>
                     <label for="username">Recipe Title</label>
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="input-field col s12">
                     <input id="desc" name="desc" type="text" class="validate" minlength="1" maxlength="300"
-                        pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,300}$" value="{{ recipecard['desc'] }}" required>
+                        pattern="^(?!.*  )[a-zA-z0-9-_,&'’ ]{1,300}$" value="{{ recipecard['desc'] }}" required>
                     <label for="username">Describe your recipe</label>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                                 <div class="row ingredient cyan lighten-4" id="ingredient-{{ loop.index }}">
                                     <!--input desc -->
                                     <div class="input-field col m8">
-                                        <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="200" pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,200}$" class="validate" value="{{ingredient[1].name}}" required />
+                                        <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="200" pattern="^(?!.*  )[a-zA-z0-9-_,&'’ ]{1,200}$" class="validate" value="{{ingredient[1].name}}" required />
                                         <label for="ingredient-{{ loop.index }}-desc">Ingredient</label>
                                     </div>
                                     <!--input measure -->
@@ -160,7 +160,7 @@
                                     </div>
                                     <!--input action-->
                                     <div class="input-field col m7">
-                                        <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,300}$" minlength="1"
+                                        <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" pattern="^(?!.*  )[a-zA-z0-9-_,&'’ ]{1,300}$" minlength="1"
                                             maxlength="300" class="validate" value="{{step[1].action}}" required />
                                         <label for="step-{{ loop.index}}-desc">Action</label>
                                     </div>

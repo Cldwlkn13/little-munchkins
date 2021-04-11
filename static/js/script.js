@@ -130,7 +130,7 @@ $(document).ready(function () {
                         "</div>" +
                         "<!--input desc -->" +
                         "<div class='input-field col m7'>" +
-                            `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='300' pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,300}$" class='validate' required />` +
+                            `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='300' pattern="^(?!.*  )[a-zA-z0-9-_,&'’ ]{1,300}$" class='validate' required />` +
                             `<label for='step-${i}-desc'>Action</label>` +
                         "</div>" +
                         "<!--input time -->" +
@@ -160,7 +160,7 @@ $(document).ready(function () {
         var ingredient = `<div class='row ingredient cyan lighten-4' id='ingredient-${i}'>` +
                             "<!--input desc -->" +
                             "<div class='input-field col m8'>" +
-                                `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='200' pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,200}$" class='validate' required />` +
+                                `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='200' pattern="^(?!.*  )[a-zA-z0-9-_,&'’ ]{1,200}$" class='validate' required />` +
                                 `<label for='ingredient-${i}-desc'>Ingredient</label>` +
                             "</div>" +
                             "<!--input measure -->" +
