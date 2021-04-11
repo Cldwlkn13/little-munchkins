@@ -527,3 +527,6 @@ This site has been deployed onto the [heroku](https://www.heroku.com/) cloud inf
 
 I would also like to thank Susan for their feedback and support through this process!
 
+## Disclaimer
+This project was completed as part of the Full Stack Developer Milestone 3 project. If you have any questions or issues surrounding copyright please contact me at gavin_rudge@hotmail.co.uk
+
