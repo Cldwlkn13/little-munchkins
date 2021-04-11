@@ -21,15 +21,14 @@ class AppDefinitions(object):
         return jsonify(json_docs)
 
     def recipeCardBuilder(self, requestform, user):
-        img_name = ""
-        if requestform.get('recipe_img_name'):
-            img_name = secure_filename(
-                requestform.get('recipe_img_name')).lower()
+        img_url = ""
+        if requestform.get('recipe_img_url'):
+            img_url = requestform.get('recipe_img_url')
 
         recipecard = {
             "title": requestform.get("title").lower(),
             "desc": requestform.get("desc").lower(),
-            "recipe_img": img_name,
+            "recipe_img": img_url,
             "created_by": user,
             "portions": int(requestform.get("portions")),
             "suitableForMinMnths": int(requestform.get("min")),
@@ -44,26 +43,6 @@ class AppDefinitions(object):
                         "step")]), requestform),
         }
         return recipecard
-
-    def saveImage(self, requestform, validExt, uploadPath):
-        uploaded_file = requestform.files['recipe_img']
-        filename = secure_filename(uploaded_file.filename)
-        if filename != "":
-            file_ext = os.path.splitext(filename)[1].lower()
-            if file_ext not in validExt or \
-                    file_ext != self.validate_image(
-                        uploaded_file.stream):
-                abort(400)
-            path = os.path.join(uploadPath,  filename).lower()
-            uploaded_file.save(path)
-
-    def validate_image(self, stream):
-        header = stream.read(512)
-        stream.seek(0)
-        format = imghdr.what(None, header)
-        if not format:
-            return None
-        return '.' + (format if format != 'jpeg' else 'jpg')
 
     def calculateTiming(self, recipecard, src):
         t = 0

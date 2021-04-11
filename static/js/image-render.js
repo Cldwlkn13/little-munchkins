@@ -30,10 +30,12 @@
     function handle(imgs){
         for (let [key, img] of Object.entries(imgs)){
             
-            var url = "../uploads/" + img.getAttribute("alt");
+            var img_url = img.getAttribute("alt");
+            var filename = url.replace(/^.*[\\\/]/, '')
+            var url = "../get_s3/" + filename;
             var preview = document.querySelectorAll('[alt="' + img.getAttribute("alt") + '"][class="recipe-img-header-preview"]')[0];
-            img.setAttribute("src", url);
-            preview.setAttribute("src", url);
+            img.setAttribute("src", img_url);
+            preview.setAttribute("src", img_url);
             
             checkImage(url).then(function(result){
                 if(result == 200){

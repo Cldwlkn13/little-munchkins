@@ -1,8 +1,12 @@
 import os
 import numpy as np
+import json
+import boto3
+import botocore
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for, send_from_directory)
+from flask_cors import CORS
 from flask_bootstrap import Bootstrap
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -22,7 +26,13 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = "uploads"
+app.config['AWS_ACCESS_KEY_ID'] = os.environ.get("AWS_ACCESS_KEY_ID")
+app.config['AWS_ACCESS_SECRET_KEY'] = os.environ.get("AWS_ACCESS_SECRET_KEY")
+app.config['S3_BUCKET_NAME'] = os.environ.get("S3_BUCKET_NAME")
 app.secret_key = os.environ.get("SECRET_KEY")
+
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 mongo = PyMongo(app)
 Bootstrap(app)
@@ -251,21 +261,10 @@ def recipebuilder():
     return redirect(url_for("home"))
 
 
-@app.route('/uploads/<filename>')
-def upload(filename):
-    return send_from_directory(app.config['UPLOAD_PATH'], filename)
-
-
 @app.route("/recipe/add", methods=['POST'])
 def recipeadd():
     if session and session['user'] and request.form:
         recipecard = defs.recipeCardBuilder(request.form, session['user'])
-
-        if 'recipe_img' in request.files:
-            defs.saveImage(
-                request,
-                app.config['UPLOAD_EXTENSIONS'],
-                app.config['UPLOAD_PATH'])
 
         mongo.db.recipes.insert_one(recipecard)
 
@@ -281,13 +280,6 @@ def recipepreview():
     recipecard['prep_time'] = defs.calculateTiming(recipecard, "prepare")
     recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
     recipecard['context'] = "preview"
-
-    if 'recipe_img' in request.files:
-        defs.saveImage(
-            request,
-            app.config['UPLOAD_EXTENSIONS'],
-            app.config['UPLOAD_PATH']
-        )
 
     return render_template("preview.html", recipecard=recipecard)
 
@@ -315,13 +307,6 @@ def recipecanceledit():
 @app.route("/recipe/update", methods=['POST'])
 def recipeupdate():
     recipecard = defs.recipeCardBuilder(request.form, session['user'])
-
-    if 'recipe_img' in request.files:
-        defs.saveImage(
-            request,
-            app.config['UPLOAD_EXTENSIONS'],
-            app.config['UPLOAD_PATH']
-        )
 
     mongo.db.recipes.update_one(
         {"_id": ObjectId(str(request.form.get("_id")))},
@@ -394,6 +379,48 @@ def handle_exception(e):
         return render_template(
             "400_generic.html", e=e, code=code), code
     return render_template("500_generic.html", e=e), 500
+
+
+@app.route('/sign_s3/')
+def sign_s3():
+    S3_BUCKET = os.environ.get('S3_BUCKET_NAME')
+
+    file_name = request.args.get('file_name')
+    file_type = request.args.get('file_type')
+
+    s3 = boto3.client('s3')
+
+    presigned_post = s3.generate_presigned_post(
+        Bucket=S3_BUCKET,
+        Key=file_name,
+        Fields={"acl": "public-read", "Content-Type": file_type},
+        Conditions=[
+            {"acl": "public-read"},
+            {"Content-Type": file_type}
+        ],
+        ExpiresIn=3600
+    )
+
+    return json.dumps({
+        'data': presigned_post,
+        'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+    })
+
+
+@app.route("/get_s3/<filename>")
+def s3_get(filename):
+    S3_BUCKET = os.environ.get('S3_BUCKET_NAME')
+
+    s3 = boto3.client('s3')
+
+    try:
+        s3.head_object(Bucket=S3_BUCKET, Key=filename)
+        return ('', 200)
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == "404":
+            return("no such file", 404)
+        else:
+            raise
 
 
 if __name__ == "__main__":
