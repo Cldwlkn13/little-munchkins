@@ -60,6 +60,7 @@
                         <div class="collapsible-body">
                             {% if (myrecipes is not defined) or (myrecipes|length == 0) %}
                                 <p>You have not created any recipes yet.</p>
+                                <p>Click <a href="../recipe/builder">here</a> to create a recipe</p>
                             {% else %}
                                 {% include "my_recipes.html" %}
                             {% endif %}
@@ -77,6 +78,7 @@
                         <div class="collapsible-body">
                             {% if (myfavourites is not defined) or (myfavourites|length == 0) %}
                                 <p>You have no favourites yet.</p>
+                                <p>Click <a href="../recipes/search">here</a> to search for recipes</p>
                             {% else %}
                                 {% include "my_favourites.html" %}
                             {% endif %}
