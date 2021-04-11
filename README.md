@@ -223,7 +223,7 @@ Sample recipe content
 
 ### Wireframes
 
-Wireframes were designed using JustInMind and images of the slides can be viewed in the following table:
+Wireframes were designed using Balsamiq Wireframes and images of the slides can be viewed in the following table:
 
 |    Wireframes   |   
 |      :----:     |    
@@ -316,7 +316,7 @@ One key relationship exists between the object: when a user favourites a recipe,
 - [MongoDb](https://www.mongodb.com/cloud/atlas/) - no sql cloud database infrastructure
 
 #### Other Technologies
-- [JustInMind](https://www.justinmind.com/) - wireframes and site prototype
+- [Balsamiq](https://balsamiq.com/) - wireframes and site prototype
 - [GoogleFonts](https://fonts.google.com/) - font faces
 
 ## Testing
