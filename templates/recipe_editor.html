@@ -109,18 +109,22 @@
                         {% if (recipecard['ingredients'] is defined) and (recipecard['ingredients']|length != 0) %}
                             {% for ingredient in recipecard['ingredients'].items() %}
                                 <div class="row ingredient cyan lighten-4" id="ingredient-{{ loop.index }}">
+                                    <!--input desc -->
                                     <div class="input-field col m8">
                                         <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="30" class="validate" value="{{ingredient[1].name}}" required />
                                         <label for="ingredient-{{ loop.index }}-desc">Ingredient</label>
                                     </div>
+                                    <!--input measure -->
                                     <div class="input-field col m2">
                                         <input type="number" id="ingredient-{{ loop.index }}-measure" name="ingredient-{{ loop.index }}-measure"  value="{{ingredient[1].qty.measure}}" required />
                                         <label for="ingredient-{{ loop.index }}-measure">Measure</label>
                                     </div>
+                                    <!--input unit-->
                                     <div class="input-field col m1">
                                         <input type="text" id="ingredient-${i}-unit" name="ingredient-{{ loop.index }}-unit" maxlength="8" class="validate" pattern="^[a-z]{,8}$" value="{{ingredient[1].qty.unit}}" />
                                         <label for="ingredient-{{ loop.index }}-unit">Unit</label>
                                     </div>
+                                    <!--remove-->
                                     <div class="input-field col m1">
                                         <a href="#" class="remove-ingredient" id="remove-ingredient-{{ loop.index }}"><i class="material-icons black-text">delete</i></a> 
                                     </div>
@@ -141,6 +145,7 @@
                         {% if (recipecard['steps'] is defined) and (recipecard['steps']|length != 0) %}
                             {% for step in recipecard['steps'].items() %}
                                 <div class="row step cyan lighten-4" id="step-{{ loop.index}}">
+                                    <!--input type select-->
                                     <div class="input-field col m2">
                                         <select id="step-{{ loop.index}}-type" name="step-{{ loop.index}}-type">
                                             {% if step[1].type == "prepare" %}
@@ -153,15 +158,18 @@
                                         </select>
                                         <label for="step-{{ loop.index}}-type">Action Type</label>
                                     </div>
+                                    <!--input action-->
                                     <div class="input-field col m7">
                                         <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" minlength="1"
                                             maxlength="100" class="validate" value="{{step[1].action}}" required />
                                         <label for="step-{{ loop.index}}-desc">Action</label>
                                     </div>
+                                    <!--input time-->
                                     <div class="input-field col m2">
                                         <input type="number" id="step-{{ loop.index}}-time" name="step-{{ loop.index}}-time" value="{{step[1].time}}" required />
                                         <label for="step-{{ loop.index}}-time">Time (mins)</label>
                                     </div>
+                                    <!--remove-->
                                     <div class="input-field col m1">
                                         <a href="#" class="remove-step" id="remove-step-{{ loop.index}}"><i class="material-icons black-text">delete</i></a>
                                     </div>

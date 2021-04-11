@@ -120,6 +120,7 @@ $(document).ready(function () {
         var countsteps = $('.steps .step').length;
         var i = countsteps + 1;
         var step = `<div class='row step cyan lighten-4' id='step-${i}'>` +
+                        "<!--input select type -->"
                         "<div class='input-field col m2'>" +
                             `<select id='step-${i}-type' name='step-${i}-type'>` +
                                 "<option value='prepare' selected>Prepare</option>" +
@@ -127,14 +128,17 @@ $(document).ready(function () {
                             "</select>" +
                             `<label for="step-${i}-type">Action Type</label>` +
                         "</div>" +
+                        "<!--input desc -->"
                         "<div class='input-field col m7'>" +
                             `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' class='validate' required />` +
                             `<label for='step-${i}-desc'>Action</label>` +
                         "</div>" +
+                        "<!--input time -->"
                         "<div class='input-field col m2'>" +
                             `<input type='number' id='step-${i}-time' name='step-${i}-time' class='validate' required />` +
                             `<label for='step-${i}-time'>Time (mins)</label>` +
                         "</div>" +
+                        "<!--remove -->"
                         "<div class='input-field col m1'>" +
                             `<a href="#" id='remove-step-${i}'><i class="material-icons black-text">delete</i></a>` + 
                         "</div>" +
@@ -154,18 +158,22 @@ $(document).ready(function () {
         var countingredients = $('.ingredients .ingredient').length;
         var i = countingredients + 1;
         var ingredient = `<div class='row ingredient cyan lighten-4' id='ingredient-${i}'>` +
+                            "<!--input desc -->"
                             "<div class='input-field col m8'>" +
                                 `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='30' class='validate' required />` +
                                 `<label for='ingredient-${i}-desc'>Ingredient</label>` +
                             "</div>" +
+                            "<!--input measure -->"
                             "<div class='input-field col m2'>" +
                                 `<input type='number' id='ingredient-${i}-measure' name='ingredient-${i}-measure' required />` +
                                 `<label for='ingredient-${i}-measure'>Measure</label>` +
                             "</div>" +
+                            "<!--input unit -->"
                             "<div class='input-field col m1'>" +
                                 `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  maxlength='8' class='validate' pattern='^[a-z]{,8}$' />` +
                                 `<label for='ingredient-${i}-unit'>Unit</label>` +
                             "</div>" +
+                            "<!-- remove -->"
                             "<div class='input-field col m1'>" +
                                 `<a href="#" id='remove-ingredient-${i}'><i class="material-icons black-text">delete</i></a>` + 
                             "</div>" +
