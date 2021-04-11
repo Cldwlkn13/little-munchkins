@@ -48,12 +48,12 @@
                         </div>
                         <div class="col s12">
                             <div class="file-path-wrapper">
-                                <input disabled class="file-path validate" type="url" name="recipe_img_name" style="display:block">
+                                <input disabled class="file-path validate" type="url" name="recipe_img_name" style="display:none">
                             </div>
                         </div>
                         <div class="col s12">
                             <div class="file-path-wrapper">
-                                <input type="url" name="recipe_img_url" style="display:block">
+                                <input type="url" name="recipe_img_url" style="display:none">
                             </div>
                         </div>
                     </div>
@@ -129,62 +129,19 @@
     </form>
 </div>
 <!-- local scripts-->
+<script src="{{ url_for('static', filename='js/upload-s3.js') }}"></script>
 <script>
     var loadPreviewFile = function(event){ 
         if(event.target.files[0].size > (1024 * 1024)){
             $('input[name="recipe_img"]').val('')
             $('input[name="recipe_img_name"]').val('');
+            $('input[name="recipe_img_url"]').val('');
             alert('file is too large, limit is 1MB, please select another');
             return;
         }
         getSignedRequest(event.target.files[0]);
         $('.clear-preview').show();
     };
-
-    function getSignedRequest(file){
-        console.log(file.name)
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-                if(xhr.status === 200){
-                    var response = JSON.parse(xhr.responseText);
-                    uploadFile(file, response.data, response.url);
-                }
-                else{
-                    alert("Could not get signed URL.");
-                }
-            }
-        };
-        xhr.send();
-    }
-
-    function uploadFile(file, s3Data, url){
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", s3Data.url);
-
-        var postData = new FormData();
-        for(key in s3Data.fields){
-            postData.append(key, s3Data.fields[key]);
-        }
-        postData.append('file', file);
-
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState === 4){
-                if(xhr.status === 200 || xhr.status === 204){
-                    document.getElementById("builder-preview-img").setAttribute("src", url);
-                    //document.querySelector('input[name="recipe_img"]').setAttribute("value", url);
-                    document.querySelector('input[name="recipe_img_url"]').setAttribute("value", url);
-                    $('#builder-preview-img').attr("src", url).css("display", "block");
-                    console.log(url)
-                }
-                else{
-                    alert("Could not upload file.");
-                }
-            }
-        };
-        xhr.send(postData);
-    }
 
     function clearOnReset(){
         if(confirm('Are you sure you want to cancel changes?')){
@@ -196,6 +153,7 @@
     function clearImage(){
         $('input[name="recipe_img"]').val('')
         $('input[name="recipe_img_name"]').val('');
+        $('input[name="recipe_img_url"]').val('');
         $('#builder-preview-img').attr("src", "").css("display", "none");
         $('.clear-preview').hide();
     };

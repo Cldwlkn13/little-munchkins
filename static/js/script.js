@@ -268,8 +268,6 @@ $(document).ready(function () {
         return regex.test(elem.val())
     }
 
-    
-
     //method calls
     slideAndFadeIn("#home-info-text-1", 2000, 0);
     slideAndFadeIn("#home-info-text-2", 2000, 1500);
