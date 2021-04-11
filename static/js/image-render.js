@@ -31,7 +31,7 @@
         for (let [key, img] of Object.entries(imgs)){
             
             var img_url = img.getAttribute("alt");
-            var filename = url.replace(/^.*[\\\/]/, '')
+            var filename = img_url.replace(/^.*[\\\/]/, '')
             var url = "../get_s3/" + filename;
             var preview = document.querySelectorAll('[alt="' + img.getAttribute("alt") + '"][class="recipe-img-header-preview"]')[0];
             img.setAttribute("src", img_url);
