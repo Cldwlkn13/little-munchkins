@@ -59,7 +59,7 @@ class TestApp(unittest.TestCase):
         requestform = {
             "title": "test",
             "desc": "test desc",
-            "recipe_img_name": "test_img.jpg",
+            "recipe_img_url": "test_img.jpg",
             "portions": 4,
             "min": 1,
             "max": 72,
