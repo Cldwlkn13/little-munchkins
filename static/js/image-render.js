@@ -23,29 +23,36 @@
             });
     }
         
-    async function checkImage(url) {
+    async function checkImage(img, preview, img_url) {
+        
+        var filename = img_url.replace(/^.*[\\\/]/, '')
+        var url = "../get_s3/" + filename;
+        
+        img.setAttribute("src", img_url);
+        preview.setAttribute("src", img_url);
         return await makeRequest("GET", url);
     }
 
     function handle(imgs){
         for (let [key, img] of Object.entries(imgs)){
-            
             var img_url = img.getAttribute("alt");
-            var filename = img_url.replace(/^.*[\\\/]/, '')
-            var url = "../get_s3/" + filename;
+            if(img_url == ""){
+                return;
+            }
             var preview = document.querySelectorAll('[alt="' + img.getAttribute("alt") + '"][class="recipe-img-header-preview"]')[0];
-            img.setAttribute("src", img_url);
-            preview.setAttribute("src", img_url);
-            
-            checkImage(url).then(function(result){
-                if(result == 200){
-                    img.style.display = "block";
-                    preview.style.display = "block";
-                }
-                else {
+            checkImage(img, preview, img_url)
+                .then(result => {
+                    if(result == 200){
+                        img.style.display = "block";
+                        preview.style.display = "block";
+                    }
+                    else {
+                        img.style.display = "none";
+                        preview.style.display = "none";
+                    }
+                }).catch(reject => {
                     img.style.display = "none";
                     preview.style.display = "none";
-                }
-            });  
+                });  
         }
     }

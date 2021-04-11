@@ -420,7 +420,7 @@ def s3_get(filename):
         if e.response['Error']['Code'] == "404":
             return("no such file", 404)
         else:
-            raise
+            return("something else went wrong", 500)
 
 
 if __name__ == "__main__":
