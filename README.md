@@ -520,7 +520,7 @@ This site has been deployed onto the [heroku](https://www.heroku.com/) cloud inf
 - First and foremost the excellent guidance from the Task Manager walkthrough by [Tim Nelson](https://github.com/TravelTimN)
 - Plugin acquired from https://github.com/yckart/jquery-custom-animations for some funky custom animations.  
 - coding tips from [W3Schools](https://www.w3schools.com/) & [freecodecamp](https://www.freecodecamp.org/news/) 
-- image uploading guidance in flask from [miguel grinberg](https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask)
+- image uploading & aws s3 bucket integration guidance in flask from [miguel grinberg](https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask)
 
 ## Acknowledgments
 [Precious Ijege](https://www.linkedin.com/in/precious-ijege-908a00168/?originalSubdomain=ng) for all his support and guidance.
