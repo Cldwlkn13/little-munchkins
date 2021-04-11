@@ -130,7 +130,7 @@ $(document).ready(function () {
                         "</div>" +
                         "<!--input desc -->" +
                         "<div class='input-field col m7'>" +
-                            `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' class='validate' required />` +
+                            `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' pattern="^(?!.* {2})[a-zA-z]{1,100}$" class='validate' required />` +
                             `<label for='step-${i}-desc'>Action</label>` +
                         "</div>" +
                         "<!--input time -->" +
@@ -160,7 +160,7 @@ $(document).ready(function () {
         var ingredient = `<div class='row ingredient cyan lighten-4' id='ingredient-${i}'>` +
                             "<!--input desc -->" +
                             "<div class='input-field col m8'>" +
-                                `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='30' class='validate' required />` +
+                                `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='30' pattern="^(?!.* {2})[a-zA-z]{1,30}$" class='validate' required />` +
                                 `<label for='ingredient-${i}-desc'>Ingredient</label>` +
                             "</div>" +
                             "<!--input measure -->" +
@@ -170,7 +170,7 @@ $(document).ready(function () {
                             "</div>" +
                             "<!--input unit -->" +
                             "<div class='input-field col m1'>" +
-                                `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  maxlength='8' class='validate' pattern='^[a-z]{,8}$' />` +
+                                `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  maxlength='8' class='validate' pattern='^(?!.* {2})[a-z]{,8}$' />` +
                                 `<label for='ingredient-${i}-unit'>Unit</label>` +
                             "</div>" +
                             "<!-- remove -->" +

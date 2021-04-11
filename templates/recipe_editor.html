@@ -111,7 +111,7 @@
                                 <div class="row ingredient cyan lighten-4" id="ingredient-{{ loop.index }}">
                                     <!--input desc -->
                                     <div class="input-field col m8">
-                                        <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="30" class="validate" value="{{ingredient[1].name}}" required />
+                                        <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="30" pattern="^(?!.* {2})[a-zA-z]{1,30}$" class="validate" value="{{ingredient[1].name}}" required />
                                         <label for="ingredient-{{ loop.index }}-desc">Ingredient</label>
                                     </div>
                                     <!--input measure -->
@@ -121,7 +121,7 @@
                                     </div>
                                     <!--input unit-->
                                     <div class="input-field col m1">
-                                        <input type="text" id="ingredient-${i}-unit" name="ingredient-{{ loop.index }}-unit" maxlength="8" class="validate" pattern="^[a-z]{,8}$" value="{{ingredient[1].qty.unit}}" />
+                                        <input type="text" id="ingredient-${i}-unit" name="ingredient-{{ loop.index }}-unit" maxlength="8" class="validate" pattern="^(?!.* {2})[a-z]{,8}$" value="{{ingredient[1].qty.unit}}" />
                                         <label for="ingredient-{{ loop.index }}-unit">Unit</label>
                                     </div>
                                     <!--remove-->
@@ -160,7 +160,7 @@
                                     </div>
                                     <!--input action-->
                                     <div class="input-field col m7">
-                                        <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" minlength="1"
+                                        <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" pattern="^(?!.* {2})[a-zA-z]{1,100}$" minlength="1"
                                             maxlength="100" class="validate" value="{{step[1].action}}" required />
                                         <label for="step-{{ loop.index}}-desc">Action</label>
                                     </div>
