@@ -132,7 +132,7 @@ $(document).ready(function () {
                             `<label for='step-${i}-desc'>Action</label>` +
                         "</div>" +
                         "<div class='input-field col m2'>" +
-                            `<input type='text' id='step-${i}-time' name='step-${i}-time'  minlength='1' maxlength='3' class='validate' pattern='^[0-9]{1,3}$' required />` +
+                            `<input type='number' id='step-${i}-time' name='step-${i}-time' class='validate' required />` +
                             `<label for='step-${i}-time'>Time (mins)</label>` +
                         "</div>" +
                         "<div class='input-field col m1'>" +
@@ -159,7 +159,7 @@ $(document).ready(function () {
                                 `<label for='ingredient-${i}-desc'>Ingredient</label>` +
                             "</div>" +
                             "<div class='input-field col m2'>" +
-                                `<input type='text' id='ingredient-${i}-measure' name='ingredient-${i}-measure'  minlength='1' maxlength='4' class='validate' pattern='^[0-9]{1,4}$' required />` +
+                                `<input type='number' id='ingredient-${i}-measure' name='ingredient-${i}-measure' required />` +
                                 `<label for='ingredient-${i}-measure'>Measure</label>` +
                             "</div>" +
                             "<div class='input-field col m1'>" +

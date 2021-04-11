@@ -114,7 +114,7 @@
                                         <label for="ingredient-{{ loop.index }}-desc">Ingredient</label>
                                     </div>
                                     <div class="input-field col m2">
-                                        <input type="text" id="ingredient-{{ loop.index }}-measure" name="ingredient-{{ loop.index }}-measure"  minlength="1" maxlength="4" class="validate" pattern="^[0-9]{1,4}$" value="{{ingredient[1].qty.measure}}" required />
+                                        <input type="number" id="ingredient-{{ loop.index }}-measure" name="ingredient-{{ loop.index }}-measure"  value="{{ingredient[1].qty.measure}}" required />
                                         <label for="ingredient-{{ loop.index }}-measure">Measure</label>
                                     </div>
                                     <div class="input-field col m1">
@@ -159,8 +159,7 @@
                                         <label for="step-{{ loop.index}}-desc">Action</label>
                                     </div>
                                     <div class="input-field col m2">
-                                        <input type="text" id="step-{{ loop.index}}-time" name="step-{{ loop.index}}-time" minlength="1" maxlength="3"
-                                            class="validate" pattern="^[0-9]{1,3}$" value="{{step[1].time}}" required />
+                                        <input type="number" id="step-{{ loop.index}}-time" name="step-{{ loop.index}}-time" value="{{step[1].time}}" required />
                                         <label for="step-{{ loop.index}}-time">Time (mins)</label>
                                     </div>
                                     <div class="input-field col m1">
