@@ -13,6 +13,13 @@ Sample recipe content
 
 ## UX
 
+### Project Goals
+- This project is intended to be a full stack site that manages a common dataset around a particular domain. In this case the domain is weaning recipes. 
+- This project uses core developmental framworks such as HTML, CSS, JavaScript, Python, Flask & MongoDb. 
+- Users are able to log on and create their own content for others to consume. 
+- Users are also able to log on the consume content others have created. 
+- Users should be able to create, read, update and delete entities relating to the collections in MongoDb. 
+
 ### User Stories
 
 - Site Owner perspective
@@ -226,6 +233,15 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 |[search](readmefiles/wireframes/wf-search.JPG)|
 |[recipe card](readmefiles/wireframes/wf-recipecard.JPG)|
 
+### Information Architecture 
+This domain is built on two key collections: 
+- user
+![](/readmefiles/userobj.JPG)
+
+- recipes
+![](/readmefiles/recipeobj.JPG)
+
+One key relationship exists between the object: when a user favourites a recipe, the _id is persisted to the "favouites" array field on the user object.  
 
 ## Features
 **Home**
@@ -272,6 +288,9 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 - Button to preview the card before submission.
 - Button to cancel changes.
 - Button to delete the recipe.
+
+**Image Storage**
+- This app has been developed with a common image storage location in Amazon S3. 
 
 ## Technologies
 
@@ -422,20 +441,12 @@ Wireframes were designed using JustInMind and images of the slides can be viewed
 - Users are able to delete their profile by clicking edit profile, then delete. 
 
 **Common Bugs**
-- Images do not persist on the server, or are removed periodically due to the heroku dynos undergoing ["cycling"](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted)
+- Before S3 Bucket integration took place, Images would not persist on the heroku server, or are removed periodically due to the heroku dynos undergoing ["cycling"](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted)
+- Intermittently the some browsers will throw a **net::ERR_HTTP2_PROTOCOL_ERROR**. To date I have been unable to resolve this adequately.
 
 ## Deployment
 
 This site has been deployed onto the [heroku](https://www.heroku.com/) cloud infrastructure. 
-
-#### To Deploy
-- 
-- [heroku dashboard](https://dashboard.heroku.com/apps/flask-munchkins-app/) provides an overview of the deployment.
-- In the settings tab, navigate to settings, then reveal config vars
-- Add the environment vairables as prescribed in the env.py file.
-- Ensure the master branch is up to date. 
-- Navigate to the dashboard, then deploy tab. 
-- Hit deploy branch. 
 
 #### To clone from Github
 
@@ -446,6 +457,64 @@ This site has been deployed onto the [heroku](https://www.heroku.com/) cloud inf
 4. Change the current working directory to the location where you want the cloned directory to be made.
 5. Type **git clone**, and then paste the URL copied from GitHub.
 6. Press **enter** and the local clone will be created.
+
+#### To run locally
+- Once the project has been cloned, open the project in your IDE. 
+- Install requirements by running **pip3 install -r requirements.txt**
+
+- Signup or login to your [MongoDB](https://account.mongodb.com/account/) account.
+- [This](https://www.freecodecamp.org/news/learn-mongodb-a4ce205e7739/) excellent link provides details on how to get up and running with MongoDb quickly.
+- Your database will ned two new collections named: "users" and "recipes".
+
+- If you do not have an AWS account then [this link](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) provides a quick guide to setting one up. 
+- Follow [this link](https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-1-create-bucket.html) to set up an S3 bucket, as image uploads will be directed here. 
+- Once your bucket is created, you need to add the following json to the CORS section of the permissions section of your bucket. 
+;;;
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD",
+            "POST",
+            "PUT"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+;;;
+- Also in the permissions section ensure your bucket is publically accessible by turning off **Block public access (bucket settings)**
+
+- Add the following environment variables to an env.py file at the root of the project: 
+    - import os
+    - os.environ.setdefault("IP", your_ip)
+    - os.environ.setdefault("PORT", your_port)
+    - os.environ.setdefault("SECRET_KEY", your_secret_key)
+    - os.environ.setdefault("MONGO_DB", your_db_name)
+    - os.environ.setdefault("MONGO_URI", your_db_uri)
+    - os.environ.setdefault("AWS_ACCESS_KEY_ID", your_aws_access_key)
+    - os.environ.setdefault("AWS_SECRET_ACCESS_KEY", your_aws_secret_access_key)
+    - os.environ.setdefault("S3_BUCKET_NAME", your_s3_bucket_name)
+
+- In your IDE run **python3 app.py" to run the app on a local developement server.
+
+
+#### To Deploy to Heroku
+- Ensure the requirements.txt file is up to date by running in your IDE: **pip3 freeze -- local > requirements.txt**
+- Create a ProcFile and add **web: python app.py**
+- If you do not have a heroku account, create one [here]("https://www.heroku.com/")
+- https://dashboard.heroku.com/apps/<your_app> provides an overview of the deployment.
+- Connect the app to your github repository on the deploy tab. 
+- In the settings tab, navigate to settings, then reveal config vars.
+- Add the environment vairables as prescribed in your local env.py file.
+- Ensure the master branch is up to date. 
+- Navigate to the dashboard, then deploy tab. 
+- Hit deploy branch. 
 
 ## Credits
 - First and foremost the excellent guidance from the Task Manager walkthrough by [Tim Nelson](https://github.com/TravelTimN)
