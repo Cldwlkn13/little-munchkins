@@ -27,16 +27,16 @@
             <!-------title------->
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="title" name="title" type="text" class="validate" minlength="1" maxlength="60"
-                        pattern="^.{1,60}$" value="{{ recipecard['title']|title }}" required>
+                    <input id="title" name="title" type="text" class="validate" minlength="1" maxlength="100"
+                        pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,100}$" value="{{ recipecard['title']|title }}" required>
                     <label for="username">Recipe Title</label>
                 </div>
             </div>
             <!-------description------->
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="desc" name="desc" type="text" class="validate" minlength="1" maxlength="200"
-                        pattern="^.{1,200}$" value="{{ recipecard['desc'] }}" required>
+                    <input id="desc" name="desc" type="text" class="validate" minlength="1" maxlength="300"
+                        pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,300}$" value="{{ recipecard['desc'] }}" required>
                     <label for="username">Describe your recipe</label>
                 </div>
             </div>
@@ -111,12 +111,12 @@
                                 <div class="row ingredient cyan lighten-4" id="ingredient-{{ loop.index }}">
                                     <!--input desc -->
                                     <div class="input-field col m8">
-                                        <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="30" pattern="^(?!.* {2})[a-zA-z]{1,30}$" class="validate" value="{{ingredient[1].name}}" required />
+                                        <input type="text" id="ingredient-{{ loop.index }}-desc" name="ingredient-{{ loop.index }}-desc" minlength="1" maxlength="200" pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,200}$" class="validate" value="{{ingredient[1].name}}" required />
                                         <label for="ingredient-{{ loop.index }}-desc">Ingredient</label>
                                     </div>
                                     <!--input measure -->
                                     <div class="input-field col m2">
-                                        <input type="number" id="ingredient-{{ loop.index }}-measure" name="ingredient-{{ loop.index }}-measure"  value="{{ingredient[1].qty.measure}}" required />
+                                        <input type="number" id="ingredient-{{ loop.index }}-measure" name="ingredient-{{ loop.index }}-measure" min="0" step=".01" value="{{ingredient[1].qty.measure}}" required />
                                         <label for="ingredient-{{ loop.index }}-measure">Measure</label>
                                     </div>
                                     <!--input unit-->
@@ -160,13 +160,13 @@
                                     </div>
                                     <!--input action-->
                                     <div class="input-field col m7">
-                                        <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" pattern="^(?!.* {2})[a-zA-z]{1,100}$" minlength="1"
-                                            maxlength="100" class="validate" value="{{step[1].action}}" required />
+                                        <input type="text" id="step-{{ loop.index}}-desc" name="step-{{ loop.index}}-desc" pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,300}$" minlength="1"
+                                            maxlength="300" class="validate" value="{{step[1].action}}" required />
                                         <label for="step-{{ loop.index}}-desc">Action</label>
                                     </div>
                                     <!--input time-->
                                     <div class="input-field col m2">
-                                        <input type="number" id="step-{{ loop.index}}-time" name="step-{{ loop.index}}-time" value="{{step[1].time}}" required />
+                                        <input type="number" id="step-{{ loop.index}}-time" name="step-{{ loop.index}}-time" min="0" value="{{step[1].time}}" required />
                                         <label for="step-{{ loop.index}}-time">Time (mins)</label>
                                     </div>
                                     <!--remove-->

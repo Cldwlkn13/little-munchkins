@@ -130,12 +130,12 @@ $(document).ready(function () {
                         "</div>" +
                         "<!--input desc -->" +
                         "<div class='input-field col m7'>" +
-                            `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='100' pattern="^(?!.* {2})[a-zA-z]{1,100}$" class='validate' required />` +
+                            `<input type='text' id='step-${i}-desc' name='step-${i}-desc' minlength='1' maxlength='300' pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,300}$" class='validate' required />` +
                             `<label for='step-${i}-desc'>Action</label>` +
                         "</div>" +
                         "<!--input time -->" +
                         "<div class='input-field col m2'>" +
-                            `<input type='number' id='step-${i}-time' name='step-${i}-time' class='validate' required />` +
+                            `<input type='number' id='step-${i}-time' name='step-${i}-time' min="0" class='validate' required />` +
                             `<label for='step-${i}-time'>Time (mins)</label>` +
                         "</div>" +
                         "<!--remove -->" +
@@ -160,17 +160,17 @@ $(document).ready(function () {
         var ingredient = `<div class='row ingredient cyan lighten-4' id='ingredient-${i}'>` +
                             "<!--input desc -->" +
                             "<div class='input-field col m8'>" +
-                                `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='30' pattern="^(?!.* {2})[a-zA-z]{1,30}$" class='validate' required />` +
+                                `<input type='text' id='ingredient-${i}-desc' name='ingredient-${i}-desc' minlength='1' maxlength='200' pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,200}$" class='validate' required />` +
                                 `<label for='ingredient-${i}-desc'>Ingredient</label>` +
                             "</div>" +
                             "<!--input measure -->" +
                             "<div class='input-field col m2'>" +
-                                `<input type='number' id='ingredient-${i}-measure' name='ingredient-${i}-measure' required />` +
+                                `<input type='number' id='ingredient-${i}-measure' name='ingredient-${i}-measure' step=".01" min="0" required />` +
                                 `<label for='ingredient-${i}-measure'>Measure</label>` +
                             "</div>" +
                             "<!--input unit -->" +
                             "<div class='input-field col m1'>" +
-                                `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  maxlength='8' class='validate' pattern='^(?!.* {2})[a-z]{,8}$' />` +
+                                `<input type='text' id='ingredient-${i}-unit' name='ingredient-${i}-unit'  maxlength='8' class='validate' pattern='^(?!.*  )[a-z]{,8}$' />` +
                                 `<label for='ingredient-${i}-unit'>Unit</label>` +
                             "</div>" +
                             "<!-- remove -->" +

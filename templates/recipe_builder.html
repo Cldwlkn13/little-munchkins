@@ -17,16 +17,16 @@
             <!-------title------->
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="title" name="title" type="text" class="validate" minlength="1" maxlength="60"
-                        pattern="^.{1,60}$" required>
+                    <input id="title" name="title" type="text" class="validate" minlength="1" maxlength="100"
+                        pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,100}$" required>
                     <label for="username">Recipe Title</label>
                 </div>
             </div>
             <!-------description------->
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="desc" name="desc" type="text" class="validate" minlength="1" maxlength="200"
-                        pattern="^.{1,200}$" required>
+                    <input id="desc" name="desc" type="text" class="validate" minlength="1" maxlength="300"
+                        pattern="^(?!.*  )[a-zA-z0-9-_, ]{1,300}$" required>
                     <label for="username">Describe your recipe</label>
                 </div>
             </div>
