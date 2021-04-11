@@ -92,7 +92,11 @@
     document.addEventListener("DOMContentLoaded", function () {
         var imgs = document.getElementsByClassName('recipe-img');
         handle(imgs);
+        if (screen.width > 800){
+            $('.collapsible').children('li').addClass('active')
+        }
     });
+   
 </script>
 {% endblock %}
 

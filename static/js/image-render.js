@@ -27,9 +27,10 @@
         
         var filename = img_url.replace(/^.*[\\\/]/, '')
         var url = "../get_s3/" + filename;
-        
+
         img.setAttribute("src", img_url);
         preview.setAttribute("src", img_url);
+        
         return await makeRequest("GET", url);
     }
 
@@ -42,7 +43,7 @@
             var preview = document.querySelectorAll('[alt="' + img.getAttribute("alt") + '"][class="recipe-img-header-preview"]')[0];
             checkImage(img, preview, img_url)
                 .then(result => {
-                    if(result == 200){
+                    if(result >= 200 && result < 300){
                         img.style.display = "block";
                         preview.style.display = "block";
                     }
