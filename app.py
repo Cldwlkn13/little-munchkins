@@ -110,55 +110,61 @@ def login():
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-    if session['user']:
-        user = mongo.db.users.find_one(
-            {"username": session["user"]})
-        myrecipes = list(mongo.db.recipes.find(
-            {"created_by": session["user"]}))
-        myfavourites = []
+    try:
+        if 'user' in session:
+            print(session['user'])
+            user = mongo.db.users.find_one(
+                {"username": username})
+            myrecipes = list(mongo.db.recipes.find(
+                {"created_by": username}))
+            myfavourites = []
 
-        for recipecard in myrecipes:
-            recipecard['prep_time'] = defs.calculateTiming(
-                recipecard, "prepare")
-            recipecard['cook_time'] = defs.calculateTiming(recipecard, "cook")
-            recipecard['isfavourite'] = defs.isFavourited(user, recipecard)
-
-        if user['favourites']:
-            objIds = []
-
-            for _id in user['favourites']:
-                if type(_id) is str:
-                    objIds.append(ObjectId(str(_id)))
-
-            for objId in objIds:
-                recipecard = mongo.db.recipes.find_one({"_id": objId})
+            for recipecard in myrecipes:
                 recipecard['prep_time'] = defs.calculateTiming(
                     recipecard, "prepare")
                 recipecard['cook_time'] = defs.calculateTiming(
                     recipecard, "cook")
-                recipecard['isfavourite'] = defs.isFavourited(
-                    user, str(recipecard['_id']))
-                myfavourites.append(recipecard)
-                myfavourites = list(myfavourites)
+                recipecard['isfavourite'] = defs.isFavourited(user, recipecard)
 
-        if user and myrecipes and myfavourites:
-            return render_template(
-                "profile.html", user=user, myrecipes=myrecipes,
-                myfavourites=myfavourites)
+            if user['favourites']:
+                objIds = []
 
-        elif user and myrecipes and not myfavourites:
-            return render_template(
-                "profile.html", user=user, myrecipes=myrecipes)
+                for _id in user['favourites']:
+                    if type(_id) is str:
+                        objIds.append(ObjectId(str(_id)))
 
-        elif user and myfavourites and not myrecipes:
-            return render_template(
-                "profile.html", user=user, myfavourites=myfavourites)
+                for objId in objIds:
+                    recipecard = mongo.db.recipes.find_one({"_id": objId})
+                    recipecard['prep_time'] = defs.calculateTiming(
+                        recipecard, "prepare")
+                    recipecard['cook_time'] = defs.calculateTiming(
+                        recipecard, "cook")
+                    recipecard['isfavourite'] = defs.isFavourited(
+                        user, str(recipecard['_id']))
+                    myfavourites.append(recipecard)
+                    myfavourites = list(myfavourites)
 
-        else:
-            return render_template(
-                "profile.html", user=user)
+            if user and myrecipes and myfavourites:
+                return render_template(
+                    "profile.html", user=user, myrecipes=myrecipes,
+                    myfavourites=myfavourites)
 
-    return redirect(url_for("login"))
+            elif user and myrecipes and not myfavourites:
+                return render_template(
+                    "profile.html", user=user, myrecipes=myrecipes)
+
+            elif user and myfavourites and not myrecipes:
+                return render_template(
+                    "profile.html", user=user, myfavourites=myfavourites)
+
+            else:
+                return render_template(
+                    "profile.html", user=user)
+
+        return redirect(url_for("login"))
+    except Exception as e:
+        print(e)
+        raise e
 
 
 @app.route("/user/edit", methods=['POST'])
@@ -263,7 +269,7 @@ def recipebuilder():
 
 @app.route("/recipe/add", methods=['POST'])
 def recipeadd():
-    if session and session['user'] and request.form:
+    if 'user' in session and request.form:
         recipecard = defs.recipeCardBuilder(request.form, session['user'])
 
         mongo.db.recipes.insert_one(recipecard)
@@ -297,7 +303,7 @@ def recipeedit():
 
 @app.route("/recipe/edit/cancel", methods=['POST'])
 def recipecanceledit():
-    if session and session['user']:
+    if 'user' in session:
         return redirect(url_for(
             "profile", username=session["user"]))
     flash("Could not identify user")
